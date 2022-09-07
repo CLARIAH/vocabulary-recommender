@@ -83,6 +83,24 @@ interface SparqlResult {
   resource: string
 }
 
+interface ShardHit {
+  _id: string
+  _source: {
+    "http://www w3 org/2000/01/rdf-schema#comment"?: string[]
+  }
+}
+interface ShardResponse {
+  timed_out: boolean
+  hits: {
+    hits: ShardHit[]
+  }
+}
+
+interface AutocompleteSuggestion {
+  iri: string;
+  description?: string;
+}
+
 function assignQuery(category: Category) {
   if(category === Category.class) {
     return  CLASS_SEARCH_QUERY
@@ -93,7 +111,7 @@ function assignQuery(category: Category) {
   }
 }
 
-async function suggestions(category: Category, term: string, endpoint: string) { 
+async function sparqlSuggestions(category: Category, term: string, endpoint: string) { 
   const query = assignQuery(category)
   const request = new URL(endpoint)
   request.search = `query=${encodeURI(query(term))}`
@@ -119,15 +137,72 @@ async function suggestions(category: Category, term: string, endpoint: string) {
   }
 }
 
+function getSuggestionFromBody(responseBody: ShardResponse): AutocompleteSuggestion[] {
+  return responseBody.hits.hits.map((suggestion) => {
+    return {
+      iri: suggestion._id,
+      description: suggestion._source["http://www w3 org/2000/01/rdf-schema#comment"]?.[0],
+    };
+  });
+}
+
+async function elasticSuggestions(category: Category, term: string, endpoint: string) {
+  const searchObject = {
+    query: {
+      bool: {
+        must: category,
+        should: [
+          // Search for wildcard
+          {
+            wildcard: { "http://www w3 org/2000/01/rdf-schema#label": term + "*" },
+          },
+          // Catch spelling mistakes
+          { fuzzy: { "http://www w3 org/2000/01/rdf-schema#label": term } },
+          // Match full IRI
+          {
+            match: { "@id": term },
+          },
+          // Search for words in descriptions
+          {
+            simple_query_string: {
+              query: term,
+              fields: ["http://www w3 org/2000/01/rdf-schema#comment"],
+            }
+          }
+        ],
+        minimum_should_match: 1
+      }
+    }
+  }
+  const fetch = require('node-fetch')
+  const response = await fetch(
+    endpoint, 
+    // {
+    //   method: "POST",
+    //   body: JSON.stringify(searchObject),
+    // }
+  )
+  const json: ShardResponse = await response.json()
+  console.log(response)
+  return getSuggestionFromBody(json)
+}
+
 
 async function run() {
+  console.log("Test yarn dev")
   const category = Category.class
   const searchTerm = 'person'
-  const endpoint = 'https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql'
-  const suggested = suggestions(category, searchTerm, endpoint)
-  console.log(`This is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${endpoint}\n\n`)
+  const sparqlEndpoint = 'https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql'
+  const elasticEndpoint = 'https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch'
+
+  const sparqlSuggested = sparqlSuggestions(category, searchTerm, sparqlEndpoint)
+  const elasticSuggested = elasticSuggestions(category, searchTerm, elasticEndpoint)
+
+  console.log(`This is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${sparqlEndpoint}\n\n`)
   console.log(`\n\n`)
-  console.log(await suggested)
+
+  //console.log(await sparqlSuggested)
+  console.log(await elasticSuggested)
 }
 run().catch(e => {
   console.error(e)
