@@ -167,9 +167,15 @@ function getSuggestionFromBody(responseBody: ShardResponse): AutocompleteSuggest
 
 async function elasticSuggestions(category: Category, term: string, endpoint: string) {
   const searchObject =  { 
-    query: {
-      simple_query_string: {
-        query: term
+    "query": {
+      "bool" : {
+        "should" : [
+          { "simple_query_string" : { "query" : term, "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
+          { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : term + "*" } },
+          { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": term } },
+          { "match": { "@id": term } }
+        ],
+        "minimum_should_match" : 1
       }
     }
   }
@@ -190,7 +196,7 @@ async function elasticSuggestions(category: Category, term: string, endpoint: st
 async function run() {
   console.log("Test yarn dev")
   const category = Category.class
-  const searchTerm = 'person'
+  const searchTerm = 'Person'
   const sparqlEndpoint = 'https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql'
   const elasticEndpoint = 'https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch'
   //const elasticEndpoint = 'https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search'
