@@ -72,24 +72,51 @@ select distinct ?iri ?description {
 }
 limit 10`
 
-const CLASS_SEARCH_CONFIG = [
+const PREDICATE_SEARCH_ELASTIC = [
   {
-    simple_query_string: {
-      query: '"http://www.w3.org/2002/07/owl#Class" | "http://www.w3.org/2000/01/rdf-schema#Class"',
-      fields: ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"],
-    },
-  },
-];
+    "query": {
+      "bool" : {
+        "must": {
+          "simple_query_string": {
+            "query":
+              "http://www.w3.org/2002/07/owl#DatatypeProperty | http://www.w3.org/2002/07/owl#ObjectProperty | http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
+          }
+        },
+        "should" : [
+            { "simple_query_string" : { "query" : "Person", "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
+            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : "Person*" } },
+            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": "Person" } },
+            { "match": { "@id": "Person" } }
+          ],
+          "minimum_should_match" : 1
+      }
+    }
+  }
+  
+]
 
-const PREDICATE_SEARCH_CONFIG = [
+const CLASS_SEARCH_ELASTIC = [
   {
-    simple_query_string: {
-      query:
-        '"http://www.w3.org/2002/07/owl#DatatypeProperty" | "http://www.w3.org/2002/07/owl#ObjectProperty" | "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"',
-      fields: ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"],
-    },
-  },
-];
+    "query": {
+      "bool" : {
+        "must": {
+          "simple_query_string": {
+            "query": "http://www.w3.org/2002/07/owl#Class | http://www.w3.org/2000/01/rdf-schema#Class",
+            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
+          }
+        },
+        "should" : [
+            { "simple_query_string" : { "query" : "Person", "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
+            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : "Person*" } },
+            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": "Person" } },
+            { "match": { "@id": "Person" } }
+          ],
+          "minimum_should_match" : 1
+      }
+    }
+  }
+]
 
 enum Category {
   class = 'class',
@@ -165,20 +192,19 @@ function getSuggestionFromBody(responseBody: ShardResponse): AutocompleteSuggest
   });
 }
 
-async function elasticSuggestions(category: Category, term: string, endpoint: string) {
-  const searchObject =  { 
-    "query": {
-      "bool" : {
-        "should" : [
-          { "simple_query_string" : { "query" : term, "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
-          { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : term + "*" } },
-          { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": term } },
-          { "match": { "@id": term } }
-        ],
-        "minimum_should_match" : 1
-      }
-    }
+function assignElasticQuery(category: Category) {
+  if(category === Category.class) {
+    return  CLASS_SEARCH_ELASTIC
+  } else if (category === Category.property) {
+    return PREDICATE_SEARCH_ELASTIC
+  } else {
+    throw Error('Category does not exist! Please provide existing category.')
   }
+}
+
+async function elasticSuggestions(category: Category, term: string, endpoint: string) {
+  
+  const searchObject = assignElasticQuery(category)[0]
   
   const fetch = require('node-fetch')
   const response = await fetch(
@@ -195,7 +221,7 @@ async function elasticSuggestions(category: Category, term: string, endpoint: st
 
 async function run() {
   console.log("Test yarn dev")
-  const category = Category.class
+  const category = Category.property
   const searchTerm = 'Person'
   const sparqlEndpoint = 'https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql'
   const elasticEndpoint = 'https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch'
