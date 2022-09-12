@@ -1,4 +1,5 @@
-const CLASS_SEARCH_QUERY = (term: string) => `prefix owl: <http://www.w3.org/2002/07/owl#>
+// SPARQL query that is used to get the search results for classes.
+const CLASS_SEARCH_SPARQL_QUERY = (term: string) => `prefix owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 select distinct ?iri ?description {
@@ -33,7 +34,8 @@ select distinct ?iri ?description {
 }
 limit 10`
 
-const PREDICATE_SEARCH_QUERY = (term: string) => `prefix owl: <http://www.w3.org/2002/07/owl#>
+// SPARQL query that is used to get the search results for properties.
+const PREDICATE_SEARCH_SPARQL_QUERY = (term: string) => `prefix owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 select distinct ?iri ?description {
@@ -70,71 +72,29 @@ select distinct ?iri ?description {
       rdfs:label ?label.
   }
 }
-limit 10`
+limit 10` 
 
-const PREDICATE_SEARCH_ELASTIC = [
-  {
-    "query": {
-      "bool" : {
-        "must": {
-          "simple_query_string": {
-            "query":
-              "http://www.w3.org/2002/07/owl#DatatypeProperty | http://www.w3.org/2002/07/owl#ObjectProperty | http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
-            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
-          }
-        },
-        "should" : [
-            { "simple_query_string" : { "query" : "Person", "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
-            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : "Person*" } },
-            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": "Person" } },
-            { "match": { "@id": "Person" } }
-          ],
-          "minimum_should_match" : 1
-      }
-    }
-  }
-  
-]
-
-const CLASS_SEARCH_ELASTIC = [
-  {
-    "query": {
-      "bool" : {
-        "must": {
-          "simple_query_string": {
-            "query": "http://www.w3.org/2002/07/owl#Class | http://www.w3.org/2000/01/rdf-schema#Class",
-            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
-          }
-        },
-        "should" : [
-            { "simple_query_string" : { "query" : "Person", "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
-            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : "Person*" } },
-            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": "Person" } },
-            { "match": { "@id": "Person" } }
-          ],
-          "minimum_should_match" : 1
-      }
-    }
-  }
-]
-
+// Contains the options to filter the search results by category.
 enum Category {
   class = 'class',
   property = 'property',
 }
 
-
+// Defines the shape of the SPARQL recommendations.
 interface SparqlResult {
   iri: string
   resource: string
 }
 
+// Defines the shape a hit.
 interface ShardHit {
   _id: string
   _source: {
     "http://www w3 org/2000/01/rdf-schema#comment"?: string[]
   }
 }
+
+// Defines the shape of the fetched object in elasticSuggestions().
 interface ShardResponse {
   timed_out: boolean
   hits: {
@@ -142,23 +102,26 @@ interface ShardResponse {
   }
 }
 
+// Defines the shape of the Elasticsearch recommendations.
 interface AutocompleteSuggestion {
   iri: string;
   description?: string;
 }
 
-function assignQuery(category: Category) {
+// Assigns the SPARQL query according to the given category.
+function assignSparqlQuery(category: Category) {
   if(category === Category.class) {
-    return  CLASS_SEARCH_QUERY
+    return  CLASS_SEARCH_SPARQL_QUERY
   } else if (category === Category.property) {
-    return PREDICATE_SEARCH_QUERY
+    return PREDICATE_SEARCH_SPARQL_QUERY
   } else {
     throw Error('Category does not exist! Please provide existing category.')
   }
 }
 
+// Retrieves the SPARQL results.
 async function sparqlSuggestions(category: Category, term: string, endpoint: string) { 
-  const query = assignQuery(category)
+  const query = assignSparqlQuery(category)
   const request = new URL(endpoint)
   request.search = `query=${encodeURI(query(term))}`
   const fetch = require('node-fetch')
@@ -183,28 +146,72 @@ async function sparqlSuggestions(category: Category, term: string, endpoint: str
   }
 }
 
-function getSuggestionFromBody(responseBody: ShardResponse): AutocompleteSuggestion[] {
-  return responseBody.hits.hits.map((suggestion) => {
-    return {
-      iri: suggestion._id,
-      description: suggestion._source["http://www w3 org/2000/01/rdf-schema#comment"]?.[0],
-    };
-  });
-}
-
-function assignElasticQuery(category: Category) {
+// Assigns the Elasticsearch query according to the given category.
+function assignElasticQuery(category: Category, term: string) {
   if(category === Category.class) {
-    return  CLASS_SEARCH_ELASTIC
+    const CLASS_SEARCH_ELASTIC_QUERY = 
+  {
+    "query": {
+      "bool" : {
+        "must": {
+          "simple_query_string": {
+            "query": "http://www.w3.org/2002/07/owl#Class | http://www.w3.org/2000/01/rdf-schema#Class",
+            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
+          }
+        },
+        "should" : [
+            { "simple_query_string" : { "query" : term , "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
+            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : term + "*" } },
+            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": term } },
+            { "match": { "@id": term } }
+          ],
+          "minimum_should_match" : 1
+      }
+    }
+  }
+    return  CLASS_SEARCH_ELASTIC_QUERY
   } else if (category === Category.property) {
-    return PREDICATE_SEARCH_ELASTIC
+    const PREDICATE_SEARCH_ELASTIC_QUERY = 
+  {
+    "query": {
+      "bool" : {
+        "must": {
+          "simple_query_string": {
+            "query":
+              "http://www.w3.org/2002/07/owl#DatatypeProperty | http://www.w3.org/2002/07/owl#ObjectProperty | http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+            "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
+          }
+        },
+        "should" : [
+            { "simple_query_string" : { "query" : term, "fields": ["http://www w3 org/2000/01/rdf-schema#comment"] } },
+            { "wildcard" : { "http://www.w3.org/2000/01/rdf-schema#label" : term + "*" } },
+            { "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": term } },
+            { "match": { "@id": term } }
+          ],
+          "minimum_should_match" : 1
+      }
+    }
+  }
+    return PREDICATE_SEARCH_ELASTIC_QUERY
   } else {
     throw Error('Category does not exist! Please provide existing category.')
   }
 }
 
+// Converts the fetched object in the form of an Elasticsearch recommendation.
+function getSuggestionFromBody(responseBody: ShardResponse): AutocompleteSuggestion[] {
+  return responseBody.hits.hits.map((suggestion) => {
+    return {
+      iri: suggestion._id,
+      description: suggestion._source["http://www w3 org/2000/01/rdf-schema#comment"]?.[0],
+    }
+  })
+}
+
+// Retrieves the Elasticsearch results.
 async function elasticSuggestions(category: Category, term: string, endpoint: string) {
   
-  const searchObject = assignElasticQuery(category)[0]
+  const searchObject = assignElasticQuery(category, term)
   
   const fetch = require('node-fetch')
   const response = await fetch(
@@ -221,7 +228,7 @@ async function elasticSuggestions(category: Category, term: string, endpoint: st
 
 async function run() {
   console.log("Test yarn dev")
-  const category = Category.property
+  const category = Category.class
   const searchTerm = 'Person'
   const sparqlEndpoint = 'https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql'
   const elasticEndpoint = 'https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch'
