@@ -240,9 +240,10 @@ async function run() {
   const sparqlSuggested = await sparqlSuggestions(category, searchTerm, sparqlEndpoint)
   const elasticSuggested = await elasticSuggestions(category, searchTerm, elasticEndpoint)
 
-  console.log(`This is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${sparqlEndpoint}\n\n`)
+  console.log(`This is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${sparqlEndpoint}\n`)
   console.log(`\n\nSparql suggestions:\n`)
   console.log(sparqlSuggested)
+  console.log(`\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${elasticEndpoint}\n`)
   console.log(`\n\nElasticsearch suggestions:\n`)
   console.log(elasticSuggested)
 }

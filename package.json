@@ -12,6 +12,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
+    "dev": "./node_modules/.bin/tsc --watch --preserveWatchOutput",
     "start": "node main.js"
   },
   "dependencies": {
