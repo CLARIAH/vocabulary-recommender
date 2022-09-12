@@ -218,6 +218,9 @@ async function elasticSuggestions(category: Category, term: string, endpoint: st
     endpoint, 
     {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(searchObject),
     }
   )
