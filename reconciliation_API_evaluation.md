@@ -23,7 +23,7 @@ The Reconciliation API is a service which originates from OpenRefine services. A
 
 >'In practice, we can determine if two database records refer to the same entity by comparing their attributes. For instance, two entries about cities bearing the same name, in the same country and with the same mayor are likely to refer to the same city. The reconciliation API that we present here makes it easier to discover such matches. It is a protocol that a data provider can implement, enabling its consumers to efficiently match their own data to the entities represented by the provider.'
 
-All endpoints must enable CORS access, and could enable: JSON\*, View entities, Suggest entities, Suggest types, Suggest properties, Preview entities, and Extend data (as seen in the table on [the service endpoint list](https://reconciliation-api.github.io/testbench/#/)).
+All endpoints must enable CORS access, and could enable: JSONP\*, View entities, Suggest entities, Suggest types, Suggest properties, Preview entities, and Extend data (as seen in the table on [the service endpoint list](https://reconciliation-api.github.io/testbench/#/)).
 
 \* JSONP is supported which enables older web-based clients to access the service from a different domain, a malicious endpoint could use JSONP to execute arbitrary JavaScript code.
 
