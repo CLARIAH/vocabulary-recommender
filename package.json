@@ -2,20 +2,37 @@
   "name": "vocabulary-recommender",
   "version": "0.1.0",
   "main": "index.js",
-  "repository": "ssh://git@git.triply.cc:10072/customers/clariah/vocabulary-recommender.git",
   "author": "Wouter Beek <wouter@triply.cc>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "14",
     "@types/node-fetch": "^2.6.2",
+    "@types/yargs": "^17.0.12",
     "typescript": "^4.8.2"
   },
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "dev": "./node_modules/.bin/tsc --watch --preserveWatchOutput",
-    "start": "node main.js"
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "start": "node ./dist/main.js",
+    "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
-    "node-fetch": "^2.6.7"
-  }
+    "node-fetch": "^2.6.7",
+    "yargs": "^17.5.1"
+  },
+  "description": "A generic vocabulary recommender library that provides recommendation functions for various backends.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CLARIAH/vocabulary-recommender.git"
+  },
+  "keywords": [
+    "vocabulary",
+    "recommender",
+    "lod",
+    "namespace"
+  ],
+  "bugs": {
+    "url": "https://github.com/CLARIAH/vocabulary-recommender/issues"
+  },
+  "homepage": "https://github.com/CLARIAH/vocabulary-recommender#readme"
 }

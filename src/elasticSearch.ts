@@ -1,5 +1,3 @@
-import { Category } from "./main";
-
 // Defines the shape of a hit.
 interface ShardHit {
   _id: string;
@@ -31,8 +29,8 @@ interface AutocompleteSuggestion {
  * @returns JSON search object used for the ES search query
  *
  */
-export function assignElasticQuery(category: Category, term: string) {
-  if (category === Category.class) {
+export function assignElasticQuery(category: string, term: string) {
+  if (category === 'class') {
     const CLASS_SEARCH_ELASTIC_QUERY = {
       query: {
         bool: {
@@ -63,7 +61,7 @@ export function assignElasticQuery(category: Category, term: string) {
       },
     };
     return CLASS_SEARCH_ELASTIC_QUERY;
-  } else if (category === Category.property) {
+  } else if (category === 'property') {
     const PREDICATE_SEARCH_ELASTIC_QUERY = {
       query: {
         bool: {
@@ -127,7 +125,7 @@ export function getSuggestionFromBody(
  * @returns a list of JSON objects containing IRI's
  */
 export async function elasticSuggestions(
-  category: Category,
+  category: string,
   term: string,
   endpoint: string
 ) {

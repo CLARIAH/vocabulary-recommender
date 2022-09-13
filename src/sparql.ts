@@ -1,5 +1,3 @@
-import { Category } from "./main";
-
 // Defines the shape of the SPARQL recommendations.
 export interface SparqlResult {
   iri: string;
@@ -87,10 +85,10 @@ export const PREDICATE_SEARCH_SPARQL_QUERY = (
   limit 10`;
 
 // Assigns the SPARQL query according to the given category.
-export function assignSparqlQuery(category: Category) {
-  if (category === Category.class) {
+export function assignSparqlQuery(category: string) {
+  if (category === 'class') {
     return CLASS_SEARCH_SPARQL_QUERY;
-  } else if (category === Category.property) {
+  } else if (category === 'property') {
     return PREDICATE_SEARCH_SPARQL_QUERY;
   } else {
     throw Error("Category does not exist! Please provide existing category.");
@@ -106,7 +104,7 @@ export function assignSparqlQuery(category: Category) {
  * @returns a list of JSON objects containing IRI's
  */
 export async function sparqlSuggestions(
-  category: Category,
+  category: string,
   term: string,
   endpoint: string
 ) {
