@@ -1,3 +1,49 @@
+/* 
+TODO:
+[x] function documentation
+[ ] separate files for functions
+[ ] improve folder organization
+[ ] make NPM module
+
+NEXT:
+Make CLI version.
+
+Ideas for interface commands:
+recommender sparql json 'Vincent Van Gogh'
+recommender [optional service] [optional otherwise return list] [query]
+
+recommender help
+
+ __      __             _           _                                 
+ \ \    / /            | |         | |                                
+  \ \  / /__   ___ __ _| |__  _   _| | __ _ _ __ _   _                
+   \ \/ / _ \ / __/ _` | '_ \| | | | |/ _` | '__| | | |               
+    \  / (_) | (_| (_| | |_) | |_| | | (_| | |  | |_| |               
+  ___\/ \___/ \___\__,_|_.__/ \__,_|_|\__,_|_|   \__, |   _           
+ |  __ \                                          __/ |  | |          
+ | |__) |___  ___ ___  _ __ ___  _ __ ___   ___ _|___/ __| | ___ _ __ 
+ |  _  // _ \/ __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '_ \ / _` |/ _ \ '__|
+ | | \ \  __/ (_| (_) | | | | | | | | | | |  __/ | | | (_| |  __/ |   
+ |_|  \_\___|\___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__,_|\___|_|   
+                                                                      
+                                                                      
+Welcome to the Linked Data Vocabulary Recommender!
+
+Try the following commands:
+recommender <service> '<query>'
+
+MAYBE? The flag -json can be used to return the results in json format. 
+
+The <service> can be specified to SPARQL (sparql) or ElasticSearch (elasticsearch) by default.
+
+Example: ~recommender sparql 'person'
+--> returns a list of relevant iris
+
+
+
+*/
+
+
 // Contains the options to filter the search results by category.
 enum Category {
   class = "class",
@@ -123,7 +169,15 @@ function assignSparqlQuery(category: Category) {
   }
 }
 
-// Retrieves the SPARQL results.
+
+/** 
+ * Retrieves the SPARQL results.
+ * 
+ * @param category category type (class or property)
+ * @param term search/query string
+ * @param endpoint service used
+ * @returns a list of JSON objects containing IRI's
+ */
 async function sparqlSuggestions(
   category: Category,
   term: string,
@@ -157,7 +211,15 @@ async function sparqlSuggestions(
   }
 }
 
-// Assigns the Elasticsearch query according to the given category.
+/**
+ * Assigns the Elasticsearch query according to the given category.
+ * @remarks Multiple search methods are made optional - see 'should:' 
+ * 
+ * @param category category type (class or property)
+ * @param term search/query string
+ * @returns JSON search object used for the ES search query
+ * 
+ */
 function assignElasticQuery(category: Category, term: string) {
   if (category === Category.class) {
     const CLASS_SEARCH_ELASTIC_QUERY = {
@@ -226,7 +288,12 @@ function assignElasticQuery(category: Category, term: string) {
   }
 }
 
-// Converts the fetched object in the form of an Elasticsearch recommendation.
+/** 
+ * Converts the fetched object in the form of an Elasticsearch recommendation.
+ * 
+ * @param responseBody fetched JSON object
+ * @returns JSON object converted into the desired format
+ */
 function getSuggestionFromBody(
   responseBody: ShardResponse
 ): AutocompleteSuggestion[] {
@@ -239,7 +306,16 @@ function getSuggestionFromBody(
   });
 }
 
-// Retrieves the Elasticsearch results.
+
+/**
+ * Retrieves the Elasticsearch results.
+ * @remarks see assignElasticQuery for use of category and term parameters
+ * 
+ * @param category category type (class or property)
+ * @param term search/query string
+ * @param endpoint service used
+ * @returns a list of JSON objects containing IRI's
+ */
 async function elasticSuggestions(
   category: Category,
   term: string,
@@ -247,6 +323,7 @@ async function elasticSuggestions(
 ) {
   const searchObject = assignElasticQuery(category, term);
 
+  // Due to version conflict since v3 isn't compatible with current version of ES
   const fetch = require("node-fetch");
   const response = await fetch(endpoint, {
     method: "POST",
@@ -259,8 +336,9 @@ async function elasticSuggestions(
   return getSuggestionFromBody(json);
 }
 
+
+// Run and log results
 async function run() {
-  console.log("Test yarn dev");
   const category = Category.class;
   const searchTerm = "Person";
   const sparqlEndpoint =
@@ -279,12 +357,13 @@ async function run() {
     searchTerm,
     elasticEndpoint
   );
-
+  // SPARQL results logged
   console.log(
     `This is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${sparqlEndpoint}\n`
   );
   console.log(`\n\nSparql suggestions:\n`);
   console.log(sparqlSuggested);
+  // Elastic Search results logged
   console.log(
     `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${elasticEndpoint}\n`
   );
