@@ -1,8 +1,8 @@
 /* 
 TODO:
 [x] function documentation
-[ ] separate files for functions
-[ ] improve folder organization
+[x] separate files for functions
+[x] improve folder organization
 [ ] make NPM module
 
 NEXT:
