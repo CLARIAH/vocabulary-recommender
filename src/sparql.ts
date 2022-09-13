@@ -1,7 +1,7 @@
 // Defines the shape of the SPARQL recommendations.
 export interface SparqlResult {
   iri: string;
-  resource: string;
+  description: string;
 }
 
 // SPARQL query that is used to get the search results for classes.

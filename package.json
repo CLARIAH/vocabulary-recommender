@@ -17,8 +17,10 @@
     "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
+    "figlet": "^1.5.2",
     "node-fetch": "^2.6.7",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "yargs-interactive": "^3.0.1"
   },
   "description": "A generic vocabulary recommender library that provides recommendation functions for various backends.",
   "repository": {

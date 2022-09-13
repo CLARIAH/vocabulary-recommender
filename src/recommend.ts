@@ -1,64 +1,80 @@
+const figlet = require("figlet");
+const fs = require('fs')
 /* 
 TODO:
-[ ] make NPM module
-
- __      __             _           _                                 
- \ \    / /            | |         | |                                
-  \ \  / /__   ___ __ _| |__  _   _| | __ _ _ __ _   _                
-   \ \/ / _ \ / __/ _` | '_ \| | | | |/ _` | '__| | | |               
-    \  / (_) | (_| (_| | |_) | |_| | | (_| | |  | |_| |               
-  ___\/ \___/ \___\__,_|_.__/ \__,_|_|\__,_|_|   \__, |   _           
- |  __ \                                          __/ |  | |          
- | |__) |___  ___ ___  _ __ ___  _ __ ___   ___ _|___/ __| | ___ _ __ 
- |  _  // _ \/ __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '_ \ / _` |/ _ \ '__|
- | | \ \  __/ (_| (_) | | | | | | | | | | |  __/ | | | (_| |  __/ |   
- |_|  \_\___|\___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__,_|\___|_|   
-                                                                      
-                                                                      
-Welcome to the Linked Data Vocabulary Recommender!
-
-Try the following commands:
-yarn build && yarn recommend -t person -c class -s sparql
---> returns a list of relevant iris for the default sparql endpoint
-
-yarn build && yarn recommend -t person -c class -s elastic -e "https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch"
---> returns a list of relevant iris for the specified Elasticsearch endpoint
-
-MAYBE? 
-The flag -json can be used to return the results in json format. 
-'yarn recommend help' should return all the commands that can be used.
-
-The <service> can be specified to SPARQL (sparql) or ElasticSearch (elastic).
+[x] make nice intro to CLI environment
+[x] clean console.log return
+[x] make json flag for output format + verbose
+[x] add documentation for the functions/ add comments
+[-] NOT YET : wait for review ~ make NPM module
 */
 
 import { elasticSuggestions } from "./elasticSearch";
 import { sparqlSuggestions } from "./sparql";
 import yargs from "yargs/yargs";
+import { boolean } from "yargs";
+import { readFileSync } from "fs";
 
-// Run and log results
+function hello(){
+  figlet("Vocabulary \nRecommender", async function (err: any, data: any) {
+    if (err) {
+      console.log("Something went wrong...");
+      console.dir(err);
+      return;
+    }
+    console.log(await data);
+    console.log(`\n
+    Welcome to the Linked Data Vocabulary Recommender!\n\n
+    Try the following commands:\n
+    yarn build && yarn recommend -t person -c class -s sparql\n\n
+    The <service|s> can be specified to SPARQL (sparql) or ElasticSearch (elastic).\n
+  
+  
+    Use help to see the list of available commands:\n
+    yarn recommend --help\n\n\n`);
+  });  
+}
+
+// Run and log results function 
 async function run() {
+  //Waiting for arguments
   const argv = await yargs(process.argv.slice(2)).options({
-    searchTerm: { alias: "t", type: "string", default: "Person" },
-    category: { alias: "c", type: "string", default: "class" },
-    service: { alias: "s", type: "string", default: "elastic" },
-    endpoint: { alias: "e", type: "string", default: '' },
+    searchTerm: { alias: "t", type: "string", default: "Person", describe:'Search term used for querying vocabularies'},
+    category: { alias: "c", type: "string", default: "class", describe:'Category of IRI', choices:['class','property']},
+    service: { alias: "s", type: "string", default: "elastic", describe:'Service used to query vocabulary', choices:['elastic','sparql']},
+    endpoint: { alias: "e", type: "string", default: "" , describe:'Optional: provide endpoint of the selected service'},
+    format: { alias: "f", type: "string", default: "iri", describe:'Choose output format of the results', choices:['iri','json']},
+    verbose: { alias: "v", type: 'boolean', default: false , describe:'Show additional information about search query ~ true|false'},
   }).argv;
   const searchTerm = argv.searchTerm;
   const category = argv.category;
 
   if (argv.service === "elastic") {
-    if(argv.endpoint === ''){
+    if (argv.endpoint === "") {
       const elasticSuggested = await elasticSuggestions(
-      category,
-      searchTerm,
-      "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search"
-    );
-    // Elastic Search results logged
-    console.log(
-      `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${"https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search"}\n`
-    );
-    console.log(`\n\nElasticsearch suggestions:\n`);
-    console.log(elasticSuggested);
+        category,
+        searchTerm,
+        "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search"
+      );
+      // Elastic Search results logged
+      if (argv.verbose) {
+        console.log(
+          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${"https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search"}\n`
+        );
+        console.log(`\n\nElasticsearch suggestions:\n`);
+      }
+      if (argv.format === "iri") {
+        elasticSuggested.forEach((element) => {
+          if (element.description) {
+            console.log(
+              `${element.iri}\nDescription: ${element.description}\n`);
+          } else {
+            console.log(`${element.iri}\n`);
+          }
+        });
+      } else if (argv.format === "json") {
+        console.log(elasticSuggested);
+      }
     } else {
       const elasticSuggested = await elasticSuggestions(
         category,
@@ -66,40 +82,104 @@ async function run() {
         argv.endpoint
       );
       // Elastic Search results logged
-      console.log(
-        `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
-      );
-      console.log(`\n\nElasticsearch suggestions:\n`);
-      console.log(elasticSuggested);
+      if (argv.verbose) {
+        console.log(
+          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
+        );
+        console.log(`\n\nElasticsearch suggestions:\n`);}
+      // iri or json format
+      if (argv.format === "iri") {
+        elasticSuggested.forEach((element) => {
+          if (element.description) {
+            console.log(
+              `${element.iri}\nDescription: ${element.description}\n`);
+          } else {
+            console.log(`${element.iri}\n`);
+          }
+        });
+      } else if (argv.format === "json") {
+        console.log(elasticSuggested);
+      }
     }
   } else {
-    if(argv.endpoint === ''){
+    if (argv.endpoint === "") {
       const sparqlSuggested = await sparqlSuggestions(
-      category,
-      searchTerm,
-      "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"
-    );
-    // Sparql Search results logged
-    console.log(
-      `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${"https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"}\n`
-    );
-    console.log(`\n\Sparql suggestions:\n`);
-    console.log(sparqlSuggested);
+        category,
+        searchTerm,
+        "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"
+      );
+
+      // SPARQL Search results logged
+      if (argv.verbose) {
+        console.log(
+          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${"https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"}\n`
+        );
+        console.log(`\n\Sparql suggestions:\n`);}
+
+        if (argv.format === "iri") {
+          sparqlSuggested.forEach((element) => {
+            if (element.description) {
+              console.log(
+                `${element.iri}\nDescription: ${element.description}\n`);
+            } else {
+              console.log(`${element.iri}\n`);
+            }
+          });
+        } else if (argv.format === "json") {
+          console.log(sparqlSuggested);
+        }
     } else {
       const sparqlSuggested = await sparqlSuggestions(
         category,
         searchTerm,
         argv.endpoint
       );
-      // Elastic Search results logged
-      console.log(
-        `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
-      );
-      console.log(`\n\nElasticsearch suggestions:\n`);
-      console.log(sparqlSuggested);
+      // SPARQL Search results logged
+      if (argv.verbose){
+        console.log(
+          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
+        );
+        console.log(`\n\nElasticsearch suggestions:\n`);
+      }
+      if (argv.format === "iri") {
+        sparqlSuggested.forEach((element) => {
+          if (element.description) {
+            console.log(
+              `${element.iri}\nDescription: ${element.description}\n`);
+          } else {
+            console.log(`${element.iri}\n`);
+          }
+        });
+      } else if (argv.format === "json") {
+        console.log(sparqlSuggested);
+      }
     }
-  } 
+  }
+
+  // const elasticEndpoint =
+  //   "https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch";
 }
+
+//Welcome greetings
+let now = new Date()
+fs.exists('session.log', (exist: any)=>{
+  if (exist){
+    let sessionFile = readFileSync('session.log', 'utf8')
+    let old_now = new Date(sessionFile)
+    if (now.getDate() !== old_now.getDate()){
+      fs.writeFile('session.log', now.toISOString(), (err: any) => {
+        if (err) throw err;})
+      hello()
+    }
+  }else{
+    // now as input
+    fs.writeFile('session.log', now.toISOString(), (err: any) => {
+      if (err) throw err;})
+    hello()
+  }
+})
+
+// Start recommender
 run().catch((e) => {
   console.error(e);
   process.exit(1);
