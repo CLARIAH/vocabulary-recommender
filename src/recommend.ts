@@ -19,7 +19,10 @@ Welcome to the Linked Data Vocabulary Recommender!
 
 Try the following commands:
 yarn build && yarn recommend -t person -c class -s sparql
---> returns a list of relevant iris
+--> returns a list of relevant iris for the default sparql endpoint
+
+yarn build && yarn recommend -t person -c class -s elastic -e "https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch"
+--> returns a list of relevant iris for the specified Elasticsearch endpoint
 
 MAYBE? 
 The flag -json can be used to return the results in json format. 
@@ -95,12 +98,7 @@ async function run() {
       console.log(`\n\nElasticsearch suggestions:\n`);
       console.log(sparqlSuggested);
     }
-  }
-
-    // const elasticEndpoint =
-  //   "https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch";
-
-  
+  } 
 }
 run().catch((e) => {
   console.error(e);
