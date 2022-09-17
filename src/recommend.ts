@@ -1,13 +1,5 @@
 const figlet = require("figlet");
 const fs = require('fs')
-/* 
-TODO:
-[x] make nice intro to CLI environment
-[x] clean console.log return
-[x] make json flag for output format + verbose
-[x] add documentation for the functions/ add comments
-[-] NOT YET : wait for review ~ make NPM module
-*/
 
 import { elasticSuggestions } from "./elasticSearch";
 import { sparqlSuggestions } from "./sparql";
@@ -46,6 +38,7 @@ async function run() {
     format: { alias: "f", type: "string", default: "iri", describe:'Choose output format of the results', choices:['iri','json']},
     verbose: { alias: "v", type: 'boolean', default: false , describe:'Show additional information about search query ~ true|false'},
   }).argv;
+
   const searchTerm = argv.searchTerm;
   const category = argv.category;
 
@@ -155,12 +148,9 @@ async function run() {
       }
     }
   }
-
-  // const elasticEndpoint =
-  //   "https://api.triplydb.com/datasets/smithsonian/american-art-museum/services/american-art-museum-1/elasticsearch";
 }
 
-//Welcome greetings
+// Welcome greetings
 let now = new Date()
 fs.exists('session.log', (exist: any)=>{
   if (exist){
