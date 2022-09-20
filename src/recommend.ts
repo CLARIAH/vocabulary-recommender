@@ -99,7 +99,7 @@ async function run() {
       const sparqlSuggested = await sparqlSuggestions(
         category,
         searchTerm,
-        "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"
+        "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/SPARQL/sparql"
       );
 
       // SPARQL Search results logged
