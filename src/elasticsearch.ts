@@ -3,6 +3,7 @@ interface ShardHit {
   _id: string;
   _source: {
     "http://www w3 org/2000/01/rdf-schema#comment"?: string[];
+    "http://www w3 org/2004/02/skos/core#definition"?: string[];
   };
 }
 
@@ -106,11 +107,18 @@ export function assignElasticQuery(category: string, term: string) {
 export function getSuggestionFromBody(
   responseBody: ShardResponse
 ): AutocompleteSuggestion[] {
-  return responseBody.hits.hits.map((suggestion) => {
+  return responseBody.hits.hits.map(suggestion => {
+    const rdfs_comment = "http://www w3 org/2000/01/rdf-schema#comment"
+    const skos_definition = "http://www w3 org/2004/02/skos/core#definition"
+    let description
+    if (suggestion._source.hasOwnProperty(rdfs_comment)) {
+      description = suggestion._source[rdfs_comment]?.[0]
+    } else if (suggestion._source.hasOwnProperty(skos_definition)) {
+      description = suggestion._source[skos_definition]?.[0]
+    }
     return {
       iri: suggestion._id,
-      description:
-        suggestion._source["http://www w3 org/2000/01/rdf-schema#comment"]?.[0],
+      description: description,
     };
   });
 }
