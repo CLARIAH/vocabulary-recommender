@@ -64,7 +64,7 @@ async function run() {
     },
   }).argv;
 
-  
+
   const searchTerm = argv.searchTerm;
   const category = argv.category;
 
