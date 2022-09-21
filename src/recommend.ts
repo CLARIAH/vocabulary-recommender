@@ -11,8 +11,8 @@ const yargs = require("yargs/yargs");
 const endpoints = {
   druidES:
     "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search",
-  ldWizzardSparql:
-    "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+  druidSparql:
+    "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/SPARQL/sparql",
 };
 
 // Run and log results function
@@ -128,13 +128,13 @@ async function run() {
       const sparqlSuggested = await sparqlSuggestions(
         category,
         searchTerm,
-        endpoints.ldWizzardSparql
+        endpoints.druidSparql
       );
 
       // SPARQL Search results logged
       if (argv.verbose) {
         console.log(
-          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${endpoints.ldWizzardSparql}\n`
+          `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${endpoints.druidSparql}\n`
         );
         console.log(`\n\nSuggestions:\n`);
       }
