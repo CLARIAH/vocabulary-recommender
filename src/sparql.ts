@@ -85,9 +85,9 @@ export const PREDICATE_SEARCH_SPARQL_QUERY = (
 
 // Assigns the SPARQL query according to the given category.
 export function assignSparqlQuery(category: string) {
-  if (category === 'class') {
+  if (category === "class") {
     return CLASS_SEARCH_SPARQL_QUERY;
-  } else if (category === 'property') {
+  } else if (category === "property") {
     return PREDICATE_SEARCH_SPARQL_QUERY;
   } else {
     throw Error("Category does not exist! Please provide existing category.");
