@@ -1,7 +1,7 @@
 const figlet = require("figlet");
 import fs from "fs";
-import { elasticSuggestions } from "./elasticsearch";
-import { sparqlSuggestions } from "./sparql";
+import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
+import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
 import { returnEndpointService } from "./endpointExtractor";
 import { readFileSync } from "fs";
 import yargs from "yargs/yargs";
@@ -74,6 +74,12 @@ async function run() {
     help: {
       alias: "h",
     },
+    verboseQuery: {
+      alias: "q",
+      type: "boolean",
+      default: false,
+      describe: "Show the search query ~ true|false",
+    },
   }).argv;
 
 
@@ -110,6 +116,10 @@ async function run() {
       );
       console.log(`\n\nSuggestions:\n`);
     }
+    // Log query
+    if (argv.verboseQuery) {
+      console.log(JSON.stringify(assignElasticQuery(category, searchTerm)))
+    }
     // iri or json format
     if (argv.format === "iri") {
       elasticSuggested.forEach((element) => {
@@ -136,6 +146,10 @@ async function run() {
         `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
       );
       console.log(`\n\nSuggestions:\n`);
+    }
+    // Log query
+    if (argv.verboseQuery) {
+      console.log(assignSparqlQuery(category)(searchTerm))
     }
     if (argv.format === "iri") {
       sparqlSuggested.forEach((element) => {

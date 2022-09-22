@@ -13,7 +13,7 @@
 - [x] no flags? --> output help message
 - [x] combine intro & help message for intro?
   > not possible - should be possible with `yargs.showHelp()`, but does not work. Print current help (?)
-- [ ] add `-vv` to print the query including the searchTerm
+- [x] add `-q` to print the query containing the searchTerm
 - [x] {feature} detect endpoint automatically (no need for service flag if implemented)
 - [ ] {feature} list as input for queries
 - [ ] {feature} list as input for endpoints
