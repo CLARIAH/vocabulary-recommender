@@ -13,7 +13,7 @@
 - [x] no flags? --> output help message
 - [x] combine intro & help message for intro?
   > not possible - should be possible with `yargs.showHelp()`, but does not work. Print current help (?)
-- [ ] {feature} detect endpoint automatically (no need for service flag if implemented)
+- [x] {feature} detect endpoint automatically (no need for service flag if implemented)
 - [ ] {feature} list as input for queries
 - [ ] {feature} list as input for endpoints
 
