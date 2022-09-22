@@ -5,6 +5,7 @@
   "author": "Wouter Beek <wouter@triply.cc>",
   "license": "MIT",
   "devDependencies": {
+    "@types/figlet": "^1.5.5",
     "@types/node": "14",
     "@types/node-fetch": "^2.6.2",
     "@types/yargs": "^17.0.12",
@@ -17,6 +18,7 @@
     "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
+    "@triply/triplydb": "^4.2.1",
     "figlet": "^1.5.2",
     "node-fetch": "^2.6.7",
     "yargs": "^17.5.1",
