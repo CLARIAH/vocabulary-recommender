@@ -1,8 +1,8 @@
 const figlet = require("figlet");
 const _ = require("lodash");
 import fs from "fs";
-import { Result, elasticSuggestions } from "./elasticsearch";
-import { sparqlSuggestions } from "./sparql";
+import { Result, assignElasticQuery, elasticSuggestions } from "./elasticsearch";
+import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
 import { returnEndpointService } from "./endpointExtractor";
 import { readFileSync } from "fs";
 import yargs from "yargs/yargs";
@@ -74,6 +74,12 @@ async function run() {
     help: {
       alias: "h",
     },
+    verboseQuery: {
+      alias: "q",
+      type: "boolean",
+      default: false,
+      describe: "Show the search query ~ true|false",
+    },
   }).argv;
 
   // recognition of service type of given endpoint
@@ -114,7 +120,7 @@ async function run() {
     let returnedObjects: any[] = []; // the final object containing all returnObjects
 
     // loop over each bundle (searchTerm, catergory) to find the results with the given endpoints
-    for (let bundle of bundled) {
+    for (let bundle of bundled) {    
       let results: Result[] = [];
       for (let endpoint of argv.endpoint) {
         // check service type of endpoint
@@ -128,6 +134,11 @@ async function run() {
             endpoint
           );
           results = results.concat(elasticSuggested);
+          
+          // Log query
+          if (argv.verboseQuery) {
+            console.log(JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm)))
+          }
         } else if ((await endpointServiceType) === "sparql") {
           const sparqlSuggested = await sparqlSuggestions(
             bundle.category,
@@ -136,6 +147,11 @@ async function run() {
           );
           // adding the results for the current searchTerm and category for the current endpoint
           results = results.concat(sparqlSuggested);
+          
+          // Log query
+          if (argv.verboseQuery) {
+            console.log(assignSparqlQuery(bundle.category)(bundle.searchTerm))
+          }
         }
       }
 
@@ -169,7 +185,7 @@ async function run() {
             console.log(`${result.iri}\nDescription: ${result.description}\n`);
           } else {
             console.log(`${result.iri}\n`);
-          }
+          } 
         }
       }
     }
