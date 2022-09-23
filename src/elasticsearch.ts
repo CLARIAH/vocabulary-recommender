@@ -16,7 +16,7 @@ interface ShardResponse {
 }
 
 // Defines the shape of the Elasticsearch recommendations.
-interface AutocompleteSuggestion {
+export interface Result {
   iri: string;
   description?: string;
 }
@@ -106,7 +106,7 @@ export function assignElasticQuery(category: string, term: string) {
  */
 export function getSuggestionFromBody(
   responseBody: ShardResponse
-): AutocompleteSuggestion[] {
+): Result[] {
   return responseBody.hits.hits.map(suggestion => {
     const rdfs_comment = "http://www w3 org/2000/01/rdf-schema#comment"
     const skos_definition = "http://www w3 org/2004/02/skos/core#definition"
