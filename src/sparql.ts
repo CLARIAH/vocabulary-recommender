@@ -1,5 +1,5 @@
 // Defines the shape of the SPARQL recommendations.
-export interface SparqlResult {
+export interface Result {
   iri: string;
   description: string;
 }
@@ -119,7 +119,7 @@ export async function sparqlSuggestions(
 
   if (result.ok) {
     const json: any = await result.json();
-    const sparqlResults: SparqlResult[] = [];
+    const sparqlResults: Result[] = [];
     for (let row of json) {
       const rowResults: any = {};
       for (const key of Object.keys(row)) {

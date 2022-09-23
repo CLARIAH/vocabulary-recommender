@@ -1,19 +1,20 @@
 const figlet = require("figlet");
+const _ = require("lodash");
 import fs from "fs";
-import { elasticSuggestions } from "./elasticsearch";
+import { Result, elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { returnEndpointService } from "./endpointExtractor";
 import { readFileSync } from "fs";
 import yargs from "yargs/yargs";
 
-const endpoints = {
+const defaultEndpoints = {
   druidES:
     "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search",
   druidSparql:
     "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/SPARQL/sparql",
 };
 
-
+// Function that greets the user of the CLI
 async function welcomeMessage() {
   figlet("Vocabulary \nRecommender", async function (err: any, data: any) {
     if (err) {
@@ -40,22 +41,21 @@ async function run() {
   const argv = await yargs(process.argv.slice(2)).options({
     searchTerm: {
       alias: "t",
-      type: "string",
+      type: "array",
       demandOption: true,
       describe: "Search term used for querying vocabularies",
-      // add--> nargs = 1
     },
     category: {
       alias: "c",
-      type: "string",
-      default: "class",
+      type: "array",
+      demandOption: true,
       describe: "Category of IRI",
       choices: ["class", "property"],
     },
     endpoint: {
       alias: "e",
-      type: "string",
-      default: endpoints.druidES,
+      type: "array",
+      default: [defaultEndpoints.druidES, defaultEndpoints.druidSparql],
       describe: "Provide endpoint of the selected service",
     },
     format: {
@@ -76,11 +76,7 @@ async function run() {
     },
   }).argv;
 
-
-  const searchTerm = argv.searchTerm;
-  const category = argv.category;
-
-  // service recognition:
+  // recognition of service type of given endpoint
   async function recognizeService(endpoint: string) {
     const serviceType = await returnEndpointService(endpoint);
     if (serviceType === "search") {
@@ -95,80 +91,115 @@ async function run() {
     }
   }
 
-  const endpointServiceType = recognizeService(argv.endpoint)
+  //  Ensure all elements of arrays are strings
+  const searchTerms = argv.searchTerm.map((term) => term.toString());
+  const categories = argv.category.map((term) => term.toString());
 
-  if ((await endpointServiceType) === "elastic") {
-    const elasticSuggested = await elasticSuggestions(
-      category,
-      searchTerm,
-      argv.endpoint
-    );
-    // Elastic Search results logged
-    if (argv.verbose) {
-      console.log(
-        `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
-      );
-      console.log(`\n\nSuggestions:\n`);
-    }
-    // iri or json format
-    if (argv.format === "iri") {
-      elasticSuggested.forEach((element) => {
-        if (element.description) {
-          console.log(`${element.iri}\nDescription: ${element.description}\n`);
-        } else {
-          console.log(`${element.iri}\n`);
-        }
-      });
-    } else if (argv.format === "json") {
-      console.log(elasticSuggested);
-    }
+  // Bundle interface used for corresponding searchTerm and category
+  interface Bundle {
+    searchTerm: string;
+    category: string;
   }
-  // ELSE SPARQL SEARCH
-  else if ((await endpointServiceType) === "sparql") {
-    const sparqlSuggested = await sparqlSuggestions(
-      category,
-      searchTerm,
-      argv.endpoint
-    );
-    // SPARQL Search results logged
-    if (argv.verbose) {
-      console.log(
-        `\n\nThis is what you were looking for:\ncategory: ${category},\nsearchTerm: ${searchTerm},\nendpoint: ${argv.endpoint}\n`
-      );
-      console.log(`\n\nSuggestions:\n`);
-    }
-    if (argv.format === "iri") {
-      sparqlSuggested.forEach((element) => {
-        if (element.description) {
-          console.log(`${element.iri}\nDescription: ${element.description}\n`);
-        } else {
-          console.log(`${element.iri}\n`);
+
+  if (searchTerms.length === categories.length) {
+    // zip the two arrays into a nested array with the same index ([a,b,c], [d,e,f] --> [[a,d],[b,e],[c,f]])
+    const zipped: string[][] = _.zip(searchTerms, categories);
+
+    // map the zipped array into an array of Bundle objects
+    const bundled: Bundle[] = zipped.map((val) => {
+      const combined: Bundle = { searchTerm: val[0], category: val[1] };
+      return combined;
+    });
+
+    let returnedObjects: any[] = []; // the final object containing all returnObjects
+
+    // loop over each bundle (searchTerm, catergory) to find the results with the given endpoints
+    for (let bundle of bundled) {
+      let results: Result[] = [];
+      for (let endpoint of argv.endpoint) {
+        // check service type of endpoint
+        const endpointServiceType = recognizeService(endpoint);
+
+        // search for results
+        if ((await endpointServiceType) === "elastic") {
+          const elasticSuggested = await elasticSuggestions(
+            bundle.category,
+            bundle.searchTerm,
+            endpoint
+          );
+          results = results.concat(elasticSuggested);
+        } else if ((await endpointServiceType) === "sparql") {
+          const sparqlSuggested = await sparqlSuggestions(
+            bundle.category,
+            bundle.searchTerm,
+            endpoint
+          );
+          // adding the results for the current searchTerm and category for the current endpoint
+          results = results.concat(sparqlSuggested);
         }
-      });
-    } else if (argv.format === "json") {
-      console.log(sparqlSuggested);
+      }
+
+      // Removing duplicate instances from the results (e.g. when different endpoints return the same iri and description)
+      results = _.uniqWith(results, _.isEqual);
+
+      // object containing the results of the current searchTerm and category for all searched endpoints
+      const returnObject: {
+        searchTerm: string;
+        category: string;
+        endpoints: string[];
+        results: Result[];
+      } = {
+        searchTerm: bundle.searchTerm,
+        category: bundle.category,
+        endpoints: argv.endpoint,
+        results: results,
+      };
+      returnedObjects.push(returnObject);
+      if (argv.verbose) {
+        console.log(
+          "--------------------------------------------------------------"
+        );
+        console.log(
+          `searchTerm: ${bundle.searchTerm}\ncategory:${bundle.category}\nendpoint list: ${argv.endpoint}\nResults:\n`
+        );
+      }
+      if (argv.format === "iri") {
+        for (const result of results) {
+          if (result.description) {
+            console.log(`${result.iri}\nDescription: ${result.description}\n`);
+          } else {
+            console.log(`${result.iri}\n`);
+          }
+        }
+      }
     }
+    if (argv.format == "json") {
+      console.log(JSON.stringify(returnedObjects, null, "\t"));
+    }
+  } else {
+    throw Error(
+      `Input array length for searchTerm (${argv.searchTerm.length}) and catergory (${argv.category.length}) is not identical, please provide input arrays of the same size`
+    );
   }
 }
 
-// Welcome greetings
+// Welcome greetings - greets for first time use or when user hasn't used CLI today
 let now = new Date();
-  if (fs.existsSync("session.log")) {
-    let sessionFile = readFileSync("session.log", "utf8");
-    let old_now = new Date(sessionFile);
-    if (now.getDate() !== old_now.getDate()) {
-      fs.writeFile("session.log", now.toISOString(), (err: any) => {
-        if (err) throw err;
-      });
-      welcomeMessage();
-    }
-  } else {
-    // now as input
+if (fs.existsSync("session.log")) {
+  let sessionFile = readFileSync("session.log", "utf8");
+  let old_now = new Date(sessionFile);
+  if (now.getDate() !== old_now.getDate()) {
     fs.writeFile("session.log", now.toISOString(), (err: any) => {
       if (err) throw err;
     });
     welcomeMessage();
   }
+} else {
+  fs.writeFile("session.log", now.toISOString(), (err: any) => {
+    if (err) throw err;
+  });
+  welcomeMessage();
+}
 
 // Start recommender
 run().catch((e) => {

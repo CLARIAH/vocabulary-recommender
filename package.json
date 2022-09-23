@@ -20,6 +20,7 @@
   "dependencies": {
     "@triply/triplydb": "^4.2.1",
     "figlet": "^1.5.2",
+    "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
     "yargs": "^17.5.1",
     "yargs-interactive": "^3.0.1"
