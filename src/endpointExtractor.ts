@@ -1,4 +1,3 @@
-import App from "@triply/triplydb";
 
 interface EndpointUrl {
   url: string;
@@ -14,7 +13,7 @@ interface EndpointUrl {
  * @param url - endpoint url of format: https://api.INSTANCE/datasets/ACCOUNT/DATASET/services/SERVICE/
  * @returns an object with url items as keys
  */
-function splitUrl(url: string): EndpointUrl | undefined {
+export function splitUrl(url: string): EndpointUrl | undefined {
   const regexp =
     /((https?):\/\/(\w+)\.(.+\.\w+))\/(datasets)\/(.+)\/(.+)\/(services)\/(.+)\/(\w+)/g;
   const match = regexp.exec(url);
@@ -41,26 +40,3 @@ function splitUrl(url: string): EndpointUrl | undefined {
     console.error("Invalid input - no matches found");
   }
 }
-
-/**
- * @param endpoint - endpoint url of format: https://api.INSTANCE/datasets/ACCOUNT/DATASET/services/SERVICE/
- * @returns the service type of the enpoint
- */
-export async function returnEndpointService(endpoint: string) {
-  const endpointInfo = splitUrl(endpoint);
-  // console.log(endpointInfo);
-
-  //Not used - retrieves available services
-  const triply = App.get({ url: endpointInfo?.url! });
-  const account = await triply.getAccount(endpointInfo?.account!);
-  const dataset = await account.getDataset(endpointInfo?.dataset!);
-  const services = dataset.getServices();
-  // for await(const service of services){
-  //   // console.log('\n\n\nSERVICES:\n',service)
-  // }
-
-  return endpointInfo?.endpointservice;
-}
-
-// var example = "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/SPARQL/sparql"
-// console.log(returnEndpointService(example));

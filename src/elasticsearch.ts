@@ -32,7 +32,7 @@ export interface Result {
  */
 export function assignElasticQuery(category: string, term: string) {
   if (category === 'class') {
-    const CLASS_SEARCH_ELASTIC_QUERY = {
+    return {
       query: {
         bool: {
           must: {
@@ -61,9 +61,8 @@ export function assignElasticQuery(category: string, term: string) {
         },
       },
     };
-    return CLASS_SEARCH_ELASTIC_QUERY;
   } else if (category === 'property') {
-    const PREDICATE_SEARCH_ELASTIC_QUERY = {
+    return {
       query: {
         bool: {
           must: {
@@ -92,11 +91,11 @@ export function assignElasticQuery(category: string, term: string) {
         },
       },
     };
-    return PREDICATE_SEARCH_ELASTIC_QUERY;
   } else {
     throw Error("Category does not exist! Please provide existing category.");
   }
 }
+
 
 /**
  * Converts the fetched object in the form of an Elasticsearch recommendation.
@@ -118,7 +117,10 @@ export function getSuggestionFromBody(
     }
     return {
       iri: suggestion._id,
-      description: description,
+      description:
+Object.prototype.hasOwnProperty.call(suggestion._source, rdfs_comment)
+        ? suggestion._source[rdfs_comment]?.[0]
+        : suggestion._source[skos_definition]?.[0]
     };
   });
 }
@@ -140,7 +142,7 @@ export async function elasticSuggestions(
   const searchObject = assignElasticQuery(category, term);
 
   // Due to version conflict since v3 isn't compatible with current version of ES
-  const fetch = require("node-fetch");
+  // const fetch = require("node-fetch");
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
