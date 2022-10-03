@@ -7,10 +7,6 @@ The vocabulary recommender CLI provides a recommendation interface which returns
 2. Run `yarn build` to generate the JavaScript code.
 3. Run `yarn recommend` to run the JavaScript code. Run `yarn recommend --help` to see which arguments can be specified.
 
-## Usage
-
-Insert Help returns
-
 ### Output as JSON
 Because of the use of yarn, using `yarn recommend <searchTerm> <category> <endpoint> -f json > example.json` will create a json file that does not have the right syntax due to the added yarn info. 
 
