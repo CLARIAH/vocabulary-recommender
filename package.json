@@ -1,28 +1,42 @@
 {
   "name": "vocabulary-recommender",
   "version": "0.1.0",
-  "main": "index.js",
-  "author": "Wouter Beek <wouter@triply.cc>",
-  "license": "MIT",
+  "author": {
+    "name": "Triply",
+    "email": "info@triply.cc",
+    "url": "https://triply.cc"
+  },
+  "contributors": [
+    {
+      "name": "Wouter Beek",
+      "email": "wouter@triply.cc"
+    },
+    {
+      "name": "Philippe Renzen",
+      "email": "Philippe.Renzen@triply.cc"
+    },
+    {
+      "name": "Jana Grimm",
+      "email": "Jana.Grimm@triply.cc"
+    }
+  ],
+  "license": "EUPL-1.2",
   "devDependencies": {
-    "@types/figlet": "^1.5.5",
+    "@types/lodash": "^4.14.186",
     "@types/node": "14",
     "@types/node-fetch": "^2.6.2",
     "@types/yargs": "^17.0.12",
-    "typescript": "^4.8.2"
+    "typescript": "*"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "start": "node ./dist/main.js",
     "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
-    "@triply/triplydb": "^4.2.1",
-    "figlet": "^1.5.2",
+    "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
-    "yargs": "^17.5.1",
-    "yargs-interactive": "^3.0.1"
+    "yargs": "^17.5.1"
   },
   "description": "A generic vocabulary recommender library that provides recommendation functions for various backends.",
   "repository": {

@@ -110,11 +110,13 @@ export async function sparqlSuggestions(
   const query = assignSparqlQuery(category);
   const request = new URL(endpoint);
   request.search = `query=${encodeURI(query(term))}`;
-  const fetch = require("node-fetch");
+  // const fetch = require("node-fetch");
+
   const result = await fetch(request.toString(), {
     method: "GET",
-    Accept:
-      "application/sparql-results+json;q=0.9,application/json;q=0.8,*/*;q=0.7",
+    headers:{
+      "Content-Type":"application/sparql-results+json;q=0.9,application/json;q=0.8,*/*;q=0.7"
+    }
   });
 
   if (result.ok) {
