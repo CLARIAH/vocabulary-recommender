@@ -20,7 +20,6 @@
       "email": "Jana.Grimm@triply.cc"
     }
   ],
-  "license": "EUPL-1.2",
   "devDependencies": {
     "@types/lodash": "^4.14.186",
     "@types/node": "14",
