@@ -30,7 +30,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "recommend": "node ./dist/recommend.js"
+    "recommend": "node --no-warnings ./dist/recommend.js"
   },
   "dependencies": {
     "lodash": "^4.17.21",

@@ -4,11 +4,27 @@ import {
   assignElasticQuery,
   elasticSuggestions
 } from './elasticsearch'
-import { splitUrl } from './endpointExtractor'
 import { assignSparqlQuery, sparqlSuggestions } from './sparql'
 // import { returnEndpointService } from './endpointExtractor'
 import yargs from 'yargs/yargs'
 import _ from 'lodash'
+
+// input endpoints
+let usedEndpointsType: string[] = []
+let usedEndpointsUrl: string[] = []
+
+// Turn endpoint config file into a list of endpoints and:
+// concatonate with given CLI argv endpoints if they are not the default endpoints
+const confFile = fs.readFileSync('./conf.json', 'utf8')
+const jsonConfFile = JSON.parse(confFile)
+
+const defaultEndpointName = jsonConfFile.defaultEndpoint
+const endpoints = jsonConfFile.endpoints
+const endpointNamesFromConfig = Object.keys(endpoints)
+const endpointUrls: string[] = []
+const endpointTypes: string[] = []
+endpointNamesFromConfig.forEach(i => endpointUrls.push(endpoints[i].url))
+endpointNamesFromConfig.forEach(i => endpointTypes.push(endpoints[i].type))
 
 // Run and log results function
 async function run () {
@@ -52,38 +68,10 @@ async function run () {
     }
   }).argv
 
-  // input endpoints
-  let usedEndpointsType: string[] = []
-  let usedEndpointsUrl: string[] = []
-
-  // Turn endpoint config file into a list of endpoints and:
-  // concatonate with given CLI argv endpoints if they are not the default endpoints
-  const confFile = fs.readFileSync('./conf.json', 'utf8')
-  const jsonConfFile = JSON.parse(confFile)
-
-  const defaultEndpointName = jsonConfFile.defaultEndpoint
-  const endpoints = jsonConfFile.endpoints
-  const endpointNamesFromConfig = Object.keys(endpoints)
-  const endpointUrls: string[] = []
-  const endpointTypes: string[] = []
-  endpointNamesFromConfig.forEach(i => endpointUrls.push(endpoints[i].url))
-  endpointNamesFromConfig.forEach(i => endpointTypes.push(endpoints[i].type))
-
   if (defaultEndpointName== ('' || undefined)){
     throw Error(`No endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from ${endpointNamesFromConfig}`)
   }
 
-  function isValidHttpUrl(string:string) {
-    let url
-    
-    try {
-      url = new URL(string)
-    } catch (_) {
-      return false; 
-    }
-  
-    return true
-  }
 
   for (const i in argv.endpoint){
     if (endpointNamesFromConfig.includes(argv.endpoint[i])){
@@ -94,12 +82,8 @@ async function run () {
       usedEndpointsUrl.push(endpointUrls[indexNum])
 
     }
-    else if(isValidHttpUrl(argv.endpoint[i])){
-      usedEndpointsType.push(splitUrl(argv.endpoint[i])?.endpointservice === 'sparql' ? 'sparql' : 'search')
-      usedEndpointsUrl.push(argv.endpoint[i])
-    }
     else{
-      console.error(`"${argv.endpoint[i]}" is not found in the availble endpoint config file nor is it a valid URL. The default "${defaultEndpointName}" was used instead.`)
+      console.error(`"${argv.endpoint[i]}" is not found in the availble endpoint config file. The default "${defaultEndpointName}" was used instead.\nAvailable endpoint names: ${endpointNamesFromConfig}.\n`)
       let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName)
       usedEndpointsType.push(endpointTypes[indexNum])
       usedEndpointsUrl.push(endpointUrls[indexNum])
