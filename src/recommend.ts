@@ -26,6 +26,10 @@ const endpointTypes: string[] = []
 endpointNamesFromConfig.forEach(i => endpointUrls.push(endpoints[i].url))
 endpointNamesFromConfig.forEach(i => endpointTypes.push(endpoints[i].type))
 
+if (defaultEndpointName===""){
+  throw new Error(`No endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`).message
+}
+
 // Run and log results function
 async function run () {
   // Waiting for arguments
@@ -67,11 +71,6 @@ async function run () {
       alias: 'h'
     }
   }).argv
-
-  if (defaultEndpointName== ('' || undefined)){
-    throw Error(`No endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from ${endpointNamesFromConfig}`)
-  }
-
 
   for (const i in argv.endpoint){
     if (endpointNamesFromConfig.includes(argv.endpoint[i])){
@@ -160,7 +159,7 @@ async function run () {
         }
       } 
       else {
-        throw Error(`${bundle.endpointType}`)
+        throw new Error(`${bundle.endpointType}`)
       }
 
       // object containing the results of the current searchTerm and category for all searched endpoints
