@@ -5,7 +5,6 @@ import {
   elasticSuggestions
 } from './elasticsearch'
 import { assignSparqlQuery, sparqlSuggestions } from './sparql'
-// import { returnEndpointService } from './endpointExtractor'
 import yargs from 'yargs/yargs'
 import _ from 'lodash'
 
