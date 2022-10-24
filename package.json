@@ -28,6 +28,9 @@
     "@types/yargs": "^17.0.12",
     "typescript": "*"
   },
+  "main":"dist/recommend.js",
+  "bin":"dist/recommend.js",
+  "types": "dist/recommend.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",

@@ -1,4 +1,5 @@
-import fs, { readFileSync } from 'fs'
+#!/usr/bin/env node
+import fs from 'fs'
 import {
   Result,
   assignElasticQuery,
@@ -14,9 +15,13 @@ let usedEndpointsUrl: string[] = []
 
 // Turn endpoint config file into a list of endpoints and:
 // concatonate with given CLI argv endpoints if they are not the default endpoints
-const confFile = fs.readFileSync('./conf.json', 'utf8')
-const jsonConfFile = JSON.parse(confFile)
+var file = './conf.json'
 
+if ((!fs.existsSync(file))&&fs.existsSync('./node_modules/vocabulary-recommender/conf.json')){
+  file = './node_modules/vocabulary-recommender/conf.json'
+}
+const confFile = fs.readFileSync(file, 'utf8')
+const jsonConfFile = JSON.parse(confFile)
 const defaultEndpointName = jsonConfFile.defaultEndpoint
 const endpoints = jsonConfFile.endpoints
 const endpointNamesFromConfig = Object.keys(endpoints)
