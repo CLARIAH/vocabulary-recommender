@@ -1,6 +1,6 @@
 {
   "name": "vocabulary-recommender",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Triply",
     "email": "info@triply.cc",
@@ -23,13 +23,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.186",
-    "@types/node": "14",
+    "@types/node": "^14.18.27",
     "@types/node-fetch": "^2.6.2",
     "@types/yargs": "^17.0.12",
     "typescript": "*"
   },
-  "main":"dist/recommend.js",
-  "bin":"dist/recommend.js",
+  "main": "dist/recommend.js",
+  "bin": "dist/recommend.js",
   "types": "dist/recommend.d.ts",
   "scripts": {
     "build": "tsc",
