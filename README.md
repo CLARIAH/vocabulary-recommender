@@ -1,5 +1,5 @@
 # Vocabulary Recommender CLI
-The vocabulary recommender CLI provides a recommendation interface which returns related Internationalized Resource Identifiers (IRIs) based on the search input. These recommendations work with SPARQL or Elasticsearch endpoints, containing the relevant vocabulary datasets.
+The vocabulary recommender CLI provides a recommendation interface which returns relevant Internationalized Resource Identifiers (IRIs) based on the search input. The recommender works with SPARQL or Elasticsearch endpoints which contain relevant vocabulary datasets.
 
 ## Installation
 
