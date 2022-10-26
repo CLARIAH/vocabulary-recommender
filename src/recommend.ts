@@ -126,7 +126,7 @@ async function run () {
       results: Result[] 
   }[] = [] // the final object containing all returnObjects
 
-    // loop over each bundle (searchTerm, catergory) to find the results with the given endpoints
+    // loop over each bundle (searchTerm, category) to find the results with the given endpoints
     for (const bundle of bundled) {
       let results: Result[] = []
 
@@ -203,7 +203,7 @@ async function run () {
   } 
   else {
     throw Error(
-      `Input array length for searchTerm (${argv.searchTerm.length}), catergory (${argv.category.length}), and/or endpoints (${argv.endpoint.length}) is not identical, please provide input arrays of the same size`
+      `Input array length for searchTerm (${argv.searchTerm.length}), category (${argv.category.length}), and/or endpoints (${argv.endpoint.length}) is not identical, please provide input arrays of the same size`
     )
   }
 }
