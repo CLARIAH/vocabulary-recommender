@@ -75,5 +75,3 @@ The Reconciliation Service API (RSA) is an API (proposal) that unifies the input
 The NDE made a SPARQL implementation for RSA, see this [link](https://github.com/netwerk-digitaal-erfgoed/network-of-terms/tree/master/packages/network-of-terms-reconciliation).
 
 In the future, a CLI tool could be developed that can be used as the front-end of RSA, just like OpenRefine or NDE's Termennetwerk is a front-end. In such a CLI, NDE's SPARQL implementation for RSA could be used to just provide a thin CLI tool with almost no business logic, just arguments passing to the RSA.
-
-Using RSA will greatly benefit other use-cases. One particular useful use-case is for the culturule-heritage sector to clean up their data using OpenRefine using a TriplyDB RSA backed service. Our ETL's become much more simple if the data cleanup and reconciliation process is run outside of a Triply project!
