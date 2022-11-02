@@ -93,7 +93,7 @@ async function run() {
       alias: "e",
       type: "array",
       default: [],
-      describe: "Provide endpoint of the selected service",
+      describe: `Provide endpoint from the available endpoints: ${endpointNamesFromConfig}\nThese endpoints can be changed in the './'`,
     },
     format: {
       alias: "f",
