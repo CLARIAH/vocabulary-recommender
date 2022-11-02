@@ -58,7 +58,7 @@ The API has 5 contributors to the repository, and is still active. Most recent v
 The API is adopted by a number of service endpoints such as Wikidata (https://reconciliation-api.github.io/testbench/#/). Some of these endpoints work as a service in the test bench (Wikidata’s) and others do not. 
 
 
-### **Evaluation Matrix**
+<!-- ### **Evaluation Matrix**
 
 |   |  No Reconciliation API | Reconciliation API + SPARQL/ElasticSearch  | Only Reconciliation API  |
 |:---|---|---|---|
@@ -66,7 +66,14 @@ The API is adopted by a number of service endpoints such as Wikidata (https://re
 | **Standards-compliance**  | ++  | +  | +  |
 | **Maintainability**  | ++  | +  | -  |
 | **Genericity**  | ++  | +  |  + |
-| **Total**  |  8 | 2  | -1  |
+| **Total**  |  8 | 2  | -1  | -->
 
+# Overview & evaluation
 
+The Reconciliation Service API (RSA) is an API (proposal) that unifies the input and output, it does not replace/substitute SPARQL or ES backends, instead it needs such a backends to operate. For this reason, the Evaulation Matrix has been disregarded.
 
+The NDE made a SPARQL implementation for RSA, see this [link](https://github.com/netwerk-digitaal-erfgoed/network-of-terms/tree/master/packages/network-of-terms-reconciliation).
+
+In the future, a CLI tool could be developed that can be used as the front-end of RSA, just like OpenRefine or NDE's Termennetwerk is a front-end. In such a CLI, NDE's SPARQL implementation for RSA could be used to just provide a thin CLI tool with almost no business logic, just arguments passing to the RSA.
+
+Using RSA will greatly benefit other use-cases. One particular useful use-case is for the culturule-heritage sector to clean up their data using OpenRefine using a TriplyDB RSA backed service. Our ETL's become much more simple if the data cleanup and reconciliation process is run outside of a Triply project!

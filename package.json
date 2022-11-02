@@ -1,6 +1,6 @@
 {
   "name": "vocabulary-recommender",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": {
     "name": "Triply",
     "email": "info@triply.cc",
@@ -34,7 +34,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "recommend": "node --no-warnings ./dist/recommend.js"
+    "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
     "lodash": "^4.17.21",
