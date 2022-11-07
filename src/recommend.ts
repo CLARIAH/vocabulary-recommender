@@ -1,17 +1,20 @@
 #!/usr/bin/env node
-import fs, { mkdir } from "fs";
+import fs, { mkdir } from "fs"
+import { homedir } from "os"
+
+import path from "path"
 import {
   Result,
   assignElasticQuery,
   elasticSuggestions,
-} from "./elasticsearch";
-import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
-import yargs from "yargs/yargs";
-import _ from "lodash";
+} from "./elasticsearch" 
+import { assignSparqlQuery, sparqlSuggestions } from "./sparql" 
+import yargs from "yargs/yargs" 
+import _ from "lodash" 
 
 // input endpoints
-let usedEndpointsType: string[] = [];
-let usedEndpointsUrl: string[] = [];
+let usedEndpointsType: string[] = [] 
+let usedEndpointsUrl: string[] = [] 
 
 // Turn endpoint config file into a list of endpoints and:
 // concatonate with given CLI argv endpoints if they are not the default endpoints
@@ -23,55 +26,56 @@ const endpointConfigurationObject = {
       type: "elasticsearch",
       url: "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search",
     },
-    nde: {
+    "nde": {
       type: "sparql",
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
     },
   },
-};
+} 
+const userHomeDir = homedir()
+const vocaDir = path.resolve(userHomeDir, "Vocabulary_recommender")
+const endpointConfigFile = path.resolve(vocaDir, '.vocabulary-recommender.json')
 
-var file = ".vocabulary-recommender.json";
-
-if (
-  !fs.existsSync(file) &&
-  !fs.existsSync("~/Vocabulary_recommender/.vocabulary-recommender.json")
-) {
-  const configObject = JSON.stringify(endpointConfigurationObject);
-  fs.mkdirSync("~/Vocabulary_recommender");
-  fs.writeFileSync(
-    "~/Vocabulary_recommender/.vocabulary-recommender.json",
-    configObject
-  );
-  file = "~/Vocabulary_recommender/.vocabulary-recommender.json";
-} else if (
-  !fs.existsSync(file) &&
-  fs.existsSync("~/Vocabulary_recommender/.vocabulary-recommender.json")
-) {
-  file = "~/Vocabulary_recommender/.vocabulary-recommender.json";
+try{
+  if (!fs.existsSync(vocaDir)) {
+    console.error("'Vocabulary_recommender' folder not found in home directory, creating folder...")
+    fs.mkdirSync(path.resolve(vocaDir))
+    console.error(`Folder generated in: ${vocaDir}`)
+  } 
+  if (!fs.existsSync(endpointConfigFile)) {
+    console.error("Endpoint configuration file '.vocabulary-recommender.json' is not found in the '~/Vocabulary_recommender' folder, creating endpoint configuration file...")
+    const configObject = JSON.stringify(endpointConfigurationObject) 
+    fs.writeFileSync(endpointConfigFile, configObject)
+    console.error(`File generated in: ${endpointConfigFile}`)
+  }
+} catch(err){
+  console.error(err)
 }
 
-const confFile = fs.readFileSync(file, "utf8");
-const jsonConfFile = JSON.parse(confFile);
-const defaultEndpointName = jsonConfFile.defaultEndpoint;
-const endpoints = jsonConfFile.endpoints;
-const endpointNamesFromConfig = Object.keys(endpoints);
-const endpointUrls: string[] = [];
-const endpointTypes: string[] = [];
-endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
-endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
+
+
+const confFile = fs.readFileSync(endpointConfigFile, "utf8") 
+const jsonConfFile = JSON.parse(confFile) 
+const defaultEndpointName = jsonConfFile.defaultEndpoint 
+const endpoints = jsonConfFile.endpoints 
+const endpointNamesFromConfig = Object.keys(endpoints) 
+const endpointUrls: string[] = [] 
+const endpointTypes: string[] = [] 
+endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url)) 
+endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type)) 
 
 // Bundle interface used for corresponding searchTerm and category
 interface Bundle {
-  searchTerm: string;
-  category: string;
-  endpointType: "sparql" | "search";
-  endpointUrl: string;
+  searchTerm: string 
+  category: string 
+  endpointType: "sparql" | "search" 
+  endpointUrl: string 
 }
 
 if (defaultEndpointName === "") {
   throw new Error(
     `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
-  );
+  ) 
 }
 
 // Run and log results function
@@ -116,30 +120,34 @@ async function run() {
     help: {
       alias:"h"
     }
-  }).argv;
+  }).argv 
 
   if (argv.endpoints > 0) {
-    console.log(`The available endpoints are:\n${endpointNamesFromConfig}`);
-    return;
+    console.log(`The default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
+    \nThe available endpoints and their types are:\n`)
+    for (let index in endpointNamesFromConfig){
+      console.log(`Key Name: \x1b[36m${endpointNamesFromConfig[index]}\x1b[0m\n  -Type: ${endpointTypes[index]}\n  -URL: ${endpointUrls[index]}\n`)
+    }
+    return 
   }
 
   if (argv.searchTerm) {
     //  Ensure all elements of array are strings
     const searchTerms: string[] = argv.searchTerm.map((term) =>
       term.toString()
-    );
+    ) 
     if (argv.category) {
       //  Ensure all elements of array are strings
-      const categories: string[] = argv.category.map((term) => term.toString());
+      const categories: string[] = argv.category.map((term) => term.toString()) 
       // check if searchterms and categories are same number
       if (searchTerms.length === categories.length) {
         // if no endpoints were provided, use the default for each search term
         if (argv.endpoint.length === 0) {
           console.error(`(!) No endpoints were provided, using the default endpoint: ${defaultEndpointName} (!)`)
           for (const i in argv.searchTerm) {
-            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
-            usedEndpointsType.push(endpointTypes[indexNum]);
-            usedEndpointsUrl.push(endpointUrls[indexNum]);
+            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName) 
+            usedEndpointsType.push(endpointTypes[indexNum]) 
+            usedEndpointsUrl.push(endpointUrls[indexNum]) 
           }
         }
         // if endpoints were provided but don't match the number of searchTerms
@@ -147,19 +155,19 @@ async function run() {
           for (const i in argv.endpoint) {
             // when endpoints names were provided and exist in config file
             if (endpointNamesFromConfig.includes(argv.endpoint[i])) {
-              let indexNum = endpointNamesFromConfig.indexOf(argv.endpoint[i]);
-              usedEndpointsType.push(endpointTypes[indexNum]);
-              usedEndpointsUrl.push(endpointUrls[indexNum]);
+              let indexNum = endpointNamesFromConfig.indexOf(argv.endpoint[i]) 
+              usedEndpointsType.push(endpointTypes[indexNum]) 
+              usedEndpointsUrl.push(endpointUrls[indexNum]) 
             }
             // when endpoint name was provided but does not exist in config file
             else {
               console.error(
                 `"${argv.endpoint[i]}" is not found in the availble endpoint config file. The default "${defaultEndpointName}" was used instead.\nAvailable endpoint names: ${endpointNamesFromConfig}.\n`
-              );
+              ) 
               let indexNum =
-                endpointNamesFromConfig.indexOf(defaultEndpointName);
-              usedEndpointsType.push(endpointTypes[indexNum]);
-              usedEndpointsUrl.push(endpointUrls[indexNum]);
+                endpointNamesFromConfig.indexOf(defaultEndpointName) 
+              usedEndpointsType.push(endpointTypes[indexNum]) 
+              usedEndpointsUrl.push(endpointUrls[indexNum]) 
             }
           }
         }
@@ -171,22 +179,22 @@ async function run() {
           if (argv.endpoint.length > argv.searchTerm.length) {
             throw Error(
               "ERROR\n\nThere were more endpoints provided than search terms in the input, please provide the same number of endpoints as search terms"
-            );
+            ) 
           }
           console.error(
             `Number of given search terms (${argv.searchTerm?.length}) and endpoints (${argv.endpoint.length}) don\'t match\n\nDefault endpoints were added to match the amount of arguments.`
-          );
+          ) 
           while (usedEndpointsUrl.length !== argv.searchTerm?.length) {
-            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
-            usedEndpointsUrl.push(endpointUrls[indexNum]);
-            usedEndpointsType.push(endpointTypes[indexNum]);
+            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName) 
+            usedEndpointsUrl.push(endpointUrls[indexNum]) 
+            usedEndpointsType.push(endpointTypes[indexNum]) 
           }
         }
 
         // zip the two arrays into a nested array with the same index ([a,b,c], [d,e,f] --> [[a,d],[b,e],[c,f]])
 
         // const zipped: [string | undefined, string | undefined, string | undefined][] = _.zip(searchTerms, categories, usedEndpoints)
-        const bundled: Bundle[] = [];
+        const bundled: Bundle[] = [] 
         searchTerms.forEach((value, ix) =>
           bundled.push({
             searchTerm: value,
@@ -195,18 +203,18 @@ async function run() {
               usedEndpointsType[ix] === "sparql" ? "sparql" : "search", // guard
             endpointUrl: usedEndpointsUrl[ix],
           })
-        );
+        ) 
 
         const returnedObjects: {
-          searchTerm: string;
-          category: string;
-          endpoint: string;
-          results: Result[];
-        }[] = []; // the final object containing all returnObjects
+          searchTerm: string 
+          category: string 
+          endpoint: string 
+          results: Result[] 
+        }[] = []  // the final object containing all returnObjects
 
         // loop over each bundle (searchTerm, category) to find the results with the given endpoints
         for (const bundle of bundled) {
-          let results: Result[] = [];
+          let results: Result[] = [] 
 
           // search for results
           if (bundle.endpointType === "search") {
@@ -214,8 +222,8 @@ async function run() {
               bundle.category,
               bundle.searchTerm,
               bundle.endpointUrl
-            );
-            results = results.concat(elasticSuggested);
+            ) 
+            results = results.concat(elasticSuggested) 
 
             // Log query if verbose level 2
             if (argv.verbose >= 2) {
@@ -223,92 +231,92 @@ async function run() {
                 JSON.stringify(
                   assignElasticQuery(bundle.category, bundle.searchTerm)
                 )
-              );
+              ) 
             }
           } else if (bundle.endpointType === "sparql") {
             const sparqlSuggested = await sparqlSuggestions(
               bundle.category,
               bundle.searchTerm,
               bundle.endpointUrl
-            );
+            ) 
             // adding the results for the current searchTerm and category for the current endpoint
-            results = results.concat(sparqlSuggested);
+            results = results.concat(sparqlSuggested) 
 
             // Log query
             if (argv.verbose >= 2) {
               console.log(
                 assignSparqlQuery(bundle.category)(bundle.searchTerm)
-              );
+              ) 
             }
           } else {
-            throw new Error(`${bundle.endpointType}`);
+            throw new Error(`${bundle.endpointType}`) 
           }
 
           // object containing the results of the current searchTerm and category for all searched endpoints
           const returnObject: {
-            searchTerm: string;
-            category: string;
-            endpoint: string;
-            results: Result[];
+            searchTerm: string 
+            category: string 
+            endpoint: string 
+            results: Result[] 
           } = {
             searchTerm: bundle.searchTerm,
             category: bundle.category,
             endpoint: bundle.endpointUrl,
             results,
-          };
-          returnedObjects.push(returnObject);
+          } 
+          returnedObjects.push(returnObject) 
 
           if (argv.format === "text") {
             if (argv.verbose >= 1) {
               console.log(
                 "--------------------------------------------------------------"
-              );
+              ) 
               console.log(
                 `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-              );
+              ) 
             }
 
             for (const result of results) {
               if (result.description) {
                 console.log(
                   `${result.iri}\nDescription: ${result.description}\n`
-                );
+                ) 
               } else {
-                console.log(`${result.iri}\n`);
+                console.log(`${result.iri}\n`) 
               }
             }
           }
           if (argv.format == "json") {
-            console.log(JSON.stringify(returnedObjects, null, "\t"));
+            console.log(JSON.stringify(returnedObjects, null, "\t")) 
           }
         }
       } else {
         throw Error(
           `ERROR\n\nInput array length for searchTerm (${argv.searchTerm.length}) and category (${argv.category.length}) is not identical, please provide inputs with the same amount of arguments.`
-        );
+        ) 
       }
     } else {
       throw Error(
-        'ERROR\n\nNo categories were provided as input argument, please provide a category with: "-c <category>".\nUse "-h" or "--help" for more information.'
-      );
+        'ERROR\n\nNo categories were provided as input argument, please provide a category with: "-c <category>".\nAn example input argument: "-t person -c class"\nUse "-h" or "--help" for more information.'
+      ) 
     }
   } else {
     throw Error(
-      'ERROR\n\nNo search terms were provided as input argument, please provide a search term with: "-t <search term>".\nUse "-h" or "--help" for more information.'
-    );
+      'ERROR\n\nNo search terms were provided as input argument, please provide a search term with: "-t <search term>".\nAn example input argument: "-t person -c class"\nUse "-h" or "--help" for more information.'
+    ) 
   }
 }
 
 // Start recommender
 run().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+  console.error(e.message) 
+  process.exit(1) 
+}) 
 process.on("uncaughtException", function (err) {
-  console.error("Uncaught exception", err);
-  process.exit(1);
-});
+  console.error("Uncaught exception", err) 
+  process.exit(1) 
+}) 
 process.on("unhandledRejection", (reason, p) => {
-  console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
-  process.exit(1);
-});
+  console.error("Unhandled Rejection at: Promise", p, "reason:", reason) 
+  process.exit(1) 
+}) 
