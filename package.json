@@ -39,6 +39,7 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.7",
+    "vocabulary-recommender": "^1.0.0",
     "yargs": "^17.5.1"
   },
   "description": "A generic linked data vocabulary recommender library that provides recommendation functions for various backends.",

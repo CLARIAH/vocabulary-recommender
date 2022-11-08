@@ -7,7 +7,13 @@
         },
         "nde":{
             "type":"sparql",
-            "url":"https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql"
+            "url":"https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+            "query":"confSparql.rq"
+        },
+        "DBpedia":{
+            "type":"sparql",
+            "url":"https://api.triplydb.com/datasets/DBpedia-association/dbpedia/services/dbpedia/sparql",
+            "query":"SparqlDefault.rq"
         }
     }
 }

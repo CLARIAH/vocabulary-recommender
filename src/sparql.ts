@@ -105,11 +105,11 @@ export function assignSparqlQuery(category: string) {
 export async function sparqlSuggestions(
   category: string,
   term: string,
-  endpoint: string
+  endpoint: string,
+  query: string
 ) {
-  const query = assignSparqlQuery(category);
   const request = new URL(endpoint);
-  request.search = `query=${encodeURI(query(term))}`;
+  request.search = `query=${encodeURI(query)}`;
   const fetch = require("node-fetch");
 
   const result = await fetch(request.toString(), {

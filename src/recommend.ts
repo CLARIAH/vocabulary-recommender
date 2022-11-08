@@ -14,7 +14,7 @@ let usedEndpointsType: string[] = [];
 let usedEndpointsUrl: string[] = [];
 
 // Turn endpoint config file into a list of endpoints and:
-// concatonate with given CLI argv endpoints if they are not the default endpoints
+// concatenate with given CLI argv endpoints if they are not the default endpoints
 
 const endpointConfigurationObject = {
   defaultEndpoint: "druid-recommend",
@@ -26,6 +26,7 @@ const endpointConfigurationObject = {
     nde: {
       type: "sparql",
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+      query: "SparqlDefault.rq",
     },
   },
 };
@@ -60,12 +61,23 @@ const endpointTypes: string[] = [];
 endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
 endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 
+const sparqlFiles: string[] = [];
+for (const i in endpointNamesFromConfig) {
+  if (endpointTypes[i] === "sparql") {
+    // endpoints[i].query contains the name of the file where the query is specified -> term is inserted later
+    sparqlFiles.push("confSparql.rq");
+  } else {
+    sparqlFiles.push("");
+  }
+}
+
 // Bundle interface used for corresponding searchTerm and category
 interface Bundle {
   searchTerm: string;
   category: string;
   endpointType: "sparql" | "search";
   endpointUrl: string;
+  queryFile: string;
 }
 
 if (defaultEndpointName === "") {
@@ -114,8 +126,8 @@ async function run() {
       describe: "Displays all available endpoint names",
     },
     help: {
-      alias:"h"
-    }
+      alias: "h",
+    },
   }).argv;
 
   if (argv.endpoints > 0) {
@@ -135,7 +147,9 @@ async function run() {
       if (searchTerms.length === categories.length) {
         // if no endpoints were provided, use the default for each search term
         if (argv.endpoint.length === 0) {
-          console.error(`(!) No endpoints were provided, using the default endpoint: ${defaultEndpointName} (!)`)
+          console.error(
+            `(!) No endpoints were provided, using the default endpoint: ${defaultEndpointName} (!)`
+          );
           for (const i in argv.searchTerm) {
             let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
             usedEndpointsType.push(endpointTypes[indexNum]);
@@ -143,6 +157,7 @@ async function run() {
           }
         }
         // if endpoints were provided but don't match the number of searchTerms
+        // Jana: Warum muss die Anzahl der searchTerms mit der Anzahl der Endpoints übereinstimmen?
         else {
           for (const i in argv.endpoint) {
             // when endpoints names were provided and exist in config file
@@ -163,7 +178,7 @@ async function run() {
             }
           }
         }
-        // if not enough endpoints are provided, append default untill there are enough
+        // if not enough endpoints are provided, append default until there are enough
         if (
           argv.endpoint.length > 0 &&
           argv.endpoint.length !== argv.searchTerm.length
@@ -194,9 +209,11 @@ async function run() {
             endpointType:
               usedEndpointsType[ix] === "sparql" ? "sparql" : "search", // guard
             endpointUrl: usedEndpointsUrl[ix],
+            queryFile: sparqlFiles[ix],
           })
         );
 
+        // Jana: Add query string
         const returnedObjects: {
           searchTerm: string;
           category: string;
@@ -226,18 +243,29 @@ async function run() {
               );
             }
           } else if (bundle.endpointType === "sparql") {
-            const sparqlSuggested = await sparqlSuggestions(
-              bundle.category,
-              bundle.searchTerm,
-              bundle.endpointUrl
-            );
-            // adding the results for the current searchTerm and category for the current endpoint
-            results = results.concat(sparqlSuggested);
+            if (bundle.queryFile != "") {
+              const queryWithoutTerm: string = fs.readFileSync(
+                bundle.queryFile,
+                "utf8"
+              );
+              const query = (term: string) => queryWithoutTerm;
+              const sparqlSuggested = await sparqlSuggestions(
+                bundle.category,
+                bundle.searchTerm,
+                bundle.endpointUrl,
+                // Jana: Needs to be a string with the query and the search term
+                query(bundle.searchTerm)
+              );
+              // adding the results for the current searchTerm and category for the current endpoint
+              results = results.concat(sparqlSuggested);
 
-            // Log query
-            if (argv.verbose >= 2) {
-              console.log(
-                assignSparqlQuery(bundle.category)(bundle.searchTerm)
+              // Log query
+              if (argv.verbose >= 2) {
+                console.log(query(bundle.searchTerm));
+              }
+            } else {
+              throw Error(
+                "ERROR\n\nNo query has been specified."
               );
             }
           } else {
@@ -245,6 +273,7 @@ async function run() {
           }
 
           // object containing the results of the current searchTerm and category for all searched endpoints
+          // Jana: Add used query
           const returnObject: {
             searchTerm: string;
             category: string;
@@ -264,6 +293,7 @@ async function run() {
                 "--------------------------------------------------------------"
               );
               console.log(
+                // Jana: Add query?
                 `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
               );
             }
