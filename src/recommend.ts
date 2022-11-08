@@ -12,6 +12,7 @@ import _ from "lodash";
 // input endpoints
 let usedEndpointsType: string[] = [];
 let usedEndpointsUrl: string[] = [];
+let usedQuery: string[] = [];
 
 // Turn endpoint config file into a list of endpoints and:
 // concatenate with given CLI argv endpoints if they are not the default endpoints
@@ -58,18 +59,10 @@ const endpoints = jsonConfFile.endpoints;
 const endpointNamesFromConfig = Object.keys(endpoints);
 const endpointUrls: string[] = [];
 const endpointTypes: string[] = [];
+const sparqlFiles: string[] = [];
 endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
 endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
-
-const sparqlFiles: string[] = [];
-for (const i in endpointNamesFromConfig) {
-  if (endpointTypes[i] === "sparql") {
-    // endpoints[i].query contains the name of the file where the query is specified -> term is inserted later
-    sparqlFiles.push("confSparql.rq");
-  } else {
-    sparqlFiles.push("");
-  }
-}
+endpointNamesFromConfig.forEach((i) => sparqlFiles.push(endpoints[i].query));
 
 // Bundle interface used for corresponding searchTerm and category
 interface Bundle {
@@ -154,6 +147,7 @@ async function run() {
             let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
             usedEndpointsType.push(endpointTypes[indexNum]);
             usedEndpointsUrl.push(endpointUrls[indexNum]);
+            usedQuery.push(sparqlFiles[indexNum]);
           }
         }
         // if endpoints were provided but don't match the number of searchTerms
@@ -165,6 +159,7 @@ async function run() {
               let indexNum = endpointNamesFromConfig.indexOf(argv.endpoint[i]);
               usedEndpointsType.push(endpointTypes[indexNum]);
               usedEndpointsUrl.push(endpointUrls[indexNum]);
+              usedQuery.push(sparqlFiles[indexNum]);
             }
             // when endpoint name was provided but does not exist in config file
             else {
@@ -175,6 +170,7 @@ async function run() {
                 endpointNamesFromConfig.indexOf(defaultEndpointName);
               usedEndpointsType.push(endpointTypes[indexNum]);
               usedEndpointsUrl.push(endpointUrls[indexNum]);
+              usedQuery.push(sparqlFiles[indexNum]);
             }
           }
         }
@@ -195,6 +191,7 @@ async function run() {
             let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
             usedEndpointsUrl.push(endpointUrls[indexNum]);
             usedEndpointsType.push(endpointTypes[indexNum]);
+            usedQuery.push(sparqlFiles[indexNum]);
           }
         }
 
@@ -209,7 +206,7 @@ async function run() {
             endpointType:
               usedEndpointsType[ix] === "sparql" ? "sparql" : "search", // guard
             endpointUrl: usedEndpointsUrl[ix],
-            queryFile: sparqlFiles[ix],
+            queryFile: usedQuery[ix],
           })
         );
 
@@ -243,30 +240,25 @@ async function run() {
               );
             }
           } else if (bundle.endpointType === "sparql") {
-            if (bundle.queryFile != "") {
+            if (bundle.queryFile != undefined) {
               const queryWithoutTerm: string = fs.readFileSync(
                 bundle.queryFile,
                 "utf8"
               );
-              const query = (term: string) => queryWithoutTerm;
+              const query: string = replaceAll(queryWithoutTerm, "\\${term}", bundle.searchTerm);
               const sparqlSuggested = await sparqlSuggestions(
                 bundle.category,
                 bundle.searchTerm,
                 bundle.endpointUrl,
                 // Jana: Needs to be a string with the query and the search term
-                query(bundle.searchTerm)
+                query
               );
               // adding the results for the current searchTerm and category for the current endpoint
               results = results.concat(sparqlSuggested);
-
               // Log query
               if (argv.verbose >= 2) {
-                console.log(query(bundle.searchTerm));
+                console.log(query);
               }
-            } else {
-              throw Error(
-                "ERROR\n\nNo query has been specified."
-              );
             }
           } else {
             throw new Error(`${bundle.endpointType}`);
@@ -293,7 +285,6 @@ async function run() {
                 "--------------------------------------------------------------"
               );
               console.log(
-                // Jana: Add query?
                 `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
               );
             }
@@ -342,3 +333,8 @@ process.on("unhandledRejection", (reason, p) => {
   console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
   process.exit(1);
 });
+
+function replaceAll(str: string, find: string, replace: string) {
+	return str.replace(new RegExp(find, 'g'), replace);
+}
+
