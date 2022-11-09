@@ -1,8 +1,9 @@
 // Defines the shape of the SPARQL recommendations.
-export interface SparqlResult {
-  iri: string;
-  description: string;
-}
+// export interface SparqlResult {
+//   iri: string;
+// }
+
+import { Result } from "./elasticsearch";
 
 // SPARQL query that is used to get the search results for classes.
 export const CLASS_SEARCH_SPARQL_QUERY = (
@@ -121,7 +122,7 @@ export async function sparqlSuggestions(
 
   if (result.ok) {
     const json: any = await result.json();
-    const sparqlResults: SparqlResult[] = [];
+    const sparqlResults: Result[] = [];
     for (let row of json) {
       const rowResults: any = {};
       for (const key of Object.keys(row)) {
@@ -131,7 +132,10 @@ export async function sparqlSuggestions(
       }
       sparqlResults.push(rowResults);
     }
-    return sparqlResults;
+    // Return the result in a nice format (sparqlResults)
+    // and the json object itself. 
+    //The json object will be used to return information from the configured queries. 
+    return [sparqlResults, json];
   } else {
     throw Error("Fetching the URL returned bad results.");
   }

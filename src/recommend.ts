@@ -55,6 +55,7 @@ if (
 const confFile = fs.readFileSync(file, "utf8");
 const jsonConfFile = JSON.parse(confFile);
 const defaultEndpointName = jsonConfFile.defaultEndpoint;
+const defaultQuery = jsonConfFile.defaultQuery;
 const endpoints = jsonConfFile.endpoints;
 const endpointNamesFromConfig = Object.keys(endpoints);
 const endpointUrls: string[] = [];
@@ -127,7 +128,9 @@ async function run() {
     console.log(`The available endpoints are:\n${endpointNamesFromConfig}`);
     return;
   }
-
+  
+  // sparqlSuggested has global scope because it is needed to display the results correctly.
+  var sparqlSuggested: any
   if (argv.searchTerm) {
     //  Ensure all elements of array are strings
     const searchTerms: string[] = argv.searchTerm.map((term) =>
@@ -210,7 +213,6 @@ async function run() {
           })
         );
 
-        // Jana: Add query string
         const returnedObjects: {
           searchTerm: string;
           category: string;
@@ -218,8 +220,14 @@ async function run() {
           results: Result[];
         }[] = []; // the final object containing all returnObjects
 
+        interface Output {
+          result: Result[],
+          endpointType: string,
+        }
+
         // loop over each bundle (searchTerm, category) to find the results with the given endpoints
         for (const bundle of bundled) {
+          let outputs: Output[] = [];
           let results: Result[] = [];
 
           // search for results
@@ -230,6 +238,7 @@ async function run() {
               bundle.endpointUrl
             );
             results = results.concat(elasticSuggested);
+            outputs = outputs.concat({result: elasticSuggested, endpointType: "search"})
 
             // Log query if verbose level 2
             if (argv.verbose >= 2) {
@@ -246,7 +255,7 @@ async function run() {
                 "utf8"
               );
               const query: string = replaceAll(queryWithoutTerm, "\\${term}", bundle.searchTerm);
-              const sparqlSuggested = await sparqlSuggestions(
+              sparqlSuggested = await sparqlSuggestions(
                 bundle.category,
                 bundle.searchTerm,
                 bundle.endpointUrl,
@@ -254,18 +263,43 @@ async function run() {
                 query
               );
               // adding the results for the current searchTerm and category for the current endpoint
-              results = results.concat(sparqlSuggested);
+              results = results.concat(sparqlSuggested[0]);
+              outputs = outputs.concat({result: sparqlSuggested[0], endpointType: "sparql"})
+
               // Log query
               if (argv.verbose >= 2) {
                 console.log(query);
               }
+            } else {
+              console.error(
+                `(!) No SPARQL query has been provided, using the default query: ${defaultQuery} (!)`
+                );
+                const queryWithoutTerm: string = fs.readFileSync(
+                  defaultQuery,
+                  "utf8"
+                );
+                const query: string = replaceAll(queryWithoutTerm, "\\${term}", bundle.searchTerm);
+                sparqlSuggested = await sparqlSuggestions(
+                  bundle.category,
+                  bundle.searchTerm,
+                  bundle.endpointUrl,
+                  // Jana: Needs to be a string with the query and the search term
+                  query
+                );
+                // adding the results for the current searchTerm and category for the current endpoint
+                results = results.concat(sparqlSuggested[0]);
+                outputs = outputs.concat({result: sparqlSuggested[0], endpointType: "sparql"})
+
+                // Log query
+                if (argv.verbose >= 2) {
+                  console.log(query);
+                }
             }
           } else {
             throw new Error(`${bundle.endpointType}`);
           }
 
           // object containing the results of the current searchTerm and category for all searched endpoints
-          // Jana: Add used query
           const returnObject: {
             searchTerm: string;
             category: string;
@@ -289,15 +323,34 @@ async function run() {
               );
             }
 
-            for (const result of results) {
-              if (result.description) {
-                console.log(
-                  `${result.iri}\nDescription: ${result.description}\n`
-                );
-              } else {
-                console.log(`${result.iri}\n`);
+            // Concatenate the output string
+            for (const output of outputs){
+              for (const outResult of output.result) {
+                let outputString: string = `\n${outResult.iri}\n`
+
+                // Concatenate the output for Elasticsearch queries
+                if (output.endpointType === 'search'){
+                  if (outResult.description) {
+                    outputString += `Description: ${outResult.description}\n`
+                  }
+                } else {
+                  // Concatenate the output for configured SPARQL queries
+                  for (const row of sparqlSuggested[1]){
+                    if (row['iri'] === outResult.iri) {
+                      for (const key of Object.keys(row)) {
+                        if (key != 'iri' && row[key] != null) {
+                          outputString += `${key}: ${row[key]}\n`
+                        }
+                      }
+                    }
+                  }
+                }
+                console.log(outputString)
               }
             }
+
+
+
           }
           if (argv.format == "json") {
             console.log(JSON.stringify(returnedObjects, null, "\t"));
