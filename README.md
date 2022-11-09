@@ -32,7 +32,7 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender. The file is found in the home directory in the *vocabulary_recommender* folder (use `cd ~/vocabulary_recommender` to go to the folder). 
+**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
 
 The configuration file has the following format:
 ```JSON
@@ -63,6 +63,9 @@ You can open the folder that contains the configuration file in your GUI with th
 **Windows:**  
 `start ~/vocabulary_recommender`  
 &nbsp;
+
+You can also use `cd ~/vocabulary_recommender` to navigate to the folder in your terminal. 
+
 
 -------------------
 ## Output as JSON
