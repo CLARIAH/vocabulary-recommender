@@ -55,15 +55,18 @@ if (
 const confFile = fs.readFileSync(file, "utf8");
 const jsonConfFile = JSON.parse(confFile);
 const defaultEndpointName = jsonConfFile.defaultEndpoint;
-const defaultQuery = jsonConfFile.defaultQuery;
+const defaultQueryClass = jsonConfFile.defaultQueryClass;
+const defaultQueryProp = jsonConfFile.defaultQueryProperty;
 const endpoints = jsonConfFile.endpoints;
 const endpointNamesFromConfig = Object.keys(endpoints);
 const endpointUrls: string[] = [];
 const endpointTypes: string[] = [];
+// List containing the names of the files where the configured queries are stored.
 const sparqlFiles: string[] = [];
 endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
 endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
-endpointNamesFromConfig.forEach((i) => sparqlFiles.push(endpoints[i].query));
+// Make a decision between queryClass and queryProperty
+endpointNamesFromConfig.forEach((i) => sparqlFiles.push(endpoints[i].defaultQueryClass));
 
 // Bundle interface used for corresponding searchTerm and category
 interface Bundle {
@@ -139,6 +142,7 @@ async function run() {
     if (argv.category) {
       //  Ensure all elements of array are strings
       const categories: string[] = argv.category.map((term) => term.toString());
+      console.log(`test: ${categories}`)
       // check if searchterms and categories are same number
       if (searchTerms.length === categories.length) {
         // if no endpoints were provided, use the default for each search term
@@ -272,10 +276,12 @@ async function run() {
               }
             } else {
               console.error(
-                `(!) No SPARQL query has been provided, using the default query: ${defaultQuery} (!)`
+                //Jana: Make decision between class and property
+                `(!) No SPARQL query has been provided, using the default query: ${defaultQueryClass} (!)`
                 );
                 const queryWithoutTerm: string = fs.readFileSync(
-                  defaultQuery,
+                  //Jana: Make decision between class and property
+                  defaultQueryClass,
                   "utf8"
                 );
                 const query: string = replaceAll(queryWithoutTerm, "\\${term}", bundle.searchTerm);
