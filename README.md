@@ -8,7 +8,7 @@ The vocabulary recommender CLI provides a recommendation interface which returns
 3. Run `yarn recommend` to run the JavaScript code. 
 > Run `yarn recommend --help` to see which arguments can be specified.
 
-> An example query would look as follows: `yarn recommend -t person -c class`
+> An example query looks as follows: `yarn recommend -t person -c class`
 > 
 &nbsp;
 
@@ -20,9 +20,9 @@ New to yarn? The instructions to download yarn can be found [[here](https://clas
 The npm package can be installed with:  
 `yarn add vocabulary-recommender` or `npm i vocabulary-recommender`  
 
-The command `vocabulary-recommender <input arguments>` ONLY works from any directory in terminal when this package is installed **GLOBALLY**!
+The command `vocabulary-recommender <input arguments>` only works from any directory in terminal when this package is installed globally!
 
-> **_NOTE:_**: For safety reasons, it's **NOT** recommended to install npm packages globally!  
+> **_NOTE:_**: For safety reasons, it is **NOT** recommended to install npm packages globally!  
 > But if you wish to have easier access and have a true CLI experience, this can be done with the command:  
 `yarn global add vocabulary-recommender`  
 > Otherwise, just change directory (cd) to the location where the package was installed. 
@@ -32,30 +32,30 @@ The command `vocabulary-recommender <input arguments>` ONLY works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** the endpoint configuration file is generated on first run from the object in `recommend.ts`,  creating the endpoint configuration file. The file is found in the home directory in the *Vocabualry_recommender* folder (use `cd ~/vocabulary_recommender` to go to the folder). 
+**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender. The file is found in the home directory in the *vocabulary_recommender* folder (use `cd ~/vocabulary_recommender` to go to the folder). 
 
 The configuration file has the following format:
 ```JSON
 {
-  defaultEndpoint: "nameOfDefaultEndpoint",
+  defaultEndpoint: "defaultkey",
   endpoints: {
-    "nameOfDefaultEndpoint": {
+    "defaultkey": {
       type: "elasticsearch",
-      url: "https://api.urlOfEndpoint.nl/",
+      url: "https://api.endpoint.nl/",
     },
-    "otherEndpointName": {
+    "otherkey": {
       type: "sparql",
-      url: "https://api.urlOfEndpoint.nl/sparql",
+      url: "https://api.endpoint.nl/sparql",
     },
   },
 } 
 ```
 
 
-In the configuration file `vocabulary-recommender.json`, a default endpoint can be set (from the key name of the endpoint), and endpoints can be specified, providing the endpoint's key **name**, with the key **url** and the key **type** of the endpoint.
+In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
 
 
-You can open this folder in your GUI with terminal with the following command:  
+You can open the folder that contains the configuration file in your GUI with the following terminal command:  
 **Linux:**  
 `nautilus ~/vocabulary_recommender`  
 **Mac:**  
