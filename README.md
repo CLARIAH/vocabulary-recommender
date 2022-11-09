@@ -32,7 +32,7 @@ The command `vocabulary-recommender <input arguments>` ONLY works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** the endpoint configuration file is generated on first run from the object in `recommend.ts`,  creating the endpoint configuration file. The file is found in the home directory in the *Vocabualry_recommender* folder (use `cd ~/Vocabulary_recommender` to go to the folder). 
+**Endpoint Configuration:** the endpoint configuration file is generated on first run from the object in `recommend.ts`,  creating the endpoint configuration file. The file is found in the home directory in the *Vocabualry_recommender* folder (use `cd ~/vocabulary_recommender` to go to the folder). 
 
 The configuration file has the following format:
 ```JSON
@@ -52,16 +52,16 @@ The configuration file has the following format:
 ```
 
 
-In the configuration file `.vocabulary-recommender.json`, a default endpoint can be set (from the key name of the endpoint), and endpoints can be specified, providing the endpoint's key **name**, with the key **url** and the key **type** of the endpoint.
+In the configuration file `vocabulary-recommender.json`, a default endpoint can be set (from the key name of the endpoint), and endpoints can be specified, providing the endpoint's key **name**, with the key **url** and the key **type** of the endpoint.
 
 
 You can open this folder in your GUI with terminal with the following command:  
 **Linux:**  
-`nautilus ~/vocabulary-recommender`  
+`nautilus ~/vocabulary_recommender`  
 **Mac:**  
-`open ~/vocabulary-recommender`  
+`open ~/vocabulary_recommender`  
 **Windows:**  
-`start ~/vocabulary-recommender`  
+`start ~/vocabulary_recommender`  
 &nbsp;
 
 -------------------

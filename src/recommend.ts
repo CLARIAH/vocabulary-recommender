@@ -33,17 +33,17 @@ const endpointConfigurationObject = {
   },
 } 
 const userHomeDir = homedir()
-const vocaDir = path.resolve(userHomeDir, "Vocabulary_recommender")
-const endpointConfigFile = path.resolve(vocaDir, '.vocabulary-recommender.json')
+const vocaDir = path.resolve(userHomeDir, "vocabulary_recommender")
+const endpointConfigFile = path.resolve(vocaDir, 'vocabulary-recommender.json')
 
 try{
   if (!fs.existsSync(vocaDir)) {
-    console.error("'Vocabulary_recommender' folder not found in home directory, creating folder...")
+    console.error("'vocabulary_recommender' folder not found in home directory, creating folder...")
     fs.mkdirSync(path.resolve(vocaDir))
     console.error(`Folder generated in: ${vocaDir}`)
   } 
   if (!fs.existsSync(endpointConfigFile)) {
-    console.error("Endpoint configuration file '.vocabulary-recommender.json' is not found in the '~/Vocabulary_recommender' folder, creating endpoint configuration file...")
+    console.error("Endpoint configuration file 'vocabulary-recommender.json' is not found in the '~/vocabulary_recommender' folder, creating endpoint configuration file...")
     const configObject = JSON.stringify(endpointConfigurationObject) 
     fs.writeFileSync(endpointConfigFile, configObject)
     console.error(`File generated in: ${endpointConfigFile}`)
