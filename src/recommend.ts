@@ -17,7 +17,7 @@ let usedQuery: string[] = [];
 // Turn endpoint config file into a list of endpoints and:
 // concatenate with given CLI argv endpoints if they are not the default endpoints
 
-const endpointConfigurationObject = {
+export const endpointConfigurationObject = {
   defaultEndpoint: "druid-recommend",
   endpoints: {
     "druid-recommend": {
