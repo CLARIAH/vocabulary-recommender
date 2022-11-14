@@ -18,8 +18,8 @@ let usedQuery: QueryFiles[] = [];
 // concatenate with given CLI argv endpoints if they are not the default endpoints
 export const endpointConfigurationObject = {
   defaultEndpoint: "druid-recommend",
-  defaultQueryClass: "defaultClass.rq",
-  defaultQueryProperty: "defaultProperty.rq",
+  defaultQueryClass: "./queries/defaultClass.rq",
+  defaultQueryProperty: "./queries/defaultProperty.rq",
   endpoints: {
     "druid-recommend": {
       type: "elasticsearch",

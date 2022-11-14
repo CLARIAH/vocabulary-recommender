@@ -1,5 +1,5 @@
 yarn run v1.22.19
-$ node ./dist/recommend.js -t Person knows -c class class -e nde
+$ node ./dist/recommend.js -t Person -c class -e nde
 
 http://www.cidoc-crm.org/cidoc-crm/E21_Person
 label: Person
@@ -53,12 +53,4 @@ score: 1
 http://www.loc.gov/premis/rdf/v3/Person
 score: 1
 
-
-http://xmlns.com/foaf/0.1/knows
-Description: A person known by this person (indicating some level of reciprocated interaction between the parties).
-
-
-https://schema.org/knows
-Description: The most generic bi-directional social/work relation.
-
-Done in 0.24s.
+Done in 0.17s.
