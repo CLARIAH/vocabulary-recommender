@@ -7,7 +7,7 @@ import {
   assignElasticQuery,
   elasticSuggestions,
 } from "./elasticsearch";
-import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
+import { sparqlSuggestions } from "./sparql";
 import { Output, Result, Bundle, QueryFiles } from "./interfaces";
 import yargs from "yargs/yargs";
 import _, { StringIterator } from "lodash";
