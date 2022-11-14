@@ -35,7 +35,7 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 **Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
 
 The configuration file has the following format:
-```JSON
+```js
 {
   defaultEndpoint: "defaultkey",
   defaultQueryClass: "defaultQueryClass.rq",
