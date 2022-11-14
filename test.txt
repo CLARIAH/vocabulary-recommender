@@ -1,26 +1,24 @@
 yarn run v1.22.19
-$ node ./dist/recommend.js -t Person -c class -e nde
-[ 'defaultClass.rq', 'defaultClass.rq', 'defaultClass.rq' ]
-test: class
+$ node ./dist/recommend.js -t Person knows -c class class -e nde
 
 http://www.cidoc-crm.org/cidoc-crm/E21_Person
 label: Person
 description: This class comprises real persons who live or are assumed to have lived. 
 Legendary figures that may have existed, such as Ulysses and King Arthur, fall into this class if the documentation refers to them as historical figures. In cases where doubt exists as to whether several persons are in fact identical, multiple instances can be created and linked to indicate their relationship. The CRM does not propose a specific form to support reasoning about possible identity.
 
-score: 5
+score: 4.8
 
 
 https://w3id.org/pnv#Person
 label: Person
 description: A Person is a human being whose individual existence can somehow be documented
-score: 4
+score: 3.8
 
 
 https://schema.org/Person
 label: Person
 description: A person (alive, dead, undead, or fictional).
-score: 3
+score: 2.8
 
 
 https://w3id.org/pnv#PersonName
@@ -33,56 +31,34 @@ label: Juristische Person
 description: This class comprises institutions or groups of people that have obtained a legal recognition as a group and can act collectively as agents.  
 This means that they can perform actions, own property, create or destroy things and can be held collectively responsible for their actions like individual people. The term 'personne morale' is often used for this in French. 
 
-score: 2
+score: 1.8
 
 
-https://schema.org/FollowAction
-description: The act of forming a personal connection with someone/something (object) unidirectionally/asymmetrically to get updates polled from.<br/><br/>
-
-Related actions:<br/><br/>
-
-<ul>
-<li><a class="localLink" href="https://schema.org/BefriendAction">BefriendAction</a>: Unlike BefriendAction, FollowAction implies that the connection is <em>not</em> necessarily reciprocal.</li>
-<li><a class="localLink" href="https://schema.org/SubscribeAction">SubscribeAction</a>: Unlike SubscribeAction, FollowAction implies that the follower acts as an active agent constantly/actively polling for updates.</li>
-<li><a class="localLink" href="https://schema.org/RegisterAction">RegisterAction</a>: Unlike RegisterAction, FollowAction implies that the agent is interested in continuing receiving updates from the object.</li>
-<li><a class="localLink" href="https://schema.org/JoinAction">JoinAction</a>: Unlike JoinAction, FollowAction implies that the agent is interested in getting updates from the object.</li>
-<li><a class="localLink" href="https://schema.org/TrackAction">TrackAction</a>: Unlike TrackAction, FollowAction refers to the polling of updates of all aspects of animate objects rather than the location of inanimate objects (e.g. you track a package, but you don't follow it).</li>
-</ul>
-
+http://schema.org/Person
 score: 1
 
 
-http://www.cidoc-crm.org/cidoc-crm/E74_Group
-description: This class comprises any gatherings or organizations of E39 Actors that act collectively or in a similar way due to any form of unifying relationship. In the wider sense this class also comprises official positions which used to be regarded in certain contexts as one actor, independent of the current holder of the office, such as the president of a country. In such cases, it may happen that the Group never had more than one member. A joint pseudonym (i.e., a name that seems indicative of an individual but that is actually used as a persona by two or more people) is a particular case of E74 Group.
-A gathering of people becomes an E74 Group when it exhibits organizational characteristics usually typified by a set of ideas or beliefs held in common, or actions performed together. These might be communication, creating some common artifact, a common purpose such as study, worship, business, sports, etc. Nationality can be modeled as membership in an E74 Group (cf. HumanML markup). Married couples and other concepts of family are regarded as particular examples of E74 Group.
-
+http://xmlns.com/foaf/0.1/Person
 score: 1
 
 
-http://www.cidoc-crm.org/cidoc-crm/E17_Type_Assignment
-description: This class comprises the actions of classifying items of whatever kind. Such items include objects, specimens, people, actions and concepts. 
-This class allows for the documentation of the context of classification acts in cases where the value of the classification depends on the personal opinion of the classifier, and the date that the classification was made. This class also encompasses the notion of "determination," i.e. the systematic and molecular identification of a specimen in biology. 
-
+http://dbpedia.org/ontology/Person
 score: 1
 
 
-https://schema.org/BusinessEntityType
-description: A business entity type is a conceptual entity representing the legal form, the size, the main line of business, the position in the value chain, or any combination thereof, of an organization or business person.<br/><br/>
-
-Commonly used values:<br/><br/>
-
-<ul>
-<li>http://purl.org/goodrelations/v1#Business</li>
-<li>http://purl.org/goodrelations/v1#Enduser</li>
-<li>http://purl.org/goodrelations/v1#PublicInstitution</li>
-<li>http://purl.org/goodrelations/v1#Reseller</li>
-</ul>
-
+http://www.cidoc-crm.org/cidoc-crm/E21_person
 score: 1
 
 
-https://schema.org/UnitPriceSpecification
-description: The price asked for a given offer by the respective organization or person.
+http://www.loc.gov/premis/rdf/v3/Person
 score: 1
 
-Done in 0.16s.
+
+http://xmlns.com/foaf/0.1/knows
+Description: A person known by this person (indicating some level of reciprocated interaction between the parties).
+
+
+https://schema.org/knows
+Description: The most generic bi-directional social/work relation.
+
+Done in 0.27s.

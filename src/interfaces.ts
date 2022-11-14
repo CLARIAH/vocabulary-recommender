@@ -18,6 +18,11 @@ export interface Result {
   description?: string;
 }
 
+export interface QueryFiles {
+    class: string;
+    property: string;
+}
+
 // Defines the shape of a hit.
 export interface ShardHit {
   _id: string;
