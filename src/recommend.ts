@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import fs, { mkdir } from "fs"
-import { homedir } from "os"
 
 import path from "path"
 import {
@@ -32,21 +31,21 @@ const endpointConfigurationObject = {
     },
   },
 } 
-const userHomeDir = homedir()
-const vocaDir = path.resolve(userHomeDir, "vocabulary_recommender")
+
+const vocaDir = path.resolve( "vocabulary_recommender")
 const endpointConfigFile = path.resolve(vocaDir, 'vocabulary-recommender.json')
 
 try{
   if (!fs.existsSync(vocaDir)) {
-    console.error("'vocabulary_recommender' folder not found in home directory, creating folder...")
+    console.error("'vocabulary_recommender' folder not found in current working directory, creating folder...")
     fs.mkdirSync(path.resolve(vocaDir))
     console.error(`Folder generated in: ${vocaDir}`)
   } 
   if (!fs.existsSync(endpointConfigFile)) {
-    console.error("Endpoint configuration file 'vocabulary-recommender.json' is not found in the '~/vocabulary_recommender' folder, creating endpoint configuration file...")
-    const configObject = JSON.stringify(endpointConfigurationObject) 
+    console.error("Endpoint configuration file 'vocabulary-recommender.json' is not found in the '/vocabulary_recommender' folder, creating endpoint configuration file...")
+    const configObject = JSON.stringify(endpointConfigurationObject, null, '\t') 
     fs.writeFileSync(endpointConfigFile, configObject)
-    console.error(`File generated in: ${endpointConfigFile}`)
+    console.error(`File generated in: ${endpointConfigFile}\n`)
   }
 } catch(err){
   console.error(err)
@@ -115,7 +114,7 @@ async function run() {
     endpoints: {
       alias: "i",
       count: true,
-      describe: "Displays all available endpoint names",
+      describe: "Displays all available endpoint names and location of the configuration file",
     },
     help: {
       alias:"h"
@@ -123,7 +122,7 @@ async function run() {
   }).argv 
 
   if (argv.endpoints > 0) {
-    console.log(`The default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
+    console.log(`Endpoint configuration file: ${endpointConfigFile}\n\nThe default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
     \nThe available endpoints and their types are:\n`)
     for (let index in endpointNamesFromConfig){
       console.log(`Key Name: \x1b[36m${endpointNamesFromConfig[index]}\x1b[0m\n  -Type: ${endpointTypes[index]}\n  -URL: ${endpointUrls[index]}\n`)

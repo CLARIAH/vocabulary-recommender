@@ -12,7 +12,7 @@ The vocabulary recommender CLI provides a recommendation interface which returns
 > 
 &nbsp;
 
-New to yarn? The instructions to download yarn can be found [[here](https://classic.yarnpkg.com/lang/en/docs/install/)]
+New to yarn? The instructions to download and install yarn can be found ([here](https://yarnpkg.com/getting-started/install)). 
 
 &nbsp;
 
@@ -22,7 +22,7 @@ The npm package can be installed with:
 
 The command `vocabulary-recommender <input arguments>` only works from any directory in terminal when this package is installed globally!
 
-> **_NOTE:_**: For safety reasons, it is **NOT** recommended to install npm packages globally!  
+> **_NOTE_**: For safety reasons, it is **NOT** recommended to install npm packages globally!  
 > But if you wish to have easier access and have a true CLI experience, this can be done with the command:  
 `yarn global add vocabulary-recommender`  
 > Otherwise, just change directory (cd) to the location where the package was installed. 
@@ -32,7 +32,9 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
+**Endpoint Configuration:** 
+
+The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the <ins>current working directory</ins> in the ***'vocabulary_recommender'*** folder (use terminal command `pwd` to see the working directory). 
 
 The configuration file has the following format:
 ```JSON
@@ -53,19 +55,6 @@ The configuration file has the following format:
 
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
-
-
-You can open the folder that contains the configuration file in your GUI with the following terminal command:  
-**Linux:**  
-`nautilus ~/vocabulary_recommender`  
-**Mac:**  
-`open ~/vocabulary_recommender`  
-**Windows:**  
-`start ~/vocabulary_recommender`  
-&nbsp;
-
-You can also use `cd ~/vocabulary_recommender` to navigate to the folder in your terminal. 
-
 
 -------------------
 ## Output as JSON

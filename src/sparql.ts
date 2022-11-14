@@ -1,3 +1,5 @@
+import fetch from 'node-fetch'
+
 // Defines the shape of the SPARQL recommendations.
 export interface SparqlResult {
   iri: string;
@@ -110,7 +112,6 @@ export async function sparqlSuggestions(
   const query = assignSparqlQuery(category);
   const request = new URL(endpoint);
   request.search = `query=${encodeURI(query(term))}`;
-  const fetch = require("node-fetch");
 
   const result = await fetch(request.toString(), {
     method: "GET",

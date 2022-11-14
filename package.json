@@ -30,6 +30,10 @@
   },
   "main": "dist/recommend.js",
   "bin": "dist/recommend.js",
+  "bin":{
+    "recommend":"dist/recommend.js",
+    "vocabulary-recommend":"dist/recommend.js"
+  },
   "types": "dist/recommend.d.ts",
   "scripts": {
     "build": "tsc",
@@ -38,8 +42,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "node-fetch": "^2.6.7",
-    "vocabulary-recommender": "^1.0.3",
+    "node-fetch": "2",
+    "vocabulary-recommender": "^1.0.4",
     "yargs": "^17.5.1"
   },
   "description": "A generic linked data vocabulary recommender library that provides recommendation functions for various backends.",
