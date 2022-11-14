@@ -4,11 +4,11 @@ import { homedir } from "os";
 import path from "path";
 
 import {
-  Result,
   assignElasticQuery,
   elasticSuggestions,
 } from "./elasticsearch";
 import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
+import { Output, Result, Bundle } from "./interfaces";
 import yargs from "yargs/yargs";
 import _ from "lodash";
 
@@ -69,15 +69,6 @@ endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
 endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 // Make a decision between queryClass and queryProperty
 endpointNamesFromConfig.forEach((i) => sparqlFiles.push(defaultQueryClass));
-
-// Bundle interface used for corresponding searchTerm and category
-interface Bundle {
-  searchTerm: string;
-  category: string;
-  endpointType: "sparql" | "search";
-  endpointUrl: string;
-  queryFile: string;
-}
 
 if (defaultEndpointName === "") {
   throw new Error(
@@ -229,11 +220,6 @@ async function run() {
           endpoint: string;
           results: Result[];
         }[] = []; // the final object containing all returnObjects
-
-        interface Output {
-          result: Result[],
-          endpointType: string,
-        }
 
         // loop over each bundle (searchTerm, category) to find the results with the given endpoints
         for (const bundle of bundled) {

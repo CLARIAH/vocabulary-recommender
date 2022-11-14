@@ -3,7 +3,7 @@
 //   iri: string;
 // }
 
-import { Result } from "./elasticsearch";
+import { Result } from "./interfaces";
 
 // SPARQL query that is used to get the search results for classes.
 export const CLASS_SEARCH_SPARQL_QUERY = (
