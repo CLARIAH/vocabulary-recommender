@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 import fs, { mkdir } from "fs";
+import { homedir } from "os";
+import path from "path";
+
 import {
   Result,
   assignElasticQuery,
@@ -31,28 +34,27 @@ export const endpointConfigurationObject = {
     },
   },
 };
+const userHomeDir = homedir()
+const vocaDir = path.resolve(userHomeDir, "vocabulary_recommender")
+const endpointConfigFile = path.resolve(vocaDir, 'vocabulary-recommender.json')
 
-var file = ".vocabulary-recommender.json";
-
-if (
-  !fs.existsSync(file) &&
-  !fs.existsSync("~/Vocabulary_recommender/.vocabulary-recommender.json")
-) {
-  const configObject = JSON.stringify(endpointConfigurationObject);
-  fs.mkdirSync("~/Vocabulary_recommender");
-  fs.writeFileSync(
-    "~/Vocabulary_recommender/.vocabulary-recommender.json",
-    configObject
-  );
-  file = "~/Vocabulary_recommender/.vocabulary-recommender.json";
-} else if (
-  !fs.existsSync(file) &&
-  fs.existsSync("~/Vocabulary_recommender/.vocabulary-recommender.json")
-) {
-  file = "~/Vocabulary_recommender/.vocabulary-recommender.json";
+try{
+  if (!fs.existsSync(vocaDir)) {
+    console.error("'vocabulary_recommender' folder not found in home directory, creating folder...")
+    fs.mkdirSync(path.resolve(vocaDir))
+    console.error(`Folder generated in: ${vocaDir}`)
+  } 
+  if (!fs.existsSync(endpointConfigFile)) {
+    console.error("Endpoint configuration file 'vocabulary-recommender.json' is not found in the '~/vocabulary_recommender' folder, creating endpoint configuration file...")
+    const configObject = JSON.stringify(endpointConfigurationObject) 
+    fs.writeFileSync(endpointConfigFile, configObject)
+    console.error(`File generated in: ${endpointConfigFile}`)
+  }
+} catch(err){
+  console.error(err)
 }
 
-const confFile = fs.readFileSync(file, "utf8");
+const confFile = fs.readFileSync(endpointConfigFile, "utf8") 
 const jsonConfFile = JSON.parse(confFile);
 const defaultEndpointName = jsonConfFile.defaultEndpoint;
 const defaultQueryClass = jsonConfFile.defaultQueryClass;
@@ -66,7 +68,7 @@ const sparqlFiles: string[] = [];
 endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
 endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 // Make a decision between queryClass and queryProperty
-endpointNamesFromConfig.forEach((i) => sparqlFiles.push(endpoints[i].defaultQueryClass));
+endpointNamesFromConfig.forEach((i) => sparqlFiles.push(defaultQueryClass));
 
 // Bundle interface used for corresponding searchTerm and category
 interface Bundle {
@@ -128,8 +130,12 @@ async function run() {
   }).argv;
 
   if (argv.endpoints > 0) {
-    console.log(`The available endpoints are:\n${endpointNamesFromConfig}`);
-    return;
+    console.log(`The default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
+    \nThe available endpoints and their types are:\n`)
+    for (let index in endpointNamesFromConfig){
+      console.log(`Key Name: \x1b[36m${endpointNamesFromConfig[index]}\x1b[0m\n  -Type: ${endpointTypes[index]}\n  -URL: ${endpointUrls[index]}\n`)
+    }
+    return 
   }
   
   // sparqlSuggested has global scope because it is needed to display the results correctly.
