@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs, { mkdir } from "fs";
+import fs from "fs";
 import { homedir } from "os";
 import path from "path";
 
@@ -7,7 +7,7 @@ import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { Output, Result, Bundle, QueryFiles } from "./interfaces";
 import yargs from "yargs/yargs";
-import _, { StringIterator } from "lodash";
+import _ from "lodash";
 
 // These lists store the information about the endpoints that should be used to create the bundle
 let usedEndpointsType: string[] = [];
@@ -29,6 +29,7 @@ export const endpointConfigurationObject = {
       type: "sparql",
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
     },
+    // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
   },
 };
 // Get the configuration file from the users home directory

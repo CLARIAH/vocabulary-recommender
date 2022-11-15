@@ -35,7 +35,7 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 **Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
 
 The configuration file has the following format:
-```js
+```json
 {
   defaultEndpoint: "defaultkey",
   defaultQueryClass: "defaultQueryClass.rq",
@@ -58,7 +58,8 @@ The configuration file has the following format:
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
 
-When using SPARQL endpoints two default SPARQL queries can be assigned, the **defaultQueryClass** and the **defaultQueryProperty**. It is also possible to provide configured SPARQL queries **queryClass** and **queryProperty** for each SPARQL endpoint. The query corresponding to the set category (**class** / **property**) is selected automatically. The SPARQL queries should be stored in a rq-file and should contain the searchterm in the following schema:
+**SPARQL Query Configuration:**  
+When using SPARQL endpoints two default SPARQL queries can be assigned to retrieve classes or properties, the **defaultQueryClass** and the **defaultQueryProperty**. For SPARQL endpoints, it is also possible to specify specific configured SPARQL queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
 
 ```sql
 select ?iri ?desc where {
