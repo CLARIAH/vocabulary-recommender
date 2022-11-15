@@ -19,7 +19,7 @@ let usedQuery: QueryFiles[] = [];
 export const endpointConfigurationObject = {
   defaultEndpoint: "druid-recommend",
   defaultQueryClass: "./queries/defaultClass.rq",
-  defaultQueryProperty: "./queries/defaultProperty.rq",
+  defaultQueryProperty:"./queries/defaultProperty.rq",
   endpoints: {
     "druid-recommend": {
       type: "elasticsearch",
@@ -125,6 +125,14 @@ for (const end of endpointNamesFromConfig) {
 if (defaultEndpointName === "") {
   throw new Error(
     `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
+  );
+} else if (defaultQueryClass === ( undefined || "" )) {
+  throw new Error(
+    `ERROR\n\nNo query for defaultQueryClass provided in config file. Please add a defaultQueryClass from: ${endpointNamesFromConfig}`
+  );
+} else if (defaultQueryProp === ( undefined || "" )) {
+  throw new Error(
+    `ERROR\n\nNo query for defaultQueryProp provided in config file. Please add a defaultQueryProp from: ${endpointNamesFromConfig}`
   );
 }
 
