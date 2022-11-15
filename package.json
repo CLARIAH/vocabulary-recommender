@@ -29,10 +29,9 @@
     "typescript": "*"
   },
   "main": "dist/recommend.js",
-  "bin": "dist/recommend.js",
-  "bin":{
-    "recommend":"dist/recommend.js",
-    "vocabulary-recommend":"dist/recommend.js"
+  "bin": {
+    "recommend": "dist/recommend.js",
+    "vocabulary-recommend": "dist/recommend.js"
   },
   "types": "dist/recommend.d.ts",
   "scripts": {
@@ -41,6 +40,7 @@
     "recommend": "node ./dist/recommend.js"
   },
   "dependencies": {
+    "cross-fetch": "^3.1.5",
     "lodash": "^4.17.21",
     "node-fetch": "2",
     "vocabulary-recommender": "^1.0.4",

@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import fetch from 'cross-fetch'
 
 // Defines the shape of a hit.
 interface ShardHit {
