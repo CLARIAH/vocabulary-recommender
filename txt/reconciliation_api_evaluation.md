@@ -58,8 +58,7 @@ The API has 5 contributors to the repository, and is still active. Most recent v
 The API is adopted by a number of service endpoints such as Wikidata (https://reconciliation-api.github.io/testbench/#/). Some of these endpoints work as a service in the test bench (Wikidata’s) and others do not. 
 
 
-<!-- ### **Evaluation Matrix**
-
+<!-- ### **Evaluation Matrix** (Disregarded for reason given below)
 |   |  No Reconciliation API | Reconciliation API + SPARQL/ElasticSearch  | Only Reconciliation API  |
 |:---|---|---|---|
 | **Configurability**  |  ++ | -  | --  |
@@ -70,7 +69,7 @@ The API is adopted by a number of service endpoints such as Wikidata (https://re
 
 # Overview & evaluation
 
-The Reconciliation Service API (RSA) is an API (proposal) that unifies the input and output, it does not replace/substitute SPARQL or ES backends, instead it needs such a backends to operate. For this reason, the Evaulation Matrix has been disregarded.
+The Reconciliation Service API (RSA) is an API (proposal) that unifies the input and output, it does not replace/substitute SPARQL or ES backends, instead it needs such a backends to operate. 
 
 The NDE made a SPARQL implementation for RSA, see this [link](https://github.com/netwerk-digitaal-erfgoed/network-of-terms/tree/master/packages/network-of-terms-reconciliation).
 

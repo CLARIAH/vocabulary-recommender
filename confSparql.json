@@ -1,7 +1,0 @@
-{
-    "defaultEndpoint":"property_query",
-    "queries":{
-        "property_query":"${PREDICATE_SEARCH_SPARQL_QUERY}",
-        "class_query":"${CLASS_SEARCH_SPARQL_QUERY}"
-    }
-}

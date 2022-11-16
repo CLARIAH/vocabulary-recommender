@@ -12,7 +12,7 @@ The vocabulary recommender CLI provides a recommendation interface which returns
 > 
 &nbsp;
 
-New to yarn? The instructions to download yarn can be found [[here](https://classic.yarnpkg.com/lang/en/docs/install/)]
+New to yarn? The instructions to download and install yarn can be found ([here](https://yarnpkg.com/getting-started/install)). 
 
 &nbsp;
 
@@ -22,7 +22,7 @@ The npm package can be installed with:
 
 The command `vocabulary-recommender <input arguments>` only works from any directory in terminal when this package is installed globally!
 
-> **_NOTE:_**: For safety reasons, it is **NOT** recommended to install npm packages globally!  
+> **_NOTE_**: For safety reasons, it is **NOT** recommended to install npm packages globally!  
 > But if you wish to have easier access and have a true CLI experience, this can be done with the command:  
 `yarn global add vocabulary-recommender`  
 > Otherwise, just change directory (cd) to the location where the package was installed. 

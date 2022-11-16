@@ -9,7 +9,7 @@
 
 "@types/node-fetch@^2.6.2":
   version "2.6.2"
-  resolved "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.6.2.tgz"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.2.tgz#d1a9c5fd049d9415dce61571557104dec3ec81da"
   integrity sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==
   dependencies:
     "@types/node" "*"
@@ -77,6 +77,13 @@ combined-stream@^1.0.8:
   dependencies:
     delayed-stream "~1.0.0"
 
+cross-fetch@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
+  dependencies:
+    node-fetch "2.6.7"
+
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
@@ -128,7 +135,7 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.52.0"
 
-node-fetch@^2.6.7:
+node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -166,13 +173,14 @@ typescript@*:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.8.4.tgz"
   integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
-vocabulary-recommender@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/vocabulary-recommender/-/vocabulary-recommender-1.0.3.tgz#451e26a89dca13979c99786a75ed6194741d63d1"
-  integrity sha512-Xl0h5cJBpxa6ILumW6BamclR/u9lvS2BJvIKwSnX5el9w2CLWtT8OUA71qXXSP3d59qU8pLDuzUzcB0ecjGFBg==
+vocabulary-recommender@^1.0.3, vocabulary-recommender@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/vocabulary-recommender/-/vocabulary-recommender-1.0.4.tgz"
+  integrity sha512-35wyP/AHkcJ/TIKAEGcezZ64Ik0Za4XugCb7//hcIwC1PepGDRNoym8CY0PQ3k2OLHTClPmJrqZmX6n5v3cKPg==
   dependencies:
     lodash "^4.17.21"
     node-fetch "^2.6.7"
+    vocabulary-recommender "^1.0.3"
     yargs "^17.5.1"
 
 webidl-conversions@^3.0.0:

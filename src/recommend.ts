@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs from "fs";
+import fs, { mkdir } from "fs";
 import { homedir } from "os";
 import path from "path";
 
@@ -25,7 +25,7 @@ export const endpointConfigurationObject = {
       type: "elasticsearch",
       url: "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search",
     },
-    nde: {
+    "nde": {
       type: "sparql",
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
       queryClass: "./queries/confSparql.rq"
@@ -33,30 +33,24 @@ export const endpointConfigurationObject = {
     // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
   },
 };
-// Get the configuration file from the users home directory
-const userHomeDir = homedir();
-const vocaDir = path.resolve(userHomeDir, "vocabulary_recommender");
-const endpointConfigFile = path.resolve(vocaDir, "vocabulary-recommender.json");
 
-// Generate config directory containing a configuration file with default endpoints if there is no configuration file.
-try {
+const vocaDir = path.resolve( "vocabulary_recommender")
+const endpointConfigFile = path.resolve(vocaDir, 'vocabulary-recommender.json')
+
+try{
   if (!fs.existsSync(vocaDir)) {
-    console.error(
-      "'vocabulary_recommender' folder not found in home directory, creating folder..."
-    );
-    fs.mkdirSync(path.resolve(vocaDir));
-    console.error(`Folder generated in: ${vocaDir}`);
-  }
+    console.error("'vocabulary_recommender' folder not found in current working directory, creating folder...")
+    fs.mkdirSync(path.resolve(vocaDir))
+    console.error(`Folder generated in: ${vocaDir}`)
+  } 
   if (!fs.existsSync(endpointConfigFile)) {
-    console.error(
-      "Endpoint configuration file 'vocabulary-recommender.json' is not found in the '~/vocabulary_recommender' folder, creating endpoint configuration file..."
-    );
-    const configObject = JSON.stringify(endpointConfigurationObject);
-    fs.writeFileSync(endpointConfigFile, configObject);
-    console.error(`File generated in: ${endpointConfigFile}`);
+    console.error("Endpoint configuration file 'vocabulary-recommender.json' is not found in the '/vocabulary_recommender' folder, creating endpoint configuration file...")
+    const configObject = JSON.stringify(endpointConfigurationObject, null, '\t') 
+    fs.writeFileSync(endpointConfigFile, configObject)
+    console.error(`File generated in: ${endpointConfigFile}\n`)
   }
-} catch (err) {
-  console.error(err);
+} catch(err){
+  console.error(err)
 }
 
 // Read content of the configuration file.
@@ -173,7 +167,7 @@ async function run() {
     endpoints: {
       alias: "i",
       count: true,
-      describe: "Displays all available endpoint names",
+      describe: "Displays all available endpoint names and location of the configuration file",
     },
     help: {
       alias: "h",
@@ -182,14 +176,12 @@ async function run() {
 
   // Log information about the configured endpoints.
   if (argv.endpoints > 0) {
-    console.log(`The default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
-    \nThe available endpoints and their types are:\n`);
-    for (let index in endpointNamesFromConfig) {
-      console.log(
-        `Key Name: \x1b[36m${endpointNamesFromConfig[index]}\x1b[0m\n  -Type: ${endpointTypes[index]}\n  -URL: ${endpointUrls[index]}\n`
-      );
+    console.log(`Endpoint configuration file: ${endpointConfigFile}\n\nThe default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
+    \nThe available endpoints and their types are:\n`)
+    for (let index in endpointNamesFromConfig){
+      console.log(`Key Name: \x1b[36m${endpointNamesFromConfig[index]}\x1b[0m\n  -Type: ${endpointTypes[index]}\n  -URL: ${endpointUrls[index]}\n`)
     }
-    return;
+    return 
   }
 
   // sparqlSuggested has global scope because it is needed to display the results correctly.
@@ -198,7 +190,7 @@ async function run() {
     //  Ensure all elements of array are strings
     const searchTerms: string[] = argv.searchTerm.map((term) =>
       term.toString()
-    );
+    ) 
     if (argv.category) {
       //  Ensure all elements of array are strings
       const categories: string[] = argv.category.map((term) => term.toString());
@@ -256,11 +248,11 @@ async function run() {
           if (argv.endpoint.length > argv.searchTerm.length) {
             throw Error(
               "ERROR\n\nThere were more endpoints provided than search terms in the input, please provide the same number of endpoints as search terms"
-            );
+            ) 
           }
           console.error(
             `Number of given search terms (${argv.searchTerm?.length}) and endpoints (${argv.endpoint.length}) don\'t match\n\nDefault endpoints were added to match the amount of arguments.`
-          );
+          ) 
           while (usedEndpointsUrl.length !== argv.searchTerm?.length) {
             let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
             // Assign the information of the defaultEndpoint that should be used later to search in the vocabularies.
@@ -342,7 +334,7 @@ async function run() {
                 JSON.stringify(
                   assignElasticQuery(bundle.category, bundle.searchTerm)
                 )
-              );
+              ) 
             }
           } else if (bundle.endpointType === "sparql") {
             // Read the file containing the default or configured SPARQL query.
@@ -375,32 +367,32 @@ async function run() {
               console.log(query);
             }
           } else {
-            throw new Error(`${bundle.endpointType}`);
+            throw new Error(`${bundle.endpointType}`) 
           }
 
           // object containing the results of the current searchTerm and category for all searched endpoints
           const returnObject: {
-            searchTerm: string;
-            category: string;
-            endpoint: string;
-            results: Result[];
+            searchTerm: string 
+            category: string 
+            endpoint: string 
+            results: Result[] 
           } = {
             searchTerm: bundle.searchTerm,
             category: bundle.category,
             endpoint: bundle.endpointUrl,
             results,
-          };
-          returnedObjects.push(returnObject);
+          } 
+          returnedObjects.push(returnObject) 
 
           // Log results
           if (argv.format === "text") {
             if (argv.verbose >= 1) {
               console.log(
                 "--------------------------------------------------------------"
-              );
+              ) 
               console.log(
                 `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-              );
+              ) 
             }
 
             // Concatenate the output string
@@ -430,35 +422,35 @@ async function run() {
             }
           }
           if (argv.format == "json") {
-            console.log(JSON.stringify(returnedObjects, null, "\t"));
+            console.log(JSON.stringify(returnedObjects, null, "\t")) 
           }
         }
       } else {
         throw Error(
           `ERROR\n\nInput array length for searchTerm (${argv.searchTerm.length}) and category (${argv.category.length}) is not identical, please provide inputs with the same amount of arguments.`
-        );
+        ) 
       }
     } else {
       throw Error(
-        'ERROR\n\nNo categories were provided as input argument, please provide a category with: "-c <category>".\nUse "-h" or "--help" for more information.'
-      );
+        'ERROR\n\nNo categories were provided as input argument, please provide a category with: "-c <category>".\nAn example input argument: "-t person -c class"\nUse "-h" or "--help" for more information.'
+      ) 
     }
   } else {
     throw Error(
-      'ERROR\n\nNo search terms were provided as input argument, please provide a search term with: "-t <search term>".\nUse "-h" or "--help" for more information.'
-    );
+      'ERROR\n\nNo search terms were provided as input argument, please provide a search term with: "-t <search term>".\nAn example input argument: "-t person -c class"\nUse "-h" or "--help" for more information.'
+    ) 
   }
 }
 
 // Start recommender
 run().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+  console.error(e.message) 
+  process.exit(1) 
+}) 
 process.on("uncaughtException", function (err) {
-  console.error("Uncaught exception", err);
-  process.exit(1);
-});
+  console.error("Uncaught exception", err) 
+  process.exit(1) 
+}) 
 process.on("unhandledRejection", (reason, p) => {
   console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
   process.exit(1);

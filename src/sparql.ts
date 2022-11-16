@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch'
+
 // Defines the shape of the SPARQL recommendations.
 // export interface SparqlResult {
 //   iri: string;
@@ -21,7 +23,6 @@ export async function sparqlSuggestions(
 ) {
   const request = new URL(endpoint);
   request.search = `query=${encodeURI(query)}`;
-  const fetch = require("node-fetch");
 
   const result = await fetch(request.toString(), {
     method: "GET",

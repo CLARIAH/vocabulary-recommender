@@ -1,4 +1,5 @@
 import { Result, ShardHit, ShardResponse } from "./interfaces"
+import fetch from 'cross-fetch'
 
 /**
  * Assigns the Elasticsearch query according to the given category.
@@ -121,7 +122,6 @@ export async function elasticSuggestions(
   const searchObject = assignElasticQuery(category, term);
 
   // Due to version conflict since v3 isn't compatible with current version of ES
-  const fetch = require("node-fetch");
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
