@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch'
+import { Result } from "./interfaces"
 
 // Defines the shape of a hit.
 interface ShardHit {
@@ -15,12 +16,6 @@ interface ShardResponse {
   hits: {
     hits: ShardHit[];
   };
-}
-
-// Defines the shape of the Elasticsearch recommendations.
-export interface Result {
-  iri: string;
-  description?: string;
 }
 
 /**

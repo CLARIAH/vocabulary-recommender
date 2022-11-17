@@ -28,16 +28,16 @@
     "@types/yargs": "^17.0.12",
     "typescript": "*"
   },
-  "main": "dist/recommend.js",
+  "main": "dist/cli.js",
   "bin": {
-    "recommend": "dist/recommend.js",
-    "vocabulary-recommend": "dist/recommend.js"
+    "recommend": "dist/cli.js",
+    "vocabulary-recommend": "dist/cli.js"
   },
   "types": "dist/recommend.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "recommend": "node ./dist/recommend.js"
+    "recommend": "node ./dist/cli.js"
   },
   "dependencies": {
     "cross-fetch": "^3.1.5",
