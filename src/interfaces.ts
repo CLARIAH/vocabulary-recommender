@@ -50,8 +50,6 @@ export interface Endpoint {
 export interface Conf {
     file: string,
     defaultEndpoint: Endpoint,
-    defaultQueryClass: string,
-    defaultQueryProp: string,
     endpointNames: string[],
     endpointTypes: string[],
     endpointUrls: string[],

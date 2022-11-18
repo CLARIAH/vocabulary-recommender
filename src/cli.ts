@@ -159,8 +159,6 @@ function getConfiguration(): Conf {
       type: defaultEndpointName.type,
       url: defaultEndpointName.url,
     },
-    defaultQueryClass: defaultQueryClass,
-    defaultQueryProp: defaultQueryProp,
     endpointNames: endpointNamesFromConfig,
     endpointTypes: endpointTypes,
     endpointUrls: endpointUrls,
