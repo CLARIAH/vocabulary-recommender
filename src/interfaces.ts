@@ -53,7 +53,7 @@ export interface Conf {
     endpointNames: string[],
     endpointTypes: string[],
     endpointUrls: string[],
-    queryFiles: QueryFiles[]
+    queries: QueryFiles[]
 }
 
 // Defines the output of the recommender function

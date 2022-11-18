@@ -94,49 +94,18 @@ function getConfiguration(): Conf {
   // List containing the names of the files where the configured and default queries are stored.
   const sparqlFiles: QueryFiles[] = [];
   for (const end of endpointNamesFromConfig) {
-    // Elasticsearch endpoint -> Do not assign SPARQL queries.
-    if (endpoints[end].type === "search") {
-      sparqlFiles.push({ class: "", property: "" });
-    } else {
-      // SPARQL endpoint + class query and property query are defined
-      if (
-        endpoints[end].queryClass != undefined &&
-        endpoints[end].queryProperty != undefined
-      ) {
-        sparqlFiles.push({
-          class: endpoints[end].queryClass,
-          property: endpoints[end].queryProperty,
-        });
-        // SPARQL endpoint + class query is defined
-      } else if (
-        endpoints[end].queryClass != undefined &&
-        endpoints[end].queryProperty === undefined
-      ) {
-        sparqlFiles.push({
-          class: endpoints[end].queryClass,
-          property: defaultQueryProp,
-        });
-        // SPARQL endpoint + property query is defined
-      } else if (
-        endpoints[end].queryClass === undefined &&
-        endpoints[end].queryProperty != undefined
-      ) {
-        sparqlFiles.push({
-          class: defaultQueryClass,
-          property: endpoints[end].queryProperty,
-        });
-        // SPARQL endpoint + neither class query or property query are defined
-      } else if (
-        endpoints[end].queryClass === undefined &&
-        endpoints[end].queryProperty === undefined
-      ) {
-        sparqlFiles.push({
-          class: defaultQueryClass,
-          property: defaultQueryProp,
-        });
-      }
-    }
+    sparqlFiles.push(assignQueryFile(endpoints[end], defaultQueryClass, defaultQueryProp))
   }
+
+  const sparqlQueries: QueryFiles[] = []
+  for (const queryFile of sparqlFiles) {
+    sparqlQueries.push({
+      class: fs.readFileSync(path.resolve(queryFile.class), "utf8"),
+      property: fs.readFileSync(path.resolve(queryFile.property), "utf8")
+    })
+  }
+
+  const defaultQueryFiles = assignQueryFile(endpoints[defaultEndpointName], defaultQueryClass, defaultQueryProp)
 
   if (defaultEndpointName === "") {
     throw new Error(
@@ -156,14 +125,70 @@ function getConfiguration(): Conf {
     file: endpointConfigFile,
     defaultEndpoint: {
       name: defaultEndpointName,
-      type: defaultEndpointName.type,
-      url: defaultEndpointName.url,
+      type: endpoints[defaultEndpointName].type,
+      url: endpoints[defaultEndpointName].url,
+      queryClass: fs.readFileSync(path.resolve(defaultQueryFiles.class), "utf8"),
+      queryProperty: fs.readFileSync(path.resolve(defaultQueryFiles.property), "utf8")
     },
     endpointNames: endpointNamesFromConfig,
     endpointTypes: endpointTypes,
     endpointUrls: endpointUrls,
-    queryFiles: sparqlFiles
+    queries: sparqlQueries
   };
+}
+
+function assignQueryFile(
+  endpoint: Endpoint,
+  defaultQueryClass: string,
+  defaultQueryProp: string
+): QueryFiles {
+  let queryFile: QueryFiles = {
+    class: "",
+    property: ""
+  }
+    // Elasticsearch endpoint -> Do not assign SPARQL queries.
+    if (endpoint.type === "search") {
+      queryFile = { class: "", property: "" };
+    } else {
+      // SPARQL endpoint + class query and property query are defined
+      if (
+        endpoint.queryClass != undefined &&
+        endpoint.queryProperty != undefined
+      ) {
+        queryFile = {
+          class: endpoint.queryClass,
+          property: endpoint.queryProperty,
+        };
+        // SPARQL endpoint + class query is defined
+      } else if (
+        endpoint.queryClass != undefined &&
+        endpoint.queryProperty === undefined
+      ) {
+        queryFile = {
+          class: endpoint.queryClass,
+          property: defaultQueryProp,
+        };
+        // SPARQL endpoint + property query is defined
+      } else if (
+        endpoint.queryClass === undefined &&
+        endpoint.queryProperty != undefined
+      ) {
+        queryFile = {
+          class: defaultQueryClass,
+          property: endpoint.queryProperty,
+        };
+        // SPARQL endpoint + neither class query or property query are defined
+      } else if (
+        endpoint.queryClass === undefined &&
+        endpoint.queryProperty === undefined
+      ) {
+        queryFile = {
+          class: defaultQueryClass,
+          property: defaultQueryProp,
+        };
+      }
+  }
+  return queryFile
 }
 
 // Returns the cli arguments
@@ -237,16 +262,14 @@ async function configureInput() {
         for (const i in argv.endpoint) {
           let included: Boolean = false;
           for (const confIX in conf.endpointNames) {
-            if (conf.endpointNames[confIX] === argv.endpoint[i]) {
-              const queries: QueryFiles = await assignSparqlQuery(conf.queryFiles[confIX])
-              
+            if (conf.endpointNames[confIX] === argv.endpoint[i]) {              
               // Add the endpoint to the input
               input.endpoints.push({
                 name: conf.endpointNames[confIX],
                 type: conf.endpointTypes[confIX],
                 url: conf.endpointUrls[confIX],
-                queryClass: queries.class,
-                queryProperty: queries.property
+                queryClass: conf.queries[confIX].class,
+                queryProperty: conf.queries[confIX].property
               });
               included = true;
             }
@@ -262,14 +285,6 @@ async function configureInput() {
     }
   }
   return input;
-}
-
-// Function that reads the query files
-async function assignSparqlQuery( queryFile: QueryFiles ): Promise<QueryFiles> {
-  return {
-    class: fs.readFileSync(path.resolve(queryFile.class), "utf8"),
-    property: fs.readFileSync(path.resolve(queryFile.property), "utf8")
-  }
 }
 
 // Logs the results
