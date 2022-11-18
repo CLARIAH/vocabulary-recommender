@@ -12,14 +12,16 @@ export interface Bundle {
     category: string 
     endpointType: "sparql" | "search" 
     endpointUrl: string 
+    query: string
 }
 
 // Combines the corresponding searchTerm, category and endpoint to one list of results.
 export interface ReturnObject {
     searchTerm: string 
     category: string 
-    endpoint: string 
+    endpoint: Endpoint 
     results: Result[] 
+    addInfo: any
 }
 
 // Defines the shape of the Elasticsearch recommendations.
@@ -29,29 +31,57 @@ export interface Result {
 }
 
 // Defines the endpoints that should be used for the search
-export interface EndpointLists {
+export interface UsedEndpoints {
     types: string[]
-    urls: string[]
+    urls: string[],
+    queries: QueryFiles[]
 }
 
 // Defines the shape of an endpoint
 export interface Endpoint {
-    name: string,
+    name?: string,
     type: string,
-    url: string
+    url: string,
+    queryClass?: string,
+    queryProperty?: string
 }
 
 // Defines the shape of a configured object
 export interface Conf {
     file: string,
     defaultEndpoint: Endpoint,
+    defaultQueryClass: string,
+    defaultQueryProp: string,
     endpointNames: string[],
     endpointTypes: string[],
-    endpointUrls: string[]
+    endpointUrls: string[],
+    queryFiles: QueryFiles[]
 }
 
 // Defines the output of the recommender function
 export interface Recommended {
     resultObj: ReturnObject[],
     bundled: Bundle[],
+}
+
+export interface QueryFiles {
+    class: string;
+    property: string;
+}
+
+// Defines the shape of a hit.
+export interface ShardHit {
+  _id: string;
+  _source: {
+    "http://www w3 org/2000/01/rdf-schema#comment"?: string[];
+    "http://www w3 org/2004/02/skos/core#definition"?: string[];
+  };
+}
+
+// Defines the shape of the fetched object in elasticSuggestions().
+export interface ShardResponse {
+  timed_out: boolean;
+  hits: {
+    hits: ShardHit[];
+  };
 }

@@ -2,3 +2,4 @@ node_modules
 dist
 vocabulary_recommender
 test.txt
+.vscode/settings.json

@@ -3,24 +3,27 @@ import fs, { mkdir } from "fs";
 
 import path from "path";
 import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
-import { assignSparqlQuery, sparqlSuggestions } from "./sparql";
-import { recommend, createBundleList } from "./recommend";
+import { sparqlSuggestions } from "./sparql";
+import { recommend, createBundleList, replaceAll } from "./recommend";
 import yargs from "yargs/yargs";
 import _ from "lodash";
 import {
   Arguments,
   ReturnObject,
   Endpoint,
-  EndpointLists,
+  UsedEndpoints,
   Bundle,
   Result,
   Conf,
+  QueryFiles,
 } from "./interfaces";
 
 // Creates a configuration object if no configuration file is provided
 function createDefaultConfiguration() {
   return {
     defaultEndpoint: "druid-recommend",
+    defaultQueryClass: "./queries/defaultClass.rq",
+    defaultQueryProperty: "./queries/defaultProperty.rq",
     endpoints: {
       "druid-recommend": {
         type: "elasticsearch",
@@ -29,7 +32,9 @@ function createDefaultConfiguration() {
       nde: {
         type: "sparql",
         url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+        queryClass: "./queries/confSparql.rq",
       },
+      // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
     },
   };
 }
@@ -77,6 +82,8 @@ function getConfiguration(): Conf {
   const confFile = fs.readFileSync(endpointConfigFile, "utf8");
   const jsonConfFile = JSON.parse(confFile);
   const defaultEndpointName = jsonConfFile.defaultEndpoint;
+  const defaultQueryClass = jsonConfFile.defaultQueryClass;
+  const defaultQueryProp = jsonConfFile.defaultQueryProperty;
   const endpoints = jsonConfFile.endpoints;
   const endpointNamesFromConfig = Object.keys(endpoints);
   const endpointUrls: string[] = [];
@@ -84,9 +91,64 @@ function getConfiguration(): Conf {
   endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
   endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 
+  // List containing the names of the files where the configured and default queries are stored.
+  const sparqlFiles: QueryFiles[] = [];
+  for (const end of endpointNamesFromConfig) {
+    // Elasticsearch endpoint -> Do not assign SPARQL queries.
+    if (endpoints[end].type === "search") {
+      sparqlFiles.push({ class: "", property: "" });
+    } else {
+      // SPARQL endpoint + class query and property query are defined
+      if (
+        endpoints[end].queryClass != undefined &&
+        endpoints[end].queryProperty != undefined
+      ) {
+        sparqlFiles.push({
+          class: endpoints[end].queryClass,
+          property: endpoints[end].queryProperty,
+        });
+        // SPARQL endpoint + class query is defined
+      } else if (
+        endpoints[end].queryClass != undefined &&
+        endpoints[end].queryProperty === undefined
+      ) {
+        sparqlFiles.push({
+          class: endpoints[end].queryClass,
+          property: defaultQueryProp,
+        });
+        // SPARQL endpoint + property query is defined
+      } else if (
+        endpoints[end].queryClass === undefined &&
+        endpoints[end].queryProperty != undefined
+      ) {
+        sparqlFiles.push({
+          class: defaultQueryClass,
+          property: endpoints[end].queryProperty,
+        });
+        // SPARQL endpoint + neither class query or property query are defined
+      } else if (
+        endpoints[end].queryClass === undefined &&
+        endpoints[end].queryProperty === undefined
+      ) {
+        sparqlFiles.push({
+          class: defaultQueryClass,
+          property: defaultQueryProp,
+        });
+      }
+    }
+  }
+
   if (defaultEndpointName === "") {
     throw new Error(
       `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
+    );
+  } else if (defaultQueryClass === ( undefined || "" )) {
+    throw new Error(
+      `ERROR\n\nNo query for defaultQueryClass provided in config file. Please add a defaultQueryClass from: ${endpointNamesFromConfig}`
+    );
+  } else if (defaultQueryProp === ( undefined || "" )) {
+    throw new Error(
+      `ERROR\n\nNo query for defaultQueryProp provided in config file. Please add a defaultQueryProp from: ${endpointNamesFromConfig}`
     );
   }
 
@@ -97,15 +159,18 @@ function getConfiguration(): Conf {
       type: defaultEndpointName.type,
       url: defaultEndpointName.url,
     },
+    defaultQueryClass: defaultQueryClass,
+    defaultQueryProp: defaultQueryProp,
     endpointNames: endpointNamesFromConfig,
     endpointTypes: endpointTypes,
     endpointUrls: endpointUrls,
+    queryFiles: sparqlFiles
   };
 }
 
 // Returns the cli arguments
 async function cli() {
-  // Specifies which endpoints can be used for the search 
+  // Specifies which endpoints can be used for the search
   const endpointNamesFromConfig = getConfiguration().endpointNames;
 
   return await yargs(process.argv.slice(2)).options({
@@ -156,8 +221,8 @@ async function configureInput() {
   const input: Arguments = {
     searchTerms: [],
     categories: [],
-    endpoints: [],
-    defaultEndpoint: { name: "", type: "", url: "" },
+    endpoints: [], 
+    defaultEndpoint: { name: "", type: "", url: "", queryClass: "", queryProperty: "" },
   };
   const argv = await cli();
 
@@ -175,11 +240,15 @@ async function configureInput() {
           let included: Boolean = false;
           for (const confIX in conf.endpointNames) {
             if (conf.endpointNames[confIX] === argv.endpoint[i]) {
+              const queries: QueryFiles = await assignSparqlQuery(conf.queryFiles[confIX])
+              
               // Add the endpoint to the input
               input.endpoints.push({
                 name: conf.endpointNames[confIX],
                 type: conf.endpointTypes[confIX],
                 url: conf.endpointUrls[confIX],
+                queryClass: queries.class,
+                queryProperty: queries.property
               });
               included = true;
             }
@@ -195,6 +264,14 @@ async function configureInput() {
     }
   }
   return input;
+}
+
+// Function that reads the query files
+async function assignSparqlQuery( queryFile: QueryFiles ): Promise<QueryFiles> {
+  return {
+    class: fs.readFileSync(path.resolve(queryFile.class), "utf8"),
+    property: fs.readFileSync(path.resolve(queryFile.property), "utf8")
+  }
 }
 
 // Logs the results
@@ -214,10 +291,10 @@ async function run() {
   }
 
   const input = await configureInput();
-  /** recommend contains 
+  /** recommend contains
    * the resultObj with the recommendations
    * the bundled search inputs
-  */ 
+   */
   const recommended = await recommend(input);
   // Log the search inputs
   for (const bundle of recommended.bundled) {
@@ -229,7 +306,7 @@ async function run() {
         );
       } else {
         console.error(
-          JSON.stringify(assignSparqlQuery(bundle.category)(bundle.searchTerm))
+          replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
         );
       }
     }
@@ -250,11 +327,23 @@ async function run() {
   if (argv.format === "text") {
     for (const returnObj of recommended.resultObj) {
       for (const result of returnObj.results) {
-        if (result.description) {
-          console.log(`${result.iri}\nDescription: ${result.description}\n`);
+        let outputString: string = `\n${result.iri}\n`;
+        if ( returnObj.endpoint.type === "search" ) {
+          if (result.description) {
+            outputString += `Description: ${result.description}\n`
+          } 
         } else {
-          console.log(`${result.iri}\n`);
+          for (const row of returnObj.addInfo) {
+            if (row["iri"] === result.iri) {
+              for (const key of Object.keys(row)) {
+                if (key != "iri" && row[key] != null) {
+                  outputString += `${key}: ${row[key]}\n`;
+                }
+              }
+            }
+          }
         }
+        console.log(outputString)
       }
     }
   }

@@ -2,10 +2,11 @@ import {
   Arguments,
   ReturnObject,
   Endpoint,
-  EndpointLists,
+  UsedEndpoints,
   Bundle,
   Result,
-  Recommended
+  Recommended,
+  QueryFiles
 } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
@@ -25,32 +26,34 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
   const returnedObjects: ReturnObject[] = [];
 
   // endpointInfo contains the list of endpoint types and endpoint urls that will be used for querying
-  const endpointInfo: EndpointLists = await endpoints(
+  const endpointInfo: UsedEndpoints = await endpoints(
     argv.endpoints,
     argv.defaultEndpoint,
     argv.searchTerms,
     argv.categories
   );
 
-  // bundled combines the corresponding searchTerm, category, endpoint type and endpoint url
+  // bundled combines the corresponding searchTerm, category, endpoint type, endpoint url and the queries
   const bundled: Bundle[] = createBundleList(
     argv.searchTerms,
     argv.categories,
     endpointInfo
   );
 
-  // returnObject containes the current result for a bundle
+  // returnObject contains the current result for a bundle
   let returnObject: ReturnObject = { 
     searchTerm: '',
     category: '',
-    endpoint: '',
-    results: []
+    endpoint: { type: "", url: "" },
+    results: [],
+    addInfo: {}
   }
 
   // Get the suggestions
   for (const bundle of bundled) {
     // results contains the query results
     let results: Result[] = [];
+    let addInfo: any
 
     // search for results
     if (bundle.endpointType === "search") {
@@ -60,11 +63,15 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
         bundle.endpointUrl
       );
     } else if (bundle.endpointType === "sparql") {
-      results = await sparqlSuggestions(
+      const query = replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
+      const sparqlSuggested = await sparqlSuggestions(
         bundle.category,
         bundle.searchTerm,
-        bundle.endpointUrl
+        bundle.endpointUrl,
+        query 
       );
+      results = sparqlSuggested[0]
+      addInfo = sparqlSuggested[1]
     } else {
       throw new Error(`${bundle.endpointType}`);
     }
@@ -72,8 +79,9 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     returnObject = {
       searchTerm: bundle.searchTerm,
       category: bundle.category,
-      endpoint: bundle.endpointUrl,
+      endpoint: { type: bundle.endpointType, url: bundle.endpointUrl },
       results: results,
+      addInfo: addInfo
     };
     returnedObjects.push(returnObject);
   }
@@ -90,8 +98,8 @@ export function endpoints(
   defaultEndpoint: Endpoint,
   searchTerms: string[],
   categories: string[]
-): EndpointLists {
-  const endpointLists: EndpointLists = { types: [], urls: [] };
+): UsedEndpoints {
+  const endpointLists: UsedEndpoints = { types: [], urls: [], queries: [] };
 
   // check if amount of searchterms and categories is the same
   if (searchTerms.length === categories.length) {
@@ -103,6 +111,10 @@ export function endpoints(
       for (const i in searchTerms) {
         endpointLists.types.push(defaultEndpoint.type);
         endpointLists.urls.push(defaultEndpoint.url);
+        endpointLists.queries.push({
+          class: defaultEndpoint.queryClass ? defaultEndpoint.queryClass : "" ,
+          property: defaultEndpoint.queryProperty ? defaultEndpoint.queryProperty : "",
+        });
       }
     }
     // if endpoints were provided
@@ -121,10 +133,18 @@ export function endpoints(
         for (const endpoint of endpoints) {
           endpointLists.types.push(endpoint.type);
           endpointLists.urls.push(endpoint.url);
+          endpointLists.queries.push({
+            class: endpoint.queryClass ? endpoint.queryClass : "" ,
+            property: endpoint.queryProperty ? endpoint.queryProperty : "",
+          })
         }
         while (endpointLists.urls.length !== searchTerms?.length) {
           endpointLists.types.push(defaultEndpoint.type);
           endpointLists.urls.push(defaultEndpoint.url);
+          endpointLists.queries.push({
+            class: defaultEndpoint.queryClass ? defaultEndpoint.queryClass : "" ,
+            property: defaultEndpoint.queryProperty ? defaultEndpoint.queryProperty : "",
+          });
         }
       }
     }
@@ -132,20 +152,38 @@ export function endpoints(
   return endpointLists;
 }
 
+ 
+
 // Helpers function to make the List of Bundles
 export function createBundleList(
   searchTerms: string[],
   categories: string[],
-  endpointInfo: EndpointLists
+  endpointInfo: UsedEndpoints
 ): Bundle[] {
   const bundled: Bundle[] = [];
-  searchTerms.forEach((value, ix) =>
-    bundled.push({
-      searchTerm: value,
-      category: categories[ix],
-      endpointType: endpointInfo.types[ix] === "sparql" ? "sparql" : "search", // guard
-      endpointUrl: endpointInfo.urls[ix],
-    })
-  );
+
+  for ( const i in searchTerms ){
+    const bundle: Bundle = {
+      searchTerm: searchTerms[i],
+      category: categories[i],
+      endpointType: endpointInfo.types[i] === "sparql" ? "sparql" : "search",
+      endpointUrl: endpointInfo.urls[i],
+      query: ""
+    }
+
+    if ( bundle.category === "class") {
+      bundle.query = endpointInfo.queries[i].class
+    } else {
+      bundle.query = endpointInfo.queries[i].property
+    }
+
+    bundled.push(bundle)
+  }
+
   return bundled;
+}
+
+// Help function to fill in the searchterm in the SPARQL queries.
+export function replaceAll(str: string, find: string, replace: string) {
+  return str.replace(new RegExp(find, "g"), replace);
 }

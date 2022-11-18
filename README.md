@@ -32,14 +32,14 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** 
-
-The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the <ins>current working directory</ins> in the ***'vocabulary_recommender'*** folder (use terminal command `pwd` to see the working directory). 
+**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
 
 The configuration file has the following format:
-```JSON
+```json
 {
   defaultEndpoint: "defaultkey",
+  defaultQueryClass: "defaultQueryClass.rq",
+  defaultQueryProperty: "defaultQueryProperty.rq",
   endpoints: {
     "defaultkey": {
       type: "elasticsearch",
@@ -48,6 +48,8 @@ The configuration file has the following format:
     "otherkey": {
       type: "sparql",
       url: "https://api.endpoint.nl/sparql",
+      queryClass: "configuredQueryClass.rq",
+      queryProperty: "configuredQueryProperty.rq",
     },
   },
 } 
@@ -55,6 +57,31 @@ The configuration file has the following format:
 
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
+
+**SPARQL Query Configuration:**  
+When using SPARQL endpoints two default SPARQL queries can be assigned to retrieve classes or properties, the **defaultQueryClass** and the **defaultQueryProperty**. For SPARQL endpoints, it is also possible to specify specific configured SPARQL queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
+
+```sql
+select ?iri ?desc where {
+    filter(regex(str(?iri),'${term}','i'))
+    ?iri dct:description ?desc .
+}   
+```
+
+The results return the same information that the SPARQL query returns. Therefore, the example would return the iri and the description. 
+
+
+You can open the folder that contains the configuration file in your GUI with the following terminal command:  
+**Linux:**  
+`nautilus ~/vocabulary_recommender`  
+**Mac:**  
+`open ~/vocabulary_recommender`  
+**Windows:**  
+`start ~/vocabulary_recommender`  
+&nbsp;
+
+You can also use `cd ~/vocabulary_recommender` to navigate to the folder in your terminal. 
+
 
 -------------------
 ## Output as JSON

@@ -1,0 +1,38 @@
+prefix owl: <http://www.w3.org/2002/07/owl#>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  select distinct ?iri ?description {
+    {
+      # Support both OWL and RDF properties.
+      {
+        ?iri a owl:DatatypeProperty.
+      } union {
+        ?iri a owl:ObjectProperty.
+      } union {
+        ?iri a rdf:Property.
+      }
+      ?iri
+        rdfs:comment ?description;
+        rdfs:label ?label.
+      # Prefer classes that match with the search term.
+      filter(
+        regex(str(?description), "${term}", "i") ||
+        # Sometimes IRIs contain substring that can be used to filter.
+        regex(str(?iri), "${term}", "i") ||
+        regex(str(?label), "${term}", "i"))
+    } union {
+      # Since the above regex match is relatively crude,
+      # also return a tail of arbitrary properties.
+      {
+        ?iri a rdf:Property.
+      } union {
+        ?iri a owl:DatatypeProperty.
+      } union {
+        ?iri a owl:ObjectProperty.
+      }
+      ?iri
+        rdfs:comment ?description;
+        rdfs:label ?label.
+    }
+  }
+  limit 10

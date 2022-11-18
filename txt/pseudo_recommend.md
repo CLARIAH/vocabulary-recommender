@@ -6,7 +6,7 @@ Input:
 argv: Arguments -> Interface
     -> list of searchTerms
     -> list of categories
-    -> list of endpoints: [{ name, type, url }]
+    -> list of endpoints: [{ name, type, url, queryClass?, queryProp? }]
     -> default endpoint
 
 Output:
@@ -15,7 +15,7 @@ returnedObjects: ReturnObject[]
         -> searchTerm
         -> category
         -> endpoint
-        -> Result: { iri, optional: additional information }
+        -> Result[]: [{ iri, optional: additional information },{},..]
 
 If the same amount of searchTerms and categories are given...
     ... and no endpoints are provided: use default endpoint
@@ -29,9 +29,10 @@ bundled: Bundle[]
         -> category
         -> endpoint type (= search/sparql)
         -> endpoint url
+        -> endpoint query
 
 For each bundle of bundled:
-    Call the functions sparqlSuggested(category, searchTerm, endpointUrl) or elasticSuggested(category, searchTerm, endpointUrl) according to the endpoint type.
+    Call the functions sparqlSuggested(category, searchTerm, endpointUrl, query) or elasticSuggested(category, searchTerm, endpointUrl) according to the endpoint type.
     results: Store the results in a list of Results
     returnObject: ReturnObject
         -> searchTerm: bundle.searchTerm
