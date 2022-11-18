@@ -49,3 +49,9 @@ export interface Conf {
     endpointTypes: string[],
     endpointUrls: string[]
 }
+
+// Defines the output of the recommender function
+export interface Recommended {
+    resultObj: ReturnObject[],
+    bundled: Bundle[],
+}

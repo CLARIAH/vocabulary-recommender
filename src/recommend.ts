@@ -5,16 +5,26 @@ import {
   EndpointLists,
   Bundle,
   Result,
+  Recommended
 } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 
-// Function that can be used different applications to recommend vocabularies
-export async function recommend(argv: Arguments) {
-  // Object that will be returned in the end
+/** Function that can be used for different applications to recommend vocabularies
+ * Input    
+ *  searchTerms: string[]
+ *  categories: string[]
+ *  endpoints: Endpoint[] 
+ *  defaultEndpoint: Endpoint
+ * Output: 
+ *  resultObj: ReturnObject[]
+ *  bundled: Bundle[]
+*/
+export async function recommend(argv: Arguments): Promise<Recommended> {
+  // Object that containes the results
   const returnedObjects: ReturnObject[] = [];
 
-  // endpointInfo contains of a list of endpoint types and a list of endpoint urls
+  // endpointInfo contains the list of endpoint types and endpoint urls that will be used for querying
   const endpointInfo: EndpointLists = await endpoints(
     argv.endpoints,
     argv.defaultEndpoint,
@@ -29,44 +39,52 @@ export async function recommend(argv: Arguments) {
     endpointInfo
   );
 
+  // returnObject containes the current result for a bundle
+  let returnObject: ReturnObject = { 
+    searchTerm: '',
+    category: '',
+    endpoint: '',
+    results: []
+  }
+
   // Get the suggestions
   for (const bundle of bundled) {
+    // results contains the query results
     let results: Result[] = [];
 
     // search for results
     if (bundle.endpointType === "search") {
-      const elasticSuggested = await elasticSuggestions(
+      results = await elasticSuggestions(
         bundle.category,
         bundle.searchTerm,
         bundle.endpointUrl
       );
-      results = results.concat(elasticSuggested);
     } else if (bundle.endpointType === "sparql") {
-      const sparqlSuggested = await sparqlSuggestions(
+      results = await sparqlSuggestions(
         bundle.category,
         bundle.searchTerm,
         bundle.endpointUrl
       );
-      // adding the results for the current searchTerm and category for the current endpoint
-      results = results.concat(sparqlSuggested);
     } else {
       throw new Error(`${bundle.endpointType}`);
     }
-
-    // object containing the results of the current searchTerm and category for all searched endpoints
-    const returnObject: ReturnObject = {
+    // object containing the query results of the current searchTerm, category and endpoint
+    returnObject = {
       searchTerm: bundle.searchTerm,
       category: bundle.category,
       endpoint: bundle.endpointUrl,
-      results,
+      results: results,
     };
     returnedObjects.push(returnObject);
   }
 
-  return [returnedObjects, bundled, endpointInfo];
+  return {
+    resultObj: returnedObjects,
+    bundled: bundled,
+  }
 }
 
-// Helpers function to create the list of endpoints
+// Helpers function to create the list of endpoints that will be used for the search
 export function endpoints(
   endpoints: Endpoint[],
   defaultEndpoint: Endpoint,
@@ -75,7 +93,7 @@ export function endpoints(
 ): EndpointLists {
   const endpointLists: EndpointLists = { types: [], urls: [] };
 
-  // check if searchterms and categories are same number
+  // check if amount of searchterms and categories is the same
   if (searchTerms.length === categories.length) {
     // if no endpoints were provided, use the default for each search term
     if (endpoints.length === 0) {
@@ -89,16 +107,17 @@ export function endpoints(
     }
     // if endpoints were provided
     else {
-      // Jana: test that whole else part
-      // if the number of endpoints is bigger than the number of searchTerms
+      // if the amount of endpoints is bigger than the number of searchTerms
       if (endpoints.length > searchTerms.length) {
         throw Error(
           "ERROR\n\nThere were more endpoints provided than search terms in the input, please provide the same number of endpoints as search terms"
         );
       } else {
-        console.error(
-          `Number of given search terms (${searchTerms?.length}) and endpoints (${endpoints.length}) don\'t match\n\nDefault endpoints were added to match the amount of arguments.`
-        );
+        if ( endpoints.length < searchTerms.length ) {
+          console.error(
+            `Number of given search terms (${searchTerms?.length}) and endpoints (${endpoints.length}) don\'t match\n\nDefault endpoints were added to match the amount of arguments.`
+          );
+        }
         for (const endpoint of endpoints) {
           endpointLists.types.push(endpoint.type);
           endpointLists.urls.push(endpoint.url);

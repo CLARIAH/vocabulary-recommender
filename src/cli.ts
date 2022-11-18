@@ -34,7 +34,14 @@ function createDefaultConfiguration() {
   };
 }
 
-// Gets the information from the configuration file (or creates a new file with the configuration object)
+/** Gets the information from the configuration file (or creates a new file with the configuration object)
+Output: 
+  file: string,
+  defaultEndpoint: Endpoint,
+  endpointNames: string[],
+  endpointTypes: string[],
+  endpointUrls: string[]
+*/
 function getConfiguration(): Conf {
   const vocaDir = path.resolve("vocabulary_recommender");
   const endpointConfigFile = path.resolve(
@@ -98,6 +105,7 @@ function getConfiguration(): Conf {
 
 // Returns the cli arguments
 async function cli() {
+  // Specifies which endpoints can be used for the search 
   const endpointNamesFromConfig = getConfiguration().endpointNames;
 
   return await yargs(process.argv.slice(2)).options({
@@ -159,38 +167,39 @@ async function configureInput() {
     if (argv.category) {
       //  Ensure all elements of array are strings
       input.categories = argv.category.map((term) => term.toString());
-      const conf: Conf = getConfiguration();
 
+      const conf: Conf = getConfiguration();
       if (argv.endpoint) {
-        for (const i in conf.endpointNames) {
+        // Check if given endpoint is included in the configuration file
+        for (const i in argv.endpoint) {
           let included: Boolean = false;
-          for (const argvEndpoint of argv.endpoint) {
-            if (conf.endpointNames[i] === argvEndpoint) {
+          for (const confIX in conf.endpointNames) {
+            if (conf.endpointNames[confIX] === argv.endpoint[i]) {
+              // Add the endpoint to the input
               input.endpoints.push({
-                name: conf.endpointNames[i],
-                type: conf.endpointTypes[i],
-                url: conf.endpointUrls[i],
+                name: conf.endpointNames[confIX],
+                type: conf.endpointTypes[confIX],
+                url: conf.endpointUrls[confIX],
               });
               included = true;
             }
-            if (!included) {
-              // Jana: Wird momentan auch bei anderen Befehlen geloggt. Bitte anpassen!
-              throw Error(
-                `ERROR\n\nThe given endpoint is not included in the configuration file ${conf.file}! Please run yarn recommend -i to see which endpoints are available.`
-              );
-            }
+          }
+          if (included === false) {
+            throw Error(
+              `ERROR\n\nThe given endpoint is not included in the configuration file /home/jana/triply/CLARIAH/vocabulary-recommender/vocabulary_recommender/vocabulary-recommender.json! Please run yarn recommend -i to see which endpoints are available.`
+            );
           }
         }
       }
       input.defaultEndpoint = conf.defaultEndpoint;
     }
   }
-
   return input;
 }
 
 // Logs the results
 async function run() {
+  // Get the arguments from the command line
   const argv = await cli();
   const conf = getConfiguration();
 
@@ -205,46 +214,54 @@ async function run() {
   }
 
   const input = await configureInput();
+  /** recommend contains 
+   * the resultObj with the recommendations
+   * the bundled search inputs
+  */ 
+  const recommended = await recommend(input);
+  // Log the search inputs
+  for (const bundle of recommended.bundled) {
+    // Log query if verbose level 2
+    if (argv.verbose >= 2) {
+      if (bundle.endpointType === "search") {
+        console.error(
+          JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
+        );
+      } else {
+        console.error(
+          JSON.stringify(assignSparqlQuery(bundle.category)(bundle.searchTerm))
+        );
+      }
+    }
 
-  //const recommended = await recommend(input);
-  // for ( const bundle of  ){
+    if (argv.format === "text") {
+      if (argv.verbose >= 1) {
+        console.log(
+          "--------------------------------------------------------------"
+        );
+        console.log(
+          `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
+        );
+      }
+    }
+  }
 
-  //   // Log query if verbose level 2
-  //   if (argv.verbose >= 2) {
-  //     console.error(
-  //       JSON.stringify(
-  //         // Jana: Make decision between types
-  //         assignElasticQuery(bundle.category, bundle.searchTerm)
-  //       )
-  //     );
-  //   }
-  // }
+  // Log results
+  if (argv.format === "text") {
+    for (const returnObj of recommended.resultObj) {
+      for (const result of returnObj.results) {
+        if (result.description) {
+          console.log(`${result.iri}\nDescription: ${result.description}\n`);
+        } else {
+          console.log(`${result.iri}\n`);
+        }
+      }
+    }
+  }
+  if (argv.format == "json") {
+    console.log(JSON.stringify(recommended.resultObj, null, "\t"));
+  }
 }
-
-// async function code() {
-
-//   if (argv.format === "text") {
-//     if (argv.verbose >= 1) {
-//       console.log(
-//         "--------------------------------------------------------------"
-//       );
-//       console.log(
-//         `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-//       );
-//     }
-
-//     for (const result of results) {
-//       if (result.description) {
-//         console.log(`${result.iri}\nDescription: ${result.description}\n`);
-//       } else {
-//         console.log(`${result.iri}\n`);
-//       }
-//     }
-//   }
-//   if (argv.format == "json") {
-//     console.log(JSON.stringify(returnedObjects, null, "\t"));
-//   }
-// }
 
 // Start recommender
 run().catch((e) => {
