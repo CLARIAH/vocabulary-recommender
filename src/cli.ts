@@ -5,6 +5,7 @@ import path from "path";
 import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { recommend, createBundleList, replaceAll } from "./recommend";
+import { getVocabName, getPrefixes } from "./vocabNames";
 import yargs from "yargs/yargs";
 import _ from "lodash";
 import {
@@ -32,7 +33,7 @@ function createDefaultConfiguration() {
       nde: {
         type: "sparql",
         url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
-        queryClass: "./queries/confSparql.rq",
+        queryClass: "./queries/uiClass.rq",
       },
       // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
     },
@@ -336,11 +337,18 @@ async function run() {
     }
   }
 
+  const prefixes = await getPrefixes()
   // Log results
   if (argv.format === "text") {
     for (const returnObj of recommended.resultObj) {
       for (const result of returnObj.results) {
         let outputString: string = `\n${result.iri}\n`;
+        const vocabName = await getVocabName(prefixes, result.iri, true)
+        if (vocabName === "") {
+          outputString += `Vocabulary: ${result.iri}\n`
+        } else {
+          outputString += `Vocabulary: ${vocabName}\n`
+        }
         if ( returnObj.endpoint.type === "search" ) {
           if (result.description) {
             outputString += `Description: ${result.description}\n`
