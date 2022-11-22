@@ -30,7 +30,6 @@ export const endpointConfigurationObject = {
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
       queryClass: "./queries/confSparql.rq"
     },
-    // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
   },
 };
 
