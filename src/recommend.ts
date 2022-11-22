@@ -1,25 +1,25 @@
 #!/usr/bin/env node
-import fs, { mkdir } from "fs"
+import fs, { mkdir } from "fs";
+import { homedir } from "os";
+import path from "path";
 
-import path from "path"
-import {
-  Result,
-  assignElasticQuery,
-  elasticSuggestions,
-} from "./elasticsearch" 
-import { assignSparqlQuery, sparqlSuggestions } from "./sparql" 
-import yargs from "yargs/yargs" 
-import _ from "lodash" 
+import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
+import { sparqlSuggestions } from "./sparql";
+import { Output, Result, Bundle, QueryFiles } from "./interfaces";
+import yargs from "yargs/yargs";
+import _ from "lodash";
 
-// input endpoints
-let usedEndpointsType: string[] = [] 
-let usedEndpointsUrl: string[] = [] 
+// These lists store the information about the endpoints that should be used to create the bundle
+let usedEndpointsType: string[] = [];
+let usedEndpointsUrl: string[] = [];
+let usedQuery: QueryFiles[] = [];
 
 // Turn endpoint config file into a list of endpoints and:
-// concatonate with given CLI argv endpoints if they are not the default endpoints
-
-const endpointConfigurationObject = {
+// concatenate with given CLI argv endpoints if they are not the default endpoints
+export const endpointConfigurationObject = {
   defaultEndpoint: "druid-recommend",
+  defaultQueryClass: "./queries/defaultClass.rq",
+  defaultQueryProperty:"./queries/defaultProperty.rq",
   endpoints: {
     "druid-recommend": {
       type: "elasticsearch",
@@ -28,9 +28,10 @@ const endpointConfigurationObject = {
     "nde": {
       type: "sparql",
       url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+      queryClass: "./queries/confSparql.rq"
     },
   },
-} 
+};
 
 const vocaDir = path.resolve( "vocabulary_recommender")
 const endpointConfigFile = path.resolve(vocaDir, 'vocabulary-recommender.json')
@@ -51,35 +52,86 @@ try{
   console.error(err)
 }
 
+// Read content of the configuration file.
+const confFile = fs.readFileSync(endpointConfigFile, "utf8");
+// Store the configured endpoints in a json object.
+const jsonConfFile = JSON.parse(confFile);
+// Store the information in the json object in different variables to reuse it later.
+const defaultEndpointName = jsonConfFile.defaultEndpoint;
+const defaultQueryClass = jsonConfFile.defaultQueryClass;
+const defaultQueryProp = jsonConfFile.defaultQueryProperty;
+const endpoints = jsonConfFile.endpoints;
+const endpointNamesFromConfig = Object.keys(endpoints);
+const endpointUrls: string[] = [];
+const endpointTypes: string[] = [];
+endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url));
+endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 
-
-const confFile = fs.readFileSync(endpointConfigFile, "utf8") 
-const jsonConfFile = JSON.parse(confFile) 
-const defaultEndpointName = jsonConfFile.defaultEndpoint 
-const endpoints = jsonConfFile.endpoints 
-const endpointNamesFromConfig = Object.keys(endpoints) 
-const endpointUrls: string[] = [] 
-const endpointTypes: string[] = [] 
-endpointNamesFromConfig.forEach((i) => endpointUrls.push(endpoints[i].url)) 
-endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type)) 
-
-// Bundle interface used for corresponding searchTerm and category
-interface Bundle {
-  searchTerm: string 
-  category: string 
-  endpointType: "sparql" | "search" 
-  endpointUrl: string 
+// List containing the names of the files where the configured and default queries are stored.
+const sparqlFiles: QueryFiles[] = [];
+for (const end of endpointNamesFromConfig) {
+  // Elasticsearch endpoint -> Do not assign SPARQL queries.
+  if (endpoints[end].type === "search") {
+    sparqlFiles.push({ class: "", property: "" });
+  } else {
+    // SPARQL endpoint + class query and property query are defined
+    if (
+      endpoints[end].queryClass != undefined &&
+      endpoints[end].queryProperty != undefined
+    ) {
+      sparqlFiles.push({
+        class: endpoints[end].queryClass,
+        property: endpoints[end].queryProperty,
+      });
+      // SPARQL endpoint + class query is defined
+    } else if (
+      endpoints[end].queryClass != undefined &&
+      endpoints[end].queryProperty === undefined
+    ) {
+      sparqlFiles.push({
+        class: endpoints[end].queryClass,
+        property: defaultQueryProp,
+      });
+      // SPARQL endpoint + property query is defined
+    } else if (
+      endpoints[end].queryClass === undefined &&
+      endpoints[end].queryProperty != undefined
+    ) {
+      sparqlFiles.push({
+        class: defaultQueryClass,
+        property: endpoints[end].queryProperty,
+      });
+      // SPARQL endpoint + neither class query or property query are defined
+    } else if (
+      endpoints[end].queryClass === undefined &&
+      endpoints[end].queryProperty === undefined
+    ) {
+      sparqlFiles.push({
+        class: defaultQueryClass,
+        property: defaultQueryProp,
+      });
+    }
+  }
 }
 
+// Check if defaultEndpoint is defined.
 if (defaultEndpointName === "") {
   throw new Error(
     `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
-  ) 
+  );
+} else if (defaultQueryClass === ( undefined || "" )) {
+  throw new Error(
+    `ERROR\n\nNo query for defaultQueryClass provided in config file. Please add a defaultQueryClass from: ${endpointNamesFromConfig}`
+  );
+} else if (defaultQueryProp === ( undefined || "" )) {
+  throw new Error(
+    `ERROR\n\nNo query for defaultQueryProp provided in config file. Please add a defaultQueryProp from: ${endpointNamesFromConfig}`
+  );
 }
 
 // Run and log results function
 async function run() {
-  // Waiting for arguments
+  // CLI | Waiting for arguments
   const argv = await yargs(process.argv.slice(2)).options({
     searchTerm: {
       alias: "t",
@@ -117,10 +169,11 @@ async function run() {
       describe: "Displays all available endpoint names and location of the configuration file",
     },
     help: {
-      alias:"h"
-    }
-  }).argv 
+      alias: "h",
+    },
+  }).argv;
 
+  // Log information about the configured endpoints.
   if (argv.endpoints > 0) {
     console.log(`Endpoint configuration file: ${endpointConfigFile}\n\nThe default endpoint is: \x1b[33m${defaultEndpointName}\x1b[0m. 
     \nThe available endpoints and their types are:\n`)
@@ -130,6 +183,8 @@ async function run() {
     return 
   }
 
+  // sparqlSuggested has global scope because it is needed to display the results correctly.
+  var sparqlSuggested: any;
   if (argv.searchTerm) {
     //  Ensure all elements of array are strings
     const searchTerms: string[] = argv.searchTerm.map((term) =>
@@ -137,40 +192,54 @@ async function run() {
     ) 
     if (argv.category) {
       //  Ensure all elements of array are strings
-      const categories: string[] = argv.category.map((term) => term.toString()) 
-      // check if searchterms and categories are same number
+      const categories: string[] = argv.category.map((term) => term.toString());
+      // check if searchterms and categories contain the same amount of arguments.
       if (searchTerms.length === categories.length) {
         // if no endpoints were provided, use the default for each search term
         if (argv.endpoint.length === 0) {
-          console.error(`(!) No endpoints were provided, using the default endpoint: ${defaultEndpointName} (!)`)
+          console.error(
+            `(!) No endpoints were provided, using the default endpoint: ${defaultEndpointName} (!)`
+          );
           for (const i in argv.searchTerm) {
-            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName) 
-            usedEndpointsType.push(endpointTypes[indexNum]) 
-            usedEndpointsUrl.push(endpointUrls[indexNum]) 
+            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
+            // Assign the information of the defaultEndpoint that should be used later to search in the vocabularies.
+            usedEndpointsType.push(endpointTypes[indexNum]);
+            usedEndpointsUrl.push(endpointUrls[indexNum]);
+            usedQuery.push({
+              class: defaultQueryClass,
+              property: defaultQueryProp,
+            });
           }
         }
-        // if endpoints were provided but don't match the number of searchTerms
+        // if endpoints were provided
         else {
           for (const i in argv.endpoint) {
             // when endpoints names were provided and exist in config file
             if (endpointNamesFromConfig.includes(argv.endpoint[i])) {
-              let indexNum = endpointNamesFromConfig.indexOf(argv.endpoint[i]) 
-              usedEndpointsType.push(endpointTypes[indexNum]) 
-              usedEndpointsUrl.push(endpointUrls[indexNum]) 
+              let indexNum = endpointNamesFromConfig.indexOf(argv.endpoint[i]);
+              // Assign the information of the configured endpoint that should be used later to search in the vocabularies.
+              usedEndpointsType.push(endpointTypes[indexNum]);
+              usedEndpointsUrl.push(endpointUrls[indexNum]);
+              usedQuery.push(sparqlFiles[indexNum]);
             }
             // when endpoint name was provided but does not exist in config file
             else {
               console.error(
-                `"${argv.endpoint[i]}" is not found in the availble endpoint config file. The default "${defaultEndpointName}" was used instead.\nAvailable endpoint names: ${endpointNamesFromConfig}.\n`
-              ) 
+                `"${argv.endpoint[i]}" is not found in the available endpoint config file. The default "${defaultEndpointName}" was used instead.\nAvailable endpoint names: ${endpointNamesFromConfig}.\n`
+              );
               let indexNum =
-                endpointNamesFromConfig.indexOf(defaultEndpointName) 
-              usedEndpointsType.push(endpointTypes[indexNum]) 
-              usedEndpointsUrl.push(endpointUrls[indexNum]) 
+                endpointNamesFromConfig.indexOf(defaultEndpointName);
+              // Assign the information of the defaultEndpoint that should be used later to search in the vocabularies.
+              usedEndpointsType.push(endpointTypes[indexNum]);
+              usedEndpointsUrl.push(endpointUrls[indexNum]);
+              usedQuery.push({
+                class: defaultQueryClass,
+                property: defaultQueryProp,
+              });
             }
           }
         }
-        // if not enough endpoints are provided, append default untill there are enough
+        // if not enough endpoints are provided, append default until there are enough
         if (
           argv.endpoint.length > 0 &&
           argv.endpoint.length !== argv.searchTerm.length
@@ -184,36 +253,66 @@ async function run() {
             `Number of given search terms (${argv.searchTerm?.length}) and endpoints (${argv.endpoint.length}) don\'t match\n\nDefault endpoints were added to match the amount of arguments.`
           ) 
           while (usedEndpointsUrl.length !== argv.searchTerm?.length) {
-            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName) 
-            usedEndpointsUrl.push(endpointUrls[indexNum]) 
-            usedEndpointsType.push(endpointTypes[indexNum]) 
+            let indexNum = endpointNamesFromConfig.indexOf(defaultEndpointName);
+            // Assign the information of the defaultEndpoint that should be used later to search in the vocabularies.
+            usedEndpointsUrl.push(endpointUrls[indexNum]);
+            usedEndpointsType.push(endpointTypes[indexNum]);
+            usedQuery.push({
+              class: defaultQueryClass,
+              property: defaultQueryProp,
+            });
           }
         }
 
-        // zip the two arrays into a nested array with the same index ([a,b,c], [d,e,f] --> [[a,d],[b,e],[c,f]])
+        // Make a list of Bundles that concatenates all the information needed for searching.
+        function makeBundle(
+          searchTerms: string[],
+          categories: string[],
+          usedEndpointsType: string[],
+          usedEndpointsUrl: string[],
+          usedQuery: QueryFiles[]
+        ) {
+          const bundled: Bundle[] = [];
+          for (const i in searchTerms) {
+            // Assign the correct query given the category.
+            if (categories[i] === "class") {
+              var query = usedQuery[i].class;
+            } else {
+              var query = usedQuery[i].property;
+            }
+            // Make the bundle.
+            bundled.push({
+              searchTerm: searchTerms[i],
+              category: categories[i],
+              endpointType:
+                usedEndpointsType[i] === "sparql" ? "sparql" : "search", // guard
+              endpointUrl: usedEndpointsUrl[i],
+              queryFile: query,
+            });
+          }
+          return bundled;
+        }
+        const bundled: Bundle[] = makeBundle(
+          searchTerms,
+          categories,
+          usedEndpointsType,
+          usedEndpointsUrl,
+          usedQuery
+        );
 
-        // const zipped: [string | undefined, string | undefined, string | undefined][] = _.zip(searchTerms, categories, usedEndpoints)
-        const bundled: Bundle[] = [] 
-        searchTerms.forEach((value, ix) =>
-          bundled.push({
-            searchTerm: value,
-            category: categories[ix],
-            endpointType:
-              usedEndpointsType[ix] === "sparql" ? "sparql" : "search", // guard
-            endpointUrl: usedEndpointsUrl[ix],
-          })
-        ) 
-
+        // the final object containing all returnObjects
         const returnedObjects: {
-          searchTerm: string 
-          category: string 
-          endpoint: string 
-          results: Result[] 
-        }[] = []  // the final object containing all returnObjects
+          searchTerm: string;
+          category: string;
+          endpoint: string;
+          results: Result[];
+        }[] = [];
 
-        // loop over each bundle (searchTerm, category) to find the results with the given endpoints
+        // loop over each bundle to find the results with the given endpoints
         for (const bundle of bundled) {
-          let results: Result[] = [] 
+          // The output maps the result to the endpoint type to correctly log the results. (SPARQL gives back more results than Elasticsearch)
+          let outputs: Output[] = [];
+          let results: Result[] = [];
 
           // search for results
           if (bundle.endpointType === "search") {
@@ -221,8 +320,12 @@ async function run() {
               bundle.category,
               bundle.searchTerm,
               bundle.endpointUrl
-            ) 
-            results = results.concat(elasticSuggested) 
+            );
+            results = results.concat(elasticSuggested);
+            outputs = outputs.concat({
+              result: elasticSuggested,
+              endpointType: "search",
+            });
 
             // Log query if verbose level 2
             if (argv.verbose >= 2) {
@@ -233,19 +336,34 @@ async function run() {
               ) 
             }
           } else if (bundle.endpointType === "sparql") {
-            const sparqlSuggested = await sparqlSuggestions(
+            // Read the file containing the default or configured SPARQL query.
+            const queryWithoutTerm: string = fs.readFileSync(
+              bundle.queryFile,
+              "utf8"
+            );
+            // Fill the searchTerm into the querystring
+            const query: string = replaceAll(
+              queryWithoutTerm,
+              "\\${term}",
+              bundle.searchTerm
+            );
+            // search with the query
+            sparqlSuggested = await sparqlSuggestions(
               bundle.category,
               bundle.searchTerm,
-              bundle.endpointUrl
-            ) 
+              bundle.endpointUrl,
+              query
+            );
             // adding the results for the current searchTerm and category for the current endpoint
-            results = results.concat(sparqlSuggested) 
+            results = results.concat(sparqlSuggested[0]);
+            outputs = outputs.concat({
+              result: sparqlSuggested[0],
+              endpointType: "sparql",
+            });
 
             // Log query
             if (argv.verbose >= 2) {
-              console.log(
-                assignSparqlQuery(bundle.category)(bundle.searchTerm)
-              ) 
+              console.log(query);
             }
           } else {
             throw new Error(`${bundle.endpointType}`) 
@@ -265,6 +383,7 @@ async function run() {
           } 
           returnedObjects.push(returnObject) 
 
+          // Log results
           if (argv.format === "text") {
             if (argv.verbose >= 1) {
               console.log(
@@ -275,13 +394,29 @@ async function run() {
               ) 
             }
 
-            for (const result of results) {
-              if (result.description) {
-                console.log(
-                  `${result.iri}\nDescription: ${result.description}\n`
-                ) 
-              } else {
-                console.log(`${result.iri}\n`) 
+            // Concatenate the output string
+            for (const output of outputs) {
+              for (const outResult of output.result) {
+                let outputString: string = `\n${outResult.iri}\n`;
+
+                // Concatenate the output for Elasticsearch queries
+                if (output.endpointType === "search") {
+                  if (outResult.description) {
+                    outputString += `Description: ${outResult.description}\n`;
+                  }
+                } else {
+                  // Concatenate the output for configured or default SPARQL queries
+                  for (const row of sparqlSuggested[1]) {
+                    if (row["iri"] === outResult.iri) {
+                      for (const key of Object.keys(row)) {
+                        if (key != "iri" && row[key] != null) {
+                          outputString += `${key}: ${row[key]}\n`;
+                        }
+                      }
+                    }
+                  }
+                }
+                console.log(outputString);
               }
             }
           }
@@ -316,6 +451,11 @@ process.on("uncaughtException", function (err) {
   process.exit(1) 
 }) 
 process.on("unhandledRejection", (reason, p) => {
-  console.error("Unhandled Rejection at: Promise", p, "reason:", reason) 
-  process.exit(1) 
-}) 
+  console.error("Unhandled Rejection at: Promise", p, "reason:", reason);
+  process.exit(1);
+});
+
+// Help function to fill in the searchterm in the SPARQL queries.
+function replaceAll(str: string, find: string, replace: string) {
+  return str.replace(new RegExp(find, "g"), replace);
+}

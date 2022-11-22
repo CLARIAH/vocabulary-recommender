@@ -1,27 +1,5 @@
+import { Result, ShardHit, ShardResponse } from "./interfaces"
 import fetch from 'cross-fetch'
-
-// Defines the shape of a hit.
-interface ShardHit {
-  _id: string;
-  _source: {
-    "http://www w3 org/2000/01/rdf-schema#comment"?: string[];
-    "http://www w3 org/2004/02/skos/core#definition"?: string[];
-  };
-}
-
-// Defines the shape of the fetched object in elasticSuggestions().
-interface ShardResponse {
-  timed_out: boolean;
-  hits: {
-    hits: ShardHit[];
-  };
-}
-
-// Defines the shape of the Elasticsearch recommendations.
-export interface Result {
-  iri: string;
-  description?: string;
-}
 
 /**
  * Assigns the Elasticsearch query according to the given category.
@@ -144,7 +122,6 @@ export async function elasticSuggestions(
   const searchObject = assignElasticQuery(category, term);
 
   // Due to version conflict since v3 isn't compatible with current version of ES
-
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
