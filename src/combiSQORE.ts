@@ -5,16 +5,8 @@
  * [x] for each searchTerm, query it with the SPARQL endpoint : Results[]{vocab, url, score}
  * [x] + add score to dict object of distinct vocabs
  * [ ] -> order in desc the names of each vocab $vocabScores && get sorted array of vocabs $vocabSequence
- * IMPLEMENT PRUNING
- * [ ] combiSQORE: in $vocabSequence, Results[]
- * [ ] for each vocab in $vocabSequence
- *      for each result in Results[]
- *          // add other evaluations to soften pruning       
- *          if result.vocab > 1
- *              remove vocab from Result.vocab
- *     return Results[]
- * [ ] vocab result: combisqore
- * [ ] instance results: all highest scoring results
+ * [ ] rebase with main/sparqlConfig branch
+ * [ ] return score in sparql Result object
  * */
 
 import { result } from "lodash"
@@ -99,8 +91,50 @@ async function queryResultsSparql(terms:string[]): Promise<ReturnedResult[]> {
         vocabularies: finalPropertyVocabs
     }
 
+    // TODO: SORT VOCAB SCORE DICTIONAIRY BASED ON SCORE
+    // Step - 1
+    // Create the array of key-value pairs
+    var items = Object.keys(dict).map(
+        (key) => { return [key, dict[key]] });
+        
+    // Step - 2
+    // Sort the array based on the second element (i.e. the value)
+    items.sort(
+        (first, second) => { return first[1] - second[1] }
+        );
+            
+    // Step - 3
+    // Obtain the list of keys in sorted order of the values.
+    var keys = items.map(
+        (e) => { return e[0] });
+    
     return [c, p]
 }
 
+    
+// COMBISCORE IMPLEMENTATION
+/**
+* IMPLEMENT PRUNING
+* [ ] combiSQORE: in $vocabSequence, Results[]
+* [ ] for each vocab in $vocabSequence
+*      for each result in Results[]
+*          // add other evaluations to soften pruning       
+*          if result.vocab > 1
+*              remove vocab from Result.vocab
+*     return Results[]
+* [ ] vocab result: combisqore
+* [ ] instance results: all highest scoring results
+*/
 
+function combiSQORE(vocabSortedSequence:[]){
+    for (const vocab of vocabSortedSequence){
+        for (const result of results){
+
+        }
+    }
+
+}
+
+
+console.log(keys);
 queryResultsSparql(searchTerms)
