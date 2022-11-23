@@ -32,7 +32,7 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the home directory in the *vocabulary_recommender* folder. 
+**Endpoint Configuration:** The endpoint configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory. 
 
 The configuration file has the following format:
 ```json
@@ -69,18 +69,6 @@ select ?iri ?desc where {
 ```
 
 The results return the same information that the SPARQL query returns. Therefore, the example would return the iri and the description. 
-
-
-You can open the folder that contains the configuration file in your GUI with the following terminal command:  
-**Linux:**  
-`nautilus ~/vocabulary_recommender`  
-**Mac:**  
-`open ~/vocabulary_recommender`  
-**Windows:**  
-`start ~/vocabulary_recommender`  
-&nbsp;
-
-You can also use `cd ~/vocabulary_recommender` to navigate to the folder in your terminal. 
 
 
 -------------------

@@ -35,7 +35,6 @@ function createDefaultConfiguration() {
         url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
         queryClass: "./queries/uiClass.rq",
       },
-      // @Phil suggestion: add other example sparql here where specific query is used and all optional keys are shown in the generated json file
     },
   };
 }
@@ -49,24 +48,24 @@ Output:
   endpointUrls: string[]
 */
 function getConfiguration(): Conf {
-  const vocaDir = path.resolve("vocabulary_recommender");
+  // const vocaDir = path.resolve("conf");
   const endpointConfigFile = path.resolve(
-    vocaDir,
-    "vocabulary-recommender.json"
+    // vocaDir,
+    "conf.json"
   );
   const endpointConfigurationObject = createDefaultConfiguration();
 
   try {
-    if (!fs.existsSync(vocaDir)) {
-      console.error(
-        "'vocabulary_recommender' folder not found in current working directory, creating folder..."
-      );
-      fs.mkdirSync(path.resolve(vocaDir));
-      console.error(`Folder generated in: ${vocaDir}`);
-    }
+    // if (!fs.existsSync(vocaDir)) {
+    //   console.error(
+    //     "'conf' folder not found in current working directory, creating folder..."
+    //   );
+    //   fs.mkdirSync(path.resolve(vocaDir));
+    //   console.error(`Folder generated in: ${vocaDir}`);
+    // }
     if (!fs.existsSync(endpointConfigFile)) {
       console.error(
-        "Endpoint configuration file 'vocabulary-recommender.json' is not found in the '/vocabulary_recommender' folder, creating endpoint configuration file..."
+        "Endpoint configuration file 'conf.json' is not found in the working directory, creating endpoint configuration file..."
       );
       const configObject = JSON.stringify(
         endpointConfigurationObject,
@@ -277,7 +276,7 @@ async function configureInput() {
           }
           if (included === false) {
             throw Error(
-              `ERROR\n\nThe given endpoint is not included in the configuration file /home/jana/triply/CLARIAH/vocabulary-recommender/vocabulary_recommender/vocabulary-recommender.json! Please run yarn recommend -i to see which endpoints are available.`
+              `ERROR\n\nThe given endpoint is not included in the configuration file conf.json! Please run yarn recommend -i to see which endpoints are available.`
             );
           }
         }
