@@ -3,3 +3,4 @@ dist
 vocabulary_recommender
 test.txt
 .vscode/settings.json
+**/.vscode/
