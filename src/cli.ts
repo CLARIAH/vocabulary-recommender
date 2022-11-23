@@ -337,17 +337,15 @@ async function run() {
     }
   }
 
-  const prefixes = await getPrefixes()
   // Log results
   if (argv.format === "text") {
     for (const returnObj of recommended.resultObj) {
       for (const result of returnObj.results) {
         let outputString: string = `\n${result.iri}\n`;
-        const vocabName = await getVocabName(prefixes, result.iri, true)
-        if (vocabName === "") {
+        if (!result.vocabulary) {
           outputString += `Vocabulary: ${result.iri}\n`
         } else {
-          outputString += `Vocabulary: ${vocabName}\n`
+          outputString += `Vocabulary: ${result.vocabulary}\n`
         }
         if ( returnObj.endpoint.type === "search" ) {
           if (result.description) {

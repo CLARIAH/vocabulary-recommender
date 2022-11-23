@@ -10,6 +10,7 @@ import {
 } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
+import { getPrefixes, getVocabName } from "./vocabNames";
 
 /** Function that can be used for different applications to recommend vocabularies
  * Input    
@@ -22,8 +23,11 @@ import { sparqlSuggestions } from "./sparql";
  *  bundled: Bundle[]
 */
 export async function recommend(argv: Arguments): Promise<Recommended> {
-  // Object that containes the results
+  // Object that contains the results
   const returnedObjects: ReturnObject[] = [];
+
+  // prefixes contains all prefixes from lov with their IRI.
+  const prefixes = await getPrefixes()
 
   // endpointInfo contains the list of endpoint types and endpoint urls that will be used for querying
   const endpointInfo: UsedEndpoints = await endpoints(
@@ -75,7 +79,14 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     } else {
       throw new Error(`${bundle.endpointType}`);
     }
-    // object containing the query results of the current searchTerm, category and endpoint
+
+    // Get the vocabulary name for each iri in results.
+    for ( const result of results) {
+      result.vocabulary = await getVocabName(prefixes, result.iri, true)
+    }
+
+    // object containing the query results of the current searchTerm, category and endpoint.
+    // addInfo is used to return SPARQL results from configured SPARQL queries that do not match the Result interface.
     returnObject = {
       searchTerm: bundle.searchTerm,
       category: bundle.category,
