@@ -1,10 +1,4 @@
 import fetch from 'cross-fetch'
-
-// Defines the shape of the SPARQL recommendations.
-// export interface SparqlResult {
-//   iri: string;
-// }
-
 import { Result } from "./interfaces";
 
 /**
