@@ -12,6 +12,10 @@
       "email": "wouter@triply.cc"
     },
     {
+      "name": "Kathrin Dentler",
+      "email": "kathrin.dentler@triply.cc"
+    },
+    {
       "name": "Philippe Renzen",
       "email": "Philippe.Renzen@triply.cc"
     },
@@ -28,19 +32,20 @@
     "@types/yargs": "^17.0.12",
     "typescript": "*"
   },
-  "main": "dist/recommend.js",
+  "main": "dist/cli.js",
   "bin": {
-    "recommend": "dist/recommend.js",
-    "vocabulary-recommend": "dist/recommend.js"
+    "recommend": "dist/cli.js",
+    "vocabulary-recommend": "dist/cli.js"
   },
   "types": "dist/recommend.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "recommend": "node ./dist/recommend.js"
+    "recommend": "node ./dist/cli.js"
   },
   "dependencies": {
     "cross-fetch": "^3.1.5",
+    "execall": "^3.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "2",
     "vocabulary-recommender": "^1.0.4",

@@ -32,14 +32,14 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** 
-
-The endpoint configuration file `vocabulary-recommender.json` is created during the first run of the vocabulary recommender and saved in the <ins>current working directory</ins> in the ***'vocabulary_recommender'*** folder (use terminal command `pwd` to see the working directory). 
+**Endpoint Configuration:** The endpoint configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory. 
 
 The configuration file has the following format:
-```JSON
+```json
 {
   defaultEndpoint: "defaultkey",
+  defaultQueryClass: "defaultQueryClass.rq",
+  defaultQueryProperty: "defaultQueryProperty.rq",
   endpoints: {
     "defaultkey": {
       type: "elasticsearch",
@@ -48,6 +48,8 @@ The configuration file has the following format:
     "otherkey": {
       type: "sparql",
       url: "https://api.endpoint.nl/sparql",
+      queryClass: "configuredQueryClass.rq",
+      queryProperty: "configuredQueryProperty.rq",
     },
   },
 } 
@@ -55,6 +57,28 @@ The configuration file has the following format:
 
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
+
+To specify the endpoint(s) that is used, add the -e flag and the endpoint name to the input command:
+
+`yarn recommend -t person -c class -e otherkey`
+
+When no endpoint is specified the default endpoint is used automatically. When the amount of endpoint is less than the amount of search terms the default endpoint is used for the rest of the search terms.
+
+`yarn recommend -t person -c class` -> `defaultkey` is queried.
+`yarn recommend -t person knows -c class property -e otherkey` -> `otherkey` is queried for the search term 'person'. `defaultkey` is used for the search term 'knows'.
+
+**SPARQL Query Configuration:**  
+When using SPARQL endpoints two default SPARQL queries can be assigned to retrieve classes or properties, the **defaultQueryClass** and the **defaultQueryProperty**. For SPARQL endpoints, it is also possible to specify specific configured SPARQL queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
+
+```sql
+select ?iri ?desc where {
+    filter(regex(str(?iri),'${term}','i'))
+    ?iri dct:description ?desc .
+}   
+```
+
+The results return the same information that the SPARQL query returns. Therefore, the example would return the iri and the description. 
+
 
 -------------------
 ## Output as JSON
