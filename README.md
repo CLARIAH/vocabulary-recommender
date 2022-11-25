@@ -58,6 +58,15 @@ The configuration file has the following format:
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
 
+To specify the endpoint(s) that is used, add the -e flag and the endpoint name to the input command:
+
+`yarn recommend -t person -c class -e otherkey`
+
+When no endpoint is specified the default endpoint is used automatically. When the amount of endpoint is less than the amount of search terms the default endpoint is used for the rest of the search terms.
+
+`yarn recommend -t person -c class` -> `defaultkey` is queried.
+`yarn recommend -t person knows -c class property -e otherkey` -> `otherkey` is queried for the search term 'person'. `defaultkey` is used for the search term 'knows'.
+
 **SPARQL Query Configuration:**  
 When using SPARQL endpoints two default SPARQL queries can be assigned to retrieve classes or properties, the **defaultQueryClass** and the **defaultQueryProperty**. For SPARQL endpoints, it is also possible to specify specific configured SPARQL queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
 
