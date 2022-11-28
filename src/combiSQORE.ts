@@ -36,7 +36,7 @@ export async function queryResultsSparql(
     // mapping each result element and appending it to respective Class or Property result array
     queryResultClass.forEach((result) => {
       // add scores to dictionairy
-      finalClassVocabs[result.iri] = finalClassVocabs[result.iri] + result.score
+      finalClassVocabs[result.iri] = finalClassVocabs[result.iri] + result.score // BUG: this will give the iri of the term, not the vocab ==> get vocab should also return domain if no vocab is found
     });
     queryResultProperty.forEach((result) => {
       // add scores to dictionairy
@@ -109,6 +109,7 @@ function sortVocabularyDescScore(vocabularyScoreDict: { [key: string]: number })
 
 export function combiSQORE(results: Result[], vocabScores: {[key: string]: number}) {
   const sortedVocabScoreSequence: {[key: string]: number} = sortVocabularyDescScore(vocabScores)
+  console.log('🪵  | file: combiSQORE.ts | line 112 | sortedVocabScoreSequence', sortedVocabScoreSequence)
   for (const vocab of Object.keys(sortedVocabScoreSequence)) {
     for (const result of results) {
     }
