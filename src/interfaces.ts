@@ -87,9 +87,9 @@ export interface ShardResponse {
 }
 
 export interface ReturnedResult {
-    category: "class" | "property";
-    results: Result[];
-    vocabularies: { [key: string]: number };
+    searchTerm: string;
+    vocabs: Set<string>[];
+    results: Result[]
   }
 interface NewReturnedResult{
     category: 'class' | 'property'
