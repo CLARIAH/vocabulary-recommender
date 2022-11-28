@@ -4,9 +4,8 @@ import {
   Endpoint,
   UsedEndpoints,
   Bundle,
-  Result,
   Recommended,
-  QueryFiles
+  QueryFiles, Result
 } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
@@ -50,14 +49,12 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     category: '',
     endpoint: { type: "", url: "" },
     results: [],
-    addInfo: {}
   }
 
   // Get the suggestions
   for (const bundle of bundled) {
     // results contains the query results
-    let results: Result[] = [];
-    let addInfo: any
+    let results: Result[] = []
 
     // search for results
     if (bundle.endpointType === "search") {
@@ -69,13 +66,10 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     } else if (bundle.endpointType === "sparql") {
       const query = replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
       const sparqlSuggested = await sparqlSuggestions(
-        bundle.category,
-        bundle.searchTerm,
         bundle.endpointUrl,
         query 
       );
-      results = sparqlSuggested[0]
-      addInfo = sparqlSuggested[1]
+      results = sparqlSuggested
     } else {
       throw new Error(`${bundle.endpointType}`);
     }
@@ -86,15 +80,14 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     }
 
     // object containing the query results of the current searchTerm, category and endpoint.
-    // addInfo is used to return SPARQL results from configured SPARQL queries that do not match the Result interface.
     returnObject = {
       searchTerm: bundle.searchTerm,
       category: bundle.category,
       endpoint: { type: bundle.endpointType, url: bundle.endpointUrl },
       results: results,
-      addInfo: addInfo
     };
     returnedObjects.push(returnObject);
+    results.forEach(r =>  console.log('🪵  | file: recommend.ts | line 98 | score', r.score, r.vocabulary, r.description, r.label ))
   }
 
   return {

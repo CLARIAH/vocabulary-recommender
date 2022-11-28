@@ -21,46 +21,47 @@ export interface ReturnObject {
     category: string 
     endpoint: Endpoint 
     results: Result[] 
-    addInfo: any
 }
 
 // Defines the shape of the Elasticsearch recommendations.
 export interface Result {
     iri: string;
-    description?: string;
-    vocabulary?: string;
+    description?: string
+    label?: string
+    vocabulary?: string
+    score: number
 }
 
 // Defines the endpoints that should be used for the search
 export interface UsedEndpoints {
     types: string[]
-    urls: string[],
+    urls: string[]
     queries: QueryFiles[]
 }
 
 // Defines the shape of an endpoint
 export interface Endpoint {
-    name?: string,
-    type: string,
-    url: string,
-    queryClass?: string,
+    name?: string
+    type: string
+    url: string
+    queryClass?: string
     queryProperty?: string
 }
 
 // Defines the shape of a configured object
 export interface Conf {
-    file: string,
-    defaultEndpoint: Endpoint,
-    endpointNames: string[],
-    endpointTypes: string[],
-    endpointUrls: string[],
+    file: string
+    defaultEndpoint: Endpoint
+    endpointNames: string[]
+    endpointTypes: string[]
+    endpointUrls: string[]
     queries: QueryFiles[]
 }
 
 // Defines the output of the recommender function
 export interface Recommended {
-    resultObj: ReturnObject[],
-    bundled: Bundle[],
+    resultObj: ReturnObject[]
+    bundled: Bundle[]
 }
 
 export interface QueryFiles {
@@ -72,15 +73,21 @@ export interface QueryFiles {
 export interface ShardHit {
   _id: string;
   _source: {
-    "http://www w3 org/2000/01/rdf-schema#comment"?: string[];
-    "http://www w3 org/2004/02/skos/core#definition"?: string[];
+    "http://www w3 org/2000/01/rdf-schema#comment"?: string[]
+    "http://www w3 org/2004/02/skos/core#definition"?: string[]
   };
 }
 
 // Defines the shape of the fetched object in elasticSuggestions().
 export interface ShardResponse {
-  timed_out: boolean;
+  timed_out: boolean
   hits: {
-    hits: ShardHit[];
+    hits: ShardHit[]
   };
 }
+
+export interface ReturnedResult {
+    category: "class" | "property";
+    results: Result[];
+    vocabularies: { [key: string]: number };
+  }

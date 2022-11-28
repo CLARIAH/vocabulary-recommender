@@ -1,4 +1,4 @@
-import { Result, ShardHit, ShardResponse } from "./interfaces"
+import { ShardHit, ShardResponse, Result } from "./interfaces"
 import fetch from 'cross-fetch'
 
 /**

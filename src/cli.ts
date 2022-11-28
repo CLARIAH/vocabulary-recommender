@@ -14,9 +14,8 @@ import {
   Endpoint,
   UsedEndpoints,
   Bundle,
-  Result,
   Conf,
-  QueryFiles,
+  QueryFiles, Result
 } from "./interfaces";
 
 // Creates a configuration object if no configuration file is provided
@@ -337,34 +336,34 @@ async function run() {
   }
 
   // Log results
-  if (argv.format === "text") {
-    for (const returnObj of recommended.resultObj) {
-      for (const result of returnObj.results) {
-        let outputString: string = `\n${result.iri}\n`;
-        if (!result.vocabulary) {
-          outputString += `Vocabulary: ${result.iri}\n`
-        } else {
-          outputString += `Vocabulary: ${result.vocabulary}\n`
-        }
-        if ( returnObj.endpoint.type === "search" ) {
-          if (result.description) {
-            outputString += `Description: ${result.description}\n`
-          } 
-        } else {
-          for (const row of returnObj.addInfo) {
-            if (row["iri"] === result.iri) {
-              for (const key of Object.keys(row)) {
-                if (key != "iri" && row[key] != null) {
-                  outputString += `${key}: ${row[key]}\n`;
-                }
-              }
-            }
-          }
-        }
-        console.log(outputString)
-      }
-    }
-  }
+  // if (argv.format === "text") {
+  //   for (const returnObj of recommended.resultObj) {
+  //     for (const result of returnObj.results) {
+  //       let outputString: string = `\n${result.iri}\n`;
+  //       if (!result.vocabulary) {
+  //         outputString += `Vocabulary: ${result.iri}\n`
+  //       } else {
+  //         outputString += `Vocabulary: ${result.vocabulary}\n`
+  //       }
+  //       if ( returnObj.endpoint.type === "search" ) {
+  //         if (result.description) {
+  //           outputString += `Description: ${result.description}\n`
+  //         } 
+  //       } else {
+  //         for (const row of returnObj.) {
+  //           if (row["iri"] === result.iri) {
+  //             for (const key of Object.keys(row)) {
+  //               if (key != "iri" && row[key] != null) {
+  //                 outputString += `${key}: ${row[key]}\n`;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //       console.log(outputString)
+  //     }
+  //   }
+  // }
   if (argv.format == "json") {
     console.log(JSON.stringify(recommended.resultObj, null, "\t"));
   }
