@@ -29,6 +29,7 @@ export interface Result {
     iri: string;
     description?: string;
     vocabulary?: string;
+    score?: number;
 }
 
 // Defines the endpoints that should be used for the search
