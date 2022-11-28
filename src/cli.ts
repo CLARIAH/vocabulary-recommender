@@ -17,6 +17,7 @@ import {
   Conf,
   QueryFiles, Result
 } from "./interfaces";
+import { combi } from "./combi"
 
 // Creates a configuration object if no configuration file is provided
 function createDefaultConfiguration() {
@@ -250,10 +251,10 @@ async function configureInput() {
 
   if (argv.searchTerm) {
     //  Ensure all elements of array are strings
-    input.searchTerms = argv.searchTerm.map((term) => term.toString());
+    input.searchTerms = argv.searchTerm.map((term: { toString: () => any; }) => term.toString());
     if (argv.category) {
       //  Ensure all elements of array are strings
-      input.categories = argv.category.map((term) => term.toString());
+      input.categories = argv.category.map((term: { toString: () => any; }) => term.toString());
 
       const conf: Conf = getConfiguration();
       if (argv.endpoint) {
@@ -287,87 +288,89 @@ async function configureInput() {
 }
 
 // Logs the results
-async function run() {
-  // Get the arguments from the command line
-  const argv = await cli();
-  const conf = getConfiguration();
+// async function run() {
+//   // Get the arguments from the command line
+//   const argv = await cli();
+//   const conf = getConfiguration();
 
-  if (argv.endpoints > 0) {
-    console.log(`Endpoint configuration file: ${conf.file}\n\nThe default endpoint is: \x1b[33m${conf.defaultEndpoint.name}\x1b[0m. 
-    \nThe available endpoints and their types are:\n`);
-    for (let index in conf.endpointNames) {
-      console.log(
-        `Key Name: \x1b[36m${conf.endpointNames[index]}\x1b[0m\n  -Type: ${conf.endpointTypes[index]}\n  -URL: ${conf.endpointUrls[index]}\n`
-      );
-    }
-  }
+//   if (argv.endpoints > 0) {
+//     console.log(`Endpoint configuration file: ${conf.file}\n\nThe default endpoint is: \x1b[33m${conf.defaultEndpoint.name}\x1b[0m. 
+//     \nThe available endpoints and their types are:\n`);
+//     for (let index in conf.endpointNames) {
+//       console.log(
+//         `Key Name: \x1b[36m${conf.endpointNames[index]}\x1b[0m\n  -Type: ${conf.endpointTypes[index]}\n  -URL: ${conf.endpointUrls[index]}\n`
+//       );
+//     }
+//   }
 
-  const input = await configureInput();
-  /** recommend contains
-   * the resultObj with the recommendations
-   * the bundled search inputs
-   */
-  const recommended = await recommend(input);
-  // Log the search inputs
-  for (const bundle of recommended.bundled) {
-    // Log query if verbose level 2
-    if (argv.verbose >= 2) {
-      if (bundle.endpointType === "search") {
-        console.error(
-          JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
-        );
-      } else {
-        console.error(
-          replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
-        );
-      }
-    }
+//   const input = await configureInput();
+//   /** recommend contains
+//    * the resultObj with the recommendations
+//    * the bundled search inputs
+//    */
+//   const recommended = await recommend(input);
+//   // Log the search inputs
+//   for (const bundle of recommended.bundled) {
+//     // Log query if verbose level 2
+//     if (argv.verbose >= 2) {
+//       if (bundle.endpointType === "search") {
+//         console.error(
+//           JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
+//         );
+//       } else {
+//         console.error(
+//           replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
+//         );
+//       }
+//     }
 
-    if (argv.format === "text") {
-      if (argv.verbose >= 1) {
-        console.log(
-          "--------------------------------------------------------------"
-        );
-        console.log(
-          `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-        );
-      }
-    }
-  }
+//     if (argv.format === "text") {
+//       if (argv.verbose >= 1) {
+//         console.log(
+//           "--------------------------------------------------------------"
+//         );
+//         console.log(
+//           `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
+//         );
+//       }
+//     }
+//   }
 
-  // Log results
-  // if (argv.format === "text") {
-  //   for (const returnObj of recommended.resultObj) {
-  //     for (const result of returnObj.results) {
-  //       let outputString: string = `\n${result.iri}\n`;
-  //       if (!result.vocabulary) {
-  //         outputString += `Vocabulary: ${result.iri}\n`
-  //       } else {
-  //         outputString += `Vocabulary: ${result.vocabulary}\n`
-  //       }
-  //       if ( returnObj.endpoint.type === "search" ) {
-  //         if (result.description) {
-  //           outputString += `Description: ${result.description}\n`
-  //         } 
-  //       } else {
-  //         for (const row of returnObj.) {
-  //           if (row["iri"] === result.iri) {
-  //             for (const key of Object.keys(row)) {
-  //               if (key != "iri" && row[key] != null) {
-  //                 outputString += `${key}: ${row[key]}\n`;
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //       console.log(outputString)
-  //     }
-  //   }
-  // }
-  if (argv.format == "json") {
-    console.log(JSON.stringify(recommended.resultObj, null, "\t"));
-  }
-}
+//   // Log results
+//   if (argv.format === "text") {
+//     for (const returnObj of recommended.resultObj) {
+//       for (const result of returnObj.results) {
+//         let outputString: string = `\n${result.iri}\n`;
+//         if (!result.vocabulary) {
+//           outputString += `Vocabulary: ${result.iri}\n`
+//         } else {
+//           outputString += `Vocabulary: ${result.vocabulary}\n`
+//         }
+//         if ( returnObj.endpoint.type === "search" ) {
+//           if (result.description) {
+//             outputString += `Description: ${result.description}\n`
+//           } 
+//         } else {
+//           for (const row of returnObj.addInfo) {
+//             if (row["iri"] === result.iri) {
+//               for (const key of Object.keys(row)) {
+//                 if (key != "iri" && row[key] != null) {
+//                   outputString += `${key}: ${row[key]}\n`;
+//                 }
+//               }
+//             }
+//           }
+//         }
+//         console.log(outputString)
+//       }
+//     }
+//   }
+//   if (argv.format == "json") {
+//     console.log(JSON.stringify(recommended.resultObj, null, "\t"));
+//   }
+// }
+
+async function run(){await combi()}
 
 // Start recommender
 run().catch((e) => {

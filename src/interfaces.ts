@@ -91,3 +91,16 @@ export interface ReturnedResult {
     results: Result[];
     vocabularies: { [key: string]: number };
   }
+interface NewReturnedResult{
+    category: 'class' | 'property'
+    results: HomoResult[]
+    vocabularies: { [key: string]: number}
+}
+
+interface HomoResult {
+    vocabulary: string,
+    iri: string,
+    score: number
+    description: string
+} 
+
