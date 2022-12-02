@@ -74,9 +74,15 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
       throw new Error(`${bundle.endpointType}`);
     }
 
+    const scores: number[] = []
     // Get the vocabulary name for each iri in results.
     for ( const result of results) {
       result.vocabulary = await getVocabName(prefixes, result.iri, true)
+      scores.push(result.score? result.score: 0.1)
+    }
+    for (const i in results) {
+      results[i].score = normalizeScore(scores)[i].toFixed(2)
+      addInfo[i].score = normalizeScore(scores)[i].toFixed(2)
     }
 
     // object containing the query results of the current searchTerm, category and endpoint.
@@ -96,6 +102,10 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
   }
 }
 
+function normalizeScore(scores: number[]){
+  const total = scores.reduce((previous, current) => { return +previous + +current})
+  return scores.map((score) => score/total)
+}
 // Helpers function to create the list of endpoints that will be used for the search
 export function endpoints(
   endpoints: Endpoint[],

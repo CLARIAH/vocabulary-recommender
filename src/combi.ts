@@ -73,6 +73,9 @@ async function getRecommendations(searchTerms: string[]) {
   for (const returnObj of recommended.resultObj) {
     for (const returnedResult of resultList) {
       if (returnedResult.searchTerm === returnObj.searchTerm) {
+        for ( const result of returnObj.results) {
+          returnedResult.vocabs
+        }
         vocabList.push(...returnObj.results.map((result) => result.vocabulary? result.vocabulary: result.iri));
         returnedResult.results.push(...returnObj.results);
       }
