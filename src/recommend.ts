@@ -79,10 +79,11 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     for ( const result of results) {
       result.vocabulary = await getVocabName(prefixes, result.iri, true)
       scores.push(result.score? result.score: 0.1)
+      result.category = bundle.category
     }
     for (const i in results) {
-      results[i].score = normalizeScore(scores)[i].toFixed(2)
-      addInfo[i].score = normalizeScore(scores)[i].toFixed(2)
+      results[i].score = normalizeScore(scores)[i]
+      addInfo[i].score = normalizeScore(scores)[i]
     }
 
     // object containing the query results of the current searchTerm, category and endpoint.

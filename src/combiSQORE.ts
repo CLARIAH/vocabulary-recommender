@@ -127,5 +127,7 @@ const input_query = 'person age size'
 const input = input_query.split(' ') 
 const results = queryResultsSparql(input, defaultOpts, defaultEndpoint)
 
-// console.log(keys);
-// queryResultsSparql(searchTerms);
+// for (returnedResult of results){
+// 	combiSQORE(results)
+
+// }

@@ -65,22 +65,16 @@ function getInput(
 async function getRecommendations(searchTerms: string[]) {
   const input: Arguments = getInput(searchTerms);
   const recommended = await recommend(input);
+  console.log(recommended);
   const resultList: ReturnedResult[] = [];
   searchTerms.forEach((term) =>
-    resultList.push({ searchTerm: term, results: [], vocabs: [] })
+    resultList.push({ searchTerm: term, results: [] })
   );
-  const vocabList: string[] = []
   for (const returnObj of recommended.resultObj) {
     for (const returnedResult of resultList) {
       if (returnedResult.searchTerm === returnObj.searchTerm) {
-        for ( const result of returnObj.results) {
-          returnedResult.vocabs
-        }
-        vocabList.push(...returnObj.results.map((result) => result.vocabulary? result.vocabulary: result.iri));
         returnedResult.results.push(...returnObj.results);
       }
-      console.log(returnedResult.vocabs.push(new Set(vocabList)))
-      // resultList.push(returnedResult)
     }
   }
   return resultList;

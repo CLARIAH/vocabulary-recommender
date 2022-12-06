@@ -29,7 +29,8 @@ export interface Result {
     description?: string
     label?: string
     vocabulary?: string
-    score: number
+    score?: any
+    category: string
 }
 
 // Defines the endpoints that should be used for the search

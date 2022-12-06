@@ -17,7 +17,7 @@ import {
   Conf,
   QueryFiles, Result
 } from "./interfaces";
-import { combi } from "./combi"
+import { combi } from "./combi";
 
 // Creates a configuration object if no configuration file is provided
 function createDefaultConfiguration() {
