@@ -1,0 +1,7910 @@
+yarn run v1.22.19
+$ node ./dist/cli.js -t Person -c class -e lov
+test: {
+	"head": {
+		"vars": [
+			"vocabPrefix",
+			"vocabURI"
+		]
+	},
+	"results": {
+		"bindings": [
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eac-cpf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://archivi.ibc.regione.emilia-romagna.it/ontology/eac-cpf/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dce"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dc/elements/1.1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dcterms"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dc/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "awol"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://bblfish.net/work/atom-owl/2006-06-06/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "va"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://code-research.eu/ontology/visual-analytics"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "being"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contextus.net/ontology/ontomedia/ext/common/being#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "foaf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://xmlns.com/foaf/0.1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "trait"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contextus.net/ontology/ontomedia/ext/common/trait#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "crsw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://courseware.rkbexplorer.com/ontologies/courseware"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "akt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.aktors.org/ontology/portal"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://creativecommons.org/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "obo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.obolibrary.org/obo/obi.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://online-presence.net/opo/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gndo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://d-nb.info/standards/elementset/gnd#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "topo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ign.fr/def/topo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "osp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/osp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "poste"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/poste"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vdpp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/vdpp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "osadm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ordnancesurvey.co.uk/ontology/admingeo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "osspr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ordnancesurvey.co.uk/ontology/spatialrelations/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "osgeom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ordnancesurvey.co.uk/ontology/geometry/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "postcode"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ordnancesurvey.co.uk/ontology/postcode/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "skos"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2004/02/skos/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gsp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.opengis.net/ont/geosparql"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pnc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/classification/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "game"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.totl.net/game/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ocd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dati.camera.it/ocd/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "basic"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19107/2003/geometry"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "h2o"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19150/-2/2012/basic"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hydra"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/hydra/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/tio/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/goodrelations/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "skosxl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2008/05/skos-xl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vso/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "xapi"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/xapi/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "obsm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.geospecies.org/methods/observationMethod.rdf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "juso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.co/juso/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ctxdesc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.demcare.eu/ontologies/contextdescriptor.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mvco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/mvco.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odapp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/odapp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lib"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/library/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdaw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/w"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "provoc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/provoc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odrl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/odrl/2/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "op"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://environment.data.gov.au/def/op"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "qudt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://qudt.org/schema/qudt"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vann"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/vann/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "voaf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocommons/voaf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ngeo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://geovocab.org/geometry"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spatial"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://geovocab.org/spatial"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://inference-web.org/2.0/ds.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "msm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://iserve.kmi.open.ac.uk/ns/msm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lemon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lemon-model.net/lemon"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lvont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lexvo.org/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lode"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkedevents.org/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "teach"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkedscience.org/teach/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "txn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lod.taxonconcept.org/ontology/txn.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bibo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/bibo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "void"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/void"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "loted"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://loted.eu/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opus"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lsdis.cs.uga.edu/projects/semdis/opus#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdarel2"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://metadataregistry.org/uri/schema/RDARelationshipsGR2"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "moat"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://moat-project.org/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "smg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.cerise-project.nl/energy/def/cim-smartgrid"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "npg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.nature.com/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "og"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ogp.me/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oslc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open-services.net/ns/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdfs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2000/01/rdf-schema#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open.vocab.org/terms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/relationship/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "acrt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://privatealpha.com/ontology/certification/1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "aws"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/ssnx/meteo/aws"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "qu"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/ssnx/qu/qu"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cfp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/ssnx/cf/cf-property"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cff"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/ssnx/cf/cf-feature"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "limoo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/LiMo/0.1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "biol"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/NET/biol/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "event"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/NET/c4dm/event.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "time"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/time"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "keys"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/NET/c4dm/keys.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/NET/c4dm/timeline.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "te"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/time-entry"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "arch"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/archival/vocab/arch"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "taxon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/biodiversity/taxon/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frapo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/cerif/frapo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "emp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ctic/empleo/oferta"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "loc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ctic/infraestructuras/localizacion"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "elec"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ctic/sector-publico/elecciones"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dctype"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dc/dcmitype/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "daq"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/eis/vocab/daq#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "essglobal"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/essglobal/vocab/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "api"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linked-data/api/vocab#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sdmx"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linked-data/sdmx"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sdmx-code"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linked-data/sdmx/2009/code"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sdmx-dimension"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linked-data/sdmx/2009/dimension"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lyou"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linkingyou/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bibtex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/nknouf/ns/bibtex"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/ns/ex"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/ns/ontology-annot"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "p-plan"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/p-plan#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/prov#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/provenance/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wf-invoc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/wf-invocation"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "af"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/af/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "chord"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/chord/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "co"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/co/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2003/06/sw-vocab-status/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dvia"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/dvia"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "po"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/po/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bbcprov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/provenance"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "stories"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/stories/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nsl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/storyline"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wlo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/wo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/openorg/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/procurement/public-contracts"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rss"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/rss/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "saws"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/saws/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "c4o"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/c4o"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "biro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/biro"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/pro"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tvc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.essepuntato.it/2012/04/tvc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rev"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/stuff/rev#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.semanticweb.org/ns/swc/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dul"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "om"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19156/2011/observation"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "md"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19115/2003/metadata"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19108/2002/temporal"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19109/2005/feature"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "interval"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.uk/def/intervals"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dcam"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dc/dcam/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vaem"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.linkedmodel.org/schema/vaem"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dtype"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.linkedmodel.org/schema/dtype"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "am"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open-services.net/ns/asset#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fea"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.data.gov/def/fea"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cdm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/twc/ontology/cdm.owl#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dcite"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/datacite"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sql"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ast/sql#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spinrdf.org/sp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "incident"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.resc.info/incident"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eclap"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.eclap.eu/schema/eclap/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/oa#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "coll"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/co"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/wo/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pnt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/tag/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/swan/2.0/discourse-relationships/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rec"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/rec/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "olo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/olo/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sim"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/similarity/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pna"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/asset/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "st"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semweb.mmlab.be/ns/stoptimes#Ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oecc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.oegov.org/core/owl/cc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "zbwext"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://zbw.eu/namespaces/zbw-extensions"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odpart"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/participation.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cpa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oan"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/oan"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uby"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/olia/ubyCat.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uneskos"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/umu/uneskos"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iso-thes"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/iso25964/skos-thes"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mads"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.loc.gov/mads/rdf/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vra"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://simile.mit.edu/2003/10/ontologies/vraCore3#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mtlo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ics.forth.gr/isl/MarineTLO/v4/marinetlo.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdau"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/u"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "acco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/acco/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "log"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2000/10/swap/log"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://openprovenance.org/model/opmo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gml"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.opengis.net/ont/gml"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.opengis.net/ont/sf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "raul"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/raul"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seq"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/sequence.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ptop"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontotext.com/proton/protontop"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rlog"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/rlog#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "csvw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/csvw#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pni"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/identifier/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lmm2"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/lmm/LMM_L2.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lmm1"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/lmm/LMM_L1.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ssso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/ssso"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdafrbr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/uri/schema/FRBRentitiesRDA"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdag3"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/ElementsGr3"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/c"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdarel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/RDARelationshipsWEMI"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "edac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/elseweb-edac.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lsweb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/elseweb-data.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lswpm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/elseweb-lifemapper-parameters.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semanticscience.org/ontology/sio.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dcat"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/dcat"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "jup"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/charta77/jup"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/pso"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "scoro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/scoro/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "theatre"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/theatre#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/twc/ontologies/cmo.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/bio/0.1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/changeset/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frbre"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/frbr/extended"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lcy"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/lifecycle/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "part"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/participation/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uniprot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.uniprot.org/core/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "disco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf-vocabulary.ddialliance.org/discovery"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "phdd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf-vocabulary.ddialliance.org/phdd"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "xkos"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf-vocabulary.ddialliance.org/xkos"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geosp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.geospecies.org/ont/geospecies"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "idemo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.insee.fr/def/demo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "aos"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.muninn-project.org/ontologies/appearances"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "scot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.org/scot/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tsioc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.org/sioc/types#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sioc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.org/sioc/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ruto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfunit.aksw.org/ns/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cgov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.uk/def/central-government"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "org"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/org#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opmv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/opmv/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.uk/def/organogram"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pay"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.uk/def/payment#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "thors"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://resource.geosciml.org/ontology/timescale/thors"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://salt.semanticauthoring.org/ontologies/sao"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://salt.semanticauthoring.org/ontologies/sdo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://salt.semanticauthoring.org/ontologies/sro"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "maso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://securitytoolbox.appspot.com/MASO"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "security"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://securitytoolbox.appspot.com/securityMain"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "stac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://securitytoolbox.appspot.com/stac"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sem"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semanticweb.cs.vu.nl/2009/11/sem/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "apps4X"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semweb.mmlab.be/ns/apps4X"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odapps"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semweb.mmlab.be/ns/odapps"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ha"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://sensormeasurement.appspot.com/ont/home/homeActivity#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spcm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spi-fm.uca.es/spdef/models/deployment/spcm/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swpm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spi-fm.uca.es/spdef/models/deployment/swpm/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vmm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spi-fm.uca.es/spdef/models/genericTools/vmm/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wikim"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spi-fm.uca.es/spdef/models/genericTools/wikim/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swpo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://sw-portal.deri.org/ontologies/swportal"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swrc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://swrc.ontoware.org/ontology-07"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uri4uri"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://uri4uri.net/vocab"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "doap"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://usefulinc.com/ns/doap#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "c4n"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/c4n"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cogs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/cogs"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/tao"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gvp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.getty.edu/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "whisky"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.org/whisky/terms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "comm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.resc.info/communication"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "agls"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.agls.gov.au/agls/terms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "akts"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.aktors.org/ontology/support"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bbc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/bbc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cwork"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/creativework"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bbccms"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/cms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bbccore"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/coreconcepts"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sport"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bbc.co.uk/ontologies/sport"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "coun"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.daml.org/2001/09/countries/iso-3166-ont"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "demlab"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.demcare.eu/ontologies/demlab.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ceo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ebusiness-unibw.org/ontologies/consumerelectronics/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "identity"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.identity.org/ontologies/identity.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tis"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/timeindexedsituation.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "citof"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.essepuntato.it/2013/03/cito-functions"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cito"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/cito"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.essepuntato.it/2013/10/vagueness"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "situ"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/situation.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "edm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.europeana.eu/schemas/edm/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.geonames.org/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "marl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.gsi.dit.upm.es/ontologies/marl/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.holygoat.co.uk/owl/redwood/0.1/tags/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "music"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.kanzaki.com/ns/music"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "whois"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.kanzaki.com/ns/whois"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geof"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.mindswap.org/2003/owl/geo/geoFeatures20040307.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "infor"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pext"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontotext.com/proton/protonext"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ore"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.openarchives.org/ore/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ostop"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ordnancesurvey.co.uk/ontology/Topography/v0.1/Topography.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "acm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.rkbexplorer.com/ontologies/acm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nie"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/01/19/nie"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/03/22/nco"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nfo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ncal"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/04/02/ncal"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/08/15/nao"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nrl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticdesktop.org/ontologies/2007/08/15/nrl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ontosec"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.semanticweb.org/ontologies/2008/11/OntologySecurity.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "traffic"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.sensormeasurement.appspot.com/ont/transport/traffic"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ct"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.tele.pw.edu.pl/~sims-onto/ConnectivityType.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "msr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.telegraphis.net/ontology/measurement/measurement#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "xhv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/1999/xhtml/vocab"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "doc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2000/10/swap/pim/doc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2001/sw/hcls/ns/transmed/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2003/01/geo/wgs84_pos"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swrl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2003/11/swrl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "exif"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2003/12/exif/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "grddl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2003/g/data-view"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "test"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/03/test-description"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/gen/ont"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tzont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/timezone"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vcard"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2006/vcard/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vin"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "acl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/auth/acl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cert"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/auth/cert#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ldp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/ldp#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ma-ont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/ma-ont"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/r2rml#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "radion"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/radion#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdfa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/rdfa#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ui"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/ui"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.wsmo.org/ns/wsmo-lite#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "decision"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://decision-ontology.googlecode.com/svn/trunk/decision.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "airs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://raw.githubusercontent.com/airs-linked-data/lov/latest/src/airs_vocabulary.ttl#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.auto.tuwien.ac.at/downloads/thinkhome/ontology/WeatherOntology.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/wf4ever/ro"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "r4r"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://guava.iis.sinica.edu.tw/r4r"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dita"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dita/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "omn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open-multinet.info/ontology/omn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cbo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://comicmeta.org/cbo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wfprov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/wf4ever/wfprov"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wfdesc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/wf4ever/wfdesc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "deps"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontologi.es/doap-deps#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dbug"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontologi.es/doap-bugs#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dm2e"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://onto.dm2e.eu/schemas/dm2e"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "shoah"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dati.cdec.it/lod/shoah/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pat"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/hpi/patchr#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "llont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.linklion.org/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "onc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ics.forth.gr/isl/oncm/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oae"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ics.forth.gr/isl/oae/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ecpo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/ecpo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prog"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/prog/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cerif"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.eurocris.org/ontologies/cerif/1.3"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "holding"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/holding"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "docso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/dso"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://advene.org/ns/cinelab/ld"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.opendiscoveryspace.eu/lom_ontology_ods.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "isbd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://iflastandards.info/ns/isbd/elements/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ldvm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linked.opendata.cz/ontology/ldvm/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "reco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/reco#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frappe"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://streamreasoning.org/ontologies/frappe#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "omnfed"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open-multinet.info/ontology/omn-federation"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "omnlc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://open-multinet.info/ontology/omn-lifecycle"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ecrm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://erlangen-crm.org/current/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iso37120"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.eil.utoronto.ca/ISO37120.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gci"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.eil.utoronto.ca/GCI/Foundation/GCI-Foundation.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ic"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.eil.utoronto.ca/icontact.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eem"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/eem"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vgo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/VideoGameOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dqc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semwebquality.org/ontologies/dq-constraints"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spin"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spinrdf.org/spin"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "qb4o"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/qb4olap/cubes"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "qb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linked-data/cube"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mexalgo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://mex.aksw.org/mex-algo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mexcore"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://mex.aksw.org/mex-core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mexperf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://mex.aksw.org/mex-perf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sor"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/soron"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://tour-pedia.org/download/tp.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cart"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/cartCoord#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ignf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ign.fr/def/ignf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ctag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://commontag.org/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "person"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/person"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lgdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkedgeodata.org/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "owl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2002/07/owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "odrs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://schema.theodi.org/odrs"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "scovo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/scovo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/cco/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dqm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dqm-vocabulary/v1/dqm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "date"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contextus.net/ontology/ontomedia/misc/date#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "passim"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/passim"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "label"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/vocab/2004/03/label"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frbr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/frbr/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/ao/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oh"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semweb.mmlab.be/ns/oh"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gts"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://resource.geosciml.org/ontology/timescale/gts"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sam"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19156/2011/sampling"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dq"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19115/2003/dataquality"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "transit"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.org/transit/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.data.gov/gd"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ext"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19115/2003/extent"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "of"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://owlrep.eu01.aws.af.cm/fridge"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "schema"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://schema.org/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ofrd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/opdm/refrigerator#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://xmlns.com/wot/0.1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "itm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spi-fm.uca.es/spdef/models/genericTools/itm/1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "media"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/media"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "biotop"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/biotop/biotop.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://gov.genealogy.net/ontology.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vivo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vivoweb.org/ontology/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geop"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://aims.fao.org/aos/geopolitical.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pattern"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.essepuntato.it/2008/12/pattern"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "muto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/muto/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/lobid/lv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "g50k"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ordnancesurvey.co.uk/ontology/50kGazetteer/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vrank"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.sti2.at/vrank"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "umbel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://umbel.org/umbel"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "search"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/search"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "poder"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dev.poderopedia.com/vocab/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ontopic"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/dul/ontopic.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "limo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/limo-ontology/limo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frbrer"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://iflastandards.info/ns/fr/frbr/frbrer/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tisc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.observedchange.com/tisc/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ru"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/imbi/ru-meta.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spfood"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://kmi.open.ac.uk/projects/smartproducts/ontologies/food.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "reegle"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reegle.info/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ntag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/nicetag/2010/09/09/voc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/lio"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.bergnet.org/tac/0.1/triple-access-control"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdfg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2004/03/trix/rdfg-1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "osr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contextus.net/ontology/ontomedia/core/space#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pns"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/stuff/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ctorg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ctic/infraestructuras/organizacion"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ldr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/ldr/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "frad"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://iflastandards.info/ns/fr/frad/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ppo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/ppo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "km4c"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.disit.org/km4city/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cnt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2011/content"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "con"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2000/10/swap/pim/contact"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "coo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/coo/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rhizomik.net/ontologies/copyrightonto.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dady"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/dady"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wi"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/wi/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dcndl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ndl.go.jp/dcndl/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wdrs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2007/05/powder-s"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vvo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vvo/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "deo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/deo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "doco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/doco"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dsn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dsnotify/vocab/eventset/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "semio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.lingvoj.org/semio.rdf"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ends"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://labs.mondeca.com/vocab/endpointStatus"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.oegov.org/core/owl/gc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ep"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://eprints.org/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gen"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/gen/0.1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gold"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/linguistics/gold"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/sparql-service-description"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "orges"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://datos.gob.es/def/sector-publico/organizacion#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pwo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/pwo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ti"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/timeinterval.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "irw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/web/irw.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "parl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.uk/def/parliament"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "kdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://kdo.render-project.eu/kdo#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "premis"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.loc.gov/premis/rdf/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "is"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/is/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/prv/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/pdo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rec54"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2001/02pd/rec54#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lsc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkedscience.org/lsc/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pbo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/pbo/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oslo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/oslo/ns/localgov"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ipo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ipo/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pproc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contsem.unizar.es/def/sector-publico/pproc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pne"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.press.net/ontology/event/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prvt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/provenance/types#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opmw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.opmw.org/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ds"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ctic/dcat#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "onyx"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.gsi.dit.upm.es/ontologies/onyx/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "service"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/service"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "li"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/isotc211/iso19115/2003/lineage"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bevon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.co/bevon/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "juso.kr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdfs.co/juso/kr/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fresnel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2004/09/fresnel"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geofla"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ign.fr/def/geofla"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "igeo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.insee.fr/def/geo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lswmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/elseweb-modelling.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4ac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/s4ac/v2"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nlon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lod.nl.go.kr/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "snarm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.myexperiment.org/ontologies/snarm/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "d2rq"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prissma"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/prissma/v2#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "locn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/locn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "moac"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.observedchange.com/moac/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "drm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.data.gov/def/drm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dicom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/healthcarevocab/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dogont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://elite.polito.it/ontologies/dogont.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ucum"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/muo/ucum/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "itsmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.it/itsmo/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "conversion"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/twc/vocab/conversion/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.ign.fr/def/geometrie"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "place"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/places"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "geod"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.lenka.no/geo-deling"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "turismo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://idi.fundacionctic.org/cruzar/turismo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "earl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/earl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wai"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/wai#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cold"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/configurationontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nif"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://contextus.net/ontology/ontomedia/core/expression#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/mo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "adms"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/adms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "emotion"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/emoca"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "algo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://securitytoolbox.appspot.com/securityAlgorithms#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "http"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2011/http"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gtfs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.gtfs.org/terms#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "step"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/step"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "plo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/po#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pav"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/pav/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pmlp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://inference-web.org/2.0/pml-provenance.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mil"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.muninn-project.org/ontologies/military"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cdtype"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/cld/cdtype/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "voidwh"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ics.forth.gr/isl/VoIDWarehouse/VoID_Extension_Schema.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wfm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/wf-motifs"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "voag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://voag.linkedmodel.org/schema/voag"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "aiiso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vocab/aiiso/schema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "locah"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.archiveshub.ac.uk/def/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "swp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2004/03/trix/swp-1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lexinfo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.lexinfo.net/ontology/2.0/lexinfo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://iserve.kmi.open.ac.uk/ns/hrests"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iol"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/ont/dul/IOLite.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.samos.gr/ontologies/helpdeskOnto.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/regorg"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "br"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/br"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "blt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.bl.uk/schemas/bibliographic/blterms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "daia"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/ontology/daia"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cal"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2002/12/cal/ical"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/dio"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lsmap"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/mappings/elseweb-mappings.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lslife"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/ELSEWeb/elseweb-lifemapper.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mrel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://id.loc.gov/vocabulary/relators"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "scip"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lod.taxonconcept.org/ontology/sci_people.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "meb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdf.myexperiment.org/ontologies/base/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "scsv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/scsv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "shw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://paul.staroch.name/thesis/SmartHomeWeather.owl#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://spitfire-project.eu/ontology/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdae"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/e"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "csp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/csp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdam"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/m"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdag2"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/ElementsGr2"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdaa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/a"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lawd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lawd.info/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdag1"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/Elements"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cld"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/cld/terms/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "botany"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/NET/biol/botany#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "crm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.cidoc-crm.org/cidoc-crm/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "biopax"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.biopax.org/release/biopax-level3.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "remetca"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.purl.org/net/remetca#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oml"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/ontology/om/om-lite"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "samfl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://def.seegrid.csiro.au/ontology/om/sam-lite"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vcharpenay.github.io/hto/hto.xml"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/uco/ns#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdarole"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdvocab.info/roles"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdai"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://rdaregistry.info/Elements/i"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ebucore"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "food"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.lirmm.fr/ontologies/food"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fowl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/TR/2003/PR-owl-guide-20031215/food"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dbpedia-owl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dbpedia.org/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "xsd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2001/XMLSchema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "open311"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.eil.utoronto.ca/open311.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "inno"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/innovation/ns"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ioto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.irit.fr/recherches/MELODI/ontologies/IoT-O"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eccrev"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://vocab.eccenca.com/revision/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lifecycle"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.irit.fr/recherches/MELODI/ontologies/IoT-Lifecycle"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "SAN"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.irit.fr/recherches/MELODI/ontologies/SAN"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "kees"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkeddata.center/kees/v1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "obws"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://delicias.dia.fi.upm.es/ontologies/ObjectWithStates.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dpn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/dpn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ispra"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dati.isprambiente.it/ontology/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ludo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ludo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ludo-xapi"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ludo/v1/xapi"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lsq"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://lsq.aksw.org/vocab"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "m3lite"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/iot/vocab/m3-lite#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iot-lite"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.oclc.org/NET/UNIS/fiware/iot-lite#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "datex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.datex.org/terms#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "earth"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linked.earth/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dbowl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.cybershare.utep.edu/dbowl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdi"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/multidimensional-interface/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "plink"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://cedric.cnam.fr/isid/ontologies/PersonLink.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "summa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/voc/summa/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pubsub"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://vocab.eccenca.com/pubsub/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ludo-gm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ludo/v1/gamemodel#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ludo-vc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ludo/v1/virtualcontext#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ludo-gp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/ludo/v1/gamepresentation#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hifm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/hifm/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "trao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkeddata.finki.ukim.mk/lod/ontology/tao#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cfrl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkeddata.finki.ukim.mk/lod/ontology/cfrl#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "duv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/duv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hosp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.data.gov/hosp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dbm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/dbm/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "veo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://linkeddata.finki.ukim.mk/lod/ontology/veo#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eli"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.europa.eu/eli/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dataid"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dataid.dbpedia.org/ns/core#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://id.loc.gov/ontologies/bibframe/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mls"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/mls"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pep"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/pep/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdfp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/rdfp/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "xbrll"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/vocab/xbrll"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bci"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/BCI-ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "orca"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/orca"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "foio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/FeatureOfInterestOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "w3c-ssn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3.org/ns/ssn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas-sys"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/SystemOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas-eval"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/EvaluationOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas-op"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/OperatingOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas-qudt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/QUDTAlignment"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seas-stats"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/StatisticsOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dqv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/dqv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "aml"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/i40/aml"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/i40/sto#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rami"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/i40/rami/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "san-lod"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dati.san.beniculturali.it/SAN/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "losp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://sparql.sstu.ru:3030/speciality/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fiesta-iot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/iot/ontology/fiesta-iot"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cwmo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/cwmo/#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rsctx"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://softeng.polito.it/rsctx"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rooms"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://vocab.deri.ie/rooms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sosa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/sosa/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "medred"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/medred/medred#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sh"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/shacl#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://swa.cefriel.it/ontologies/botdcat-ap"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cwrc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://sparql.cwrc.ca/ontologies/cwrc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cis"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dati.beniculturali.it/cultural-ON/cultural-ON.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nrv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/nrv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ssn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/ssn/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ssno"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/ssn/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pmofn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://premon.fbk.eu/ontology/fn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ontolex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/lemon/ontolex"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pmovn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://premon.fbk.eu/ontology/vn"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pmonb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://premon.fbk.eu/ontology/nb"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pmopb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://premon.fbk.eu/ontology/pb"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seasb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/BatteryOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seast"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/TimeOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seasd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/DeviceOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seasfo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/ForecastingOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seasto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/TradingOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seasbo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seas/BuildingOntology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "spvqa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://bmake.th-brandenburg.de/spv"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dnbt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://d-nb.info/standards/elementset/dnb"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dk"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.data-knowledge.org/dk/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vsearch"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/vsearch/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "faldo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://biohackathon.org/resource/faldo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dave"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://theme-e.adaptcentre.ie/dave/dave.ttl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tsn"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/tsn#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tsnc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/net/tsnchange#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bperson"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.vlaanderen.be/ns/persoon"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "agr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://promsns.org/def/agr"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dprov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://promsns.org/def/decprov"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "isoadr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.au/def/ont/iso19160-1-address"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "arp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.arpenteur.org/ontology/Arpenteur.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://schema.mobivoc.org/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/bot"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eepsa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/eepsa"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vocals"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/rsp/vocals#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "imo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://imgpedia.dcc.uchile.cl/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bag"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://bag.basisregistraties.overheid.nl/def/bag"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "brk"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://brk.basisregistraties.overheid.nl/def/brk"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "brt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://brt.basisregistraties.overheid.nl/def/top10nl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "common"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/2007/uwa/context/deliverycontext.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "atm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.nasa.gov/ontologies/atmonto/ATM#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eqp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.nasa.gov/ontologies/atmonto/equipment#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "atts"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.nasa.gov/ontologies/atmonto/general#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nas"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.nasa.gov/ontologies/atmonto/NAS#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "atd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.nasa.gov/ontologies/atmonto/data#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "donto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://reference.data.gov.au/def/ont/dataset"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "semsur"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/SemSur/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ccsla"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://cookingbigdata.com/linkeddata/ccsla"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ccp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://cookingbigdata.com/linkeddata/ccpricing"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ccr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://cookingbigdata.com/linkeddata/ccregions"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cci"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://cookingbigdata.com/linkeddata/ccinstances"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cbs"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://betalinkeddata.cbs.nl/def/cbs"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ocds"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/onto-ocds/ocds"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eupont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://elite.polito.it/ontologies/eupont.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mus"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.doremus.org/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "otl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/opentrafficlights"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ei2a"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://opendata.aragon.es/def/ei2a/ei2a.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "agrelon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://d-nb.info/standards/elementset/agrelon"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ci"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://privatealpha.com/ontology/content-inventory/1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ibis"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://privatealpha.com/ontology/ibis/1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gcon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/GConsent"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gdprt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/GDPRtEXT"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gdprov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/GDPRov"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "edupro"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/semed/eduprogression/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fabio"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/spar/fabio"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "nno"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/nno/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eppl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/ep-plan"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "istex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://data.istex.fr/ontology/istex#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ctrl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/ibp/CTRLont"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oum"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontology-of-units-of-measure.org/resource/om-2/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "solid"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/solid/terms"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "oad"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://culturalis.org/oad#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vir"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/vir#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "usability"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/usability"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "munc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ns.inria.fr/munc/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "arco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cocoon"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/cocoon/v1.0"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "toco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/toco/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fog"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/fog"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-base"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/Base/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-L1"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/L1/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-L2"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/L2/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-geo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/Geocoding/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-elf"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/EntityLegalForm/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-ra"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/RegistrationAuthority/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gleif-repex"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.gleif.org/ontology/ReportingException/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sw-quality"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/squap/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "caresses"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://caressesrobot.org/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "esco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.europa.eu/esco/model"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "opm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/opm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "omg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/omg"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "modsci"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/skgo/modsci#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cdesc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/context-description"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ctlog"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/catalogue"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ddesc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/denotative-description"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "a-loc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/location"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cevent"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/cultural-event"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "r-arco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/arco/ontology/arco"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fel"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/vcb/fel#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/gom"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "drama"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.purl.org/drammar"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "voidext"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/query/voidext"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "td"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3.org/2019/wot/td"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mod"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.isibang.ac.in/ns/mod"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cochrane"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.cochrane.org/ontologies/core/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pico"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.cochrane.org/ontologies/pico/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tb"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/timebank"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "pfeepsa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/pfeepsa#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tfo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://privatealpha.com/ontology/transformation/1#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bimerr-op"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://bimerr.iot.linkeddata.es/def/occupancy-profile#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "edu"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://schema.edu.ee/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "amlo-core"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/amlo/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ifc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/ifc/IFC4_ADD1"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lingvo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/vocab/lingvoj"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "olca"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/vocab/olca"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wotsec"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3.org/2019/wot/security#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "hctl"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3.org/2019/wot/hypermedia#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "jsonsc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3.org/2019/wot/json-schema#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semanticturkey.uniroma2.it/ns/mdr"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lime"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/lemon/lime"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "yoga"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://yogaontology.org/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sdm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/vocab/sdm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/dingo/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sur"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.w3id.org/survey-ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "fiesta-priv"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/iot/ontology/fiesta-priv#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iottaxolite"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/iot/vocab/iot-taxonomy-lite#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "prof"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/dx/prof"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4wear"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4wear/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/dot#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uiote"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3id.org/urban-iot/electric"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "saref"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/core/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4syst"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4syst/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4city"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4city/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdoprov"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/mdo/provenance/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "core"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/mdo/core/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uiots"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3id.org/urban-iot/sharing"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "eeo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/eeo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "uiot"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3id.org/urban-iot/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ids"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/idsa/core"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/mdo/full/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdo-struc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/mdo/structure/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "mdo-calc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/mdo/calculation/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dfc-b"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://static.datafoodconsortium.org/ontologies/DFC_BusinessOntology.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dfc-t"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://static.datafoodconsortium.org/ontologies/DFC_TechnicalOntology.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dfc-p"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://static.datafoodconsortium.org/ontologies/DFC_ProductGlossary.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dfc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://static.datafoodconsortium.org/ontologies/DFC_FullModel.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ebg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://data.businessgraph.io/ontology#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "caso"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3id.org/def/caso#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sbeo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/sbeo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4envi"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4envi/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4ener"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4ener/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4agri"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4agri/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4bldg"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4bldg/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4inma"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4inma/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4watr"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4watr/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "s4ehaw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://saref.etsi.org/saref4ehaw/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "contax"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/con-tax"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/cto"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cdc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/cdc"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rico"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://www.ica.org/standards/RiC/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/rail/topo#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "irao"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://ontology.ethereal.cz/irao"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "semiotics"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "vartrans"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/lemon/vartrans"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "synsem"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/lemon/synsem"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lexdcp"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/lemon/decomp"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rdft"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.w3.org/ns/rdftest"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "bcom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/bcom"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "lc"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://semweb.mmlab.be/ns/linkedconnections#Ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "gufo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://purl.org/nemo/gufo#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddom"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododom"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddw"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododw"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddfa"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododfa"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddial"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododial"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododm"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tddt"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo/tododt"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "todo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/todo"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dco"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/dco"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "wikibase"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://wikiba.se/ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "cbcm"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/um/cbcm/eu-cm-ontology"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "seo"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/seo#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dba"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/dba/ontology/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "m4i"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://w3id.org/nfdi4ing/metadata4ing#"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "saont"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/sao"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "rains"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/rains"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "sronto"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://purl.org/esric/sronto"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "np"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://www.nanopub.org/nschema"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "dsd"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://dqm.faw.jku.at/ontologies/dsd"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "iot-tta"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/iot-tta/"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "taxre-ld"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "http://taxref.mnhn.fr/lod/taxref-ld"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "ldes"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/ldes"
+				}
+			},
+			{
+				"vocabPrefix": {
+					"type": "literal",
+					"value": "tiles"
+				},
+				"vocabURI": {
+					"type": "uri",
+					"value": "https://w3id.org/tree"
+				}
+			}
+		]
+	}
+}
+
+http://xmlns.com/foaf/0.1/Person
+Vocabulary: foaf
+label: Person
+description: A person.
+score: 1152
+
+
+http://xmlns.com/foaf/0.1/Agent
+Vocabulary: foaf
+description: An abstract class defining any kind of agents, such as a person, a group, an organization or a software agent.
+score: 162.4
+
+
+http://schema.org/Person
+Vocabulary: schema
+label: Person
+description: A person.
+score: 44.8
+
+
+http://purl.org/dc/terms/Agent
+Vocabulary: dcterms
+description: An agent (eg. person, group, software or physical artifact).
+score: 33.6
+
+
+http://xmlns.com/foaf/0.1/Organization
+Vocabulary: foaf
+description: Organization the person belongs to.
+score: 20.8
+
+
+http://xmlns.com/foaf/0.1/Document
+Vocabulary: foaf
+description: Similar to the Agent concept, we have again decided to include a concept from the popular FOAF ontology. The FOAF Vocabulary Specification currently defines Document in a very loose way: "The <link>foaf:Document</link> class represents those things which are, broadly conceived, 'documents'. ... We do not (currently) distinguish between physical and electronic documents, or between copies of a work and the abstraction those copies embody."
+The intended use of this concept within the SWPortal ontology is to subsume everything that contains some sort of information and has been produced by some <link>foaf:Agent</link> An instance of Document can either refer to an electronic or physical thing, as long as it is adressable by means of a URI. Examples are a book written, or a picture taken by a person, but also a log file generated by a machine.
+score: 16.8
+
+
+http://purl.oclc.org/NET/ssnx/ssn#Sensor
+Vocabulary: http://purl.oclc.org/NET/ssnx/ssn#Sensor
+description: A sensor can do (implements) sensing: that is, a sensor is any entity that can follow a sensing method and thus observe some Property of a FeatureOfInterest.  Sensors may be physical devices, computational methods, a laboratory setup with a person following a method, or any other thing that can follow a Sensing Method to observe a Property.
+score: 14.4
+
+
+http://www.w3.org/ns/person#Person
+Vocabulary: http://www.w3.org/ns/person#Person
+label: Person
+description: An individual person who may be dead or alive, but not imaginary. It is that restriction that makes person:Person a sub class of both foaf:Person and schema:Person which both cover imaginary characters as well as real people.
+score: 13.8
+
+
+http://purl.org/goodrelations/v1#BusinessEntity
+Vocabulary: http://purl.org/goodrelations/v1#BusinessEntity
+label: Juristische Person
+description: An instance of this class represents the legal agent making (or seeking) a particular offering. This can be a legal body or a person. A business entity has at least a primary mailing address and contact details. For this, typical address standards (vCard) and location data (geo, WGS84) can be attached. Note that the location of the business entity is not necessarily the location from which the product or service is being available.
+score: 13.6
+
+
+http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing
+Vocabulary: http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing
+description: Cualquier cosa con extensión espacial: tamaño, forma o posición. Por ejemplo: Personas, lugares, bolas de bolos, así como áreas abstractas como cubos.
+score: 12.8
+
+Done in 0.53s.
