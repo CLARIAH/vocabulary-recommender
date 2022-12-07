@@ -10,6 +10,7 @@ import {
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { getPrefixes, getVocabName } from "./vocabNames";
+import { result } from "lodash";
 
 /** Function that can be used for different applications to recommend vocabularies
  * Input    
@@ -78,12 +79,15 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
     // Get the vocabulary name for each iri in results.
     for ( const result of results) {
       result.vocabulary = await getVocabName(prefixes, result.iri, true)
+      if (result.vocabulary === ""){
+        result.vocabulary = result.iri
+      }
       scores.push(result.score? result.score: 0.1)
       result.category = bundle.category
     }
     for (const i in results) {
       results[i].score = normalizeScore(scores)[i]
-      addInfo[i].score = normalizeScore(scores)[i]
+      // addInfo[i].score = normalizeScore(scores)[i]
     }
 
     // object containing the query results of the current searchTerm, category and endpoint.
@@ -94,7 +98,7 @@ export async function recommend(argv: Arguments): Promise<Recommended> {
       results: results,
     };
     returnedObjects.push(returnObject);
-    results.forEach(r =>  console.log('🪵  | file: recommend.ts | line 98 | score', r.score, r.vocabulary, r.description, r.label ))
+    // results.forEach(r =>  console.log('🪵  | file: recommend.ts | line 98 | score', r.score, r.vocabulary, r.description, r.label ))
   }
 
   return {

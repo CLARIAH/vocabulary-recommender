@@ -28,7 +28,7 @@ export interface Result {
     iri: string;
     description?: string
     label?: string
-    vocabulary?: string
+    vocabulary: string
     score?: any
     category?: string
 }
@@ -89,7 +89,7 @@ export interface ShardResponse {
 
 export interface ReturnedResult {
     searchTerm: string;
-    vocabs: Set<string>[];
+    vocabs: string[];
     results: Result[]
   }
 interface NewReturnedResult{
