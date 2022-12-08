@@ -7,7 +7,7 @@ import {
   Result,
   ReturnedResult,
 } from "./interfaces";
-import { recommend } from "./recommend";
+import { singleRecommendation } from "./singleRecommend";
 import fs, { mkdir } from "fs";
 import path from "path";
 
@@ -55,14 +55,20 @@ export async function homogeneousRecommendation(
   const vocabRecommendation: ReturnedResult[] = [];
   // Get the homogeneous recommendations for each searchTerm
   for (const index in recommended) {
+    // Adds one result per searchTerm
     instanceRecommendation.push(
       getInstanceRecommendation(recommended[index], combiResult)
     );
-    instanceRecommendation[index].single = recommended[index].homogeneous
+    // Add the configured json object as single results if possible, otherwise add the normal results
+    instanceRecommendation[index].single = recommended[index].single
+      ? recommended[index].single
+      : recommended[index].homogeneous;
     vocabRecommendation.push(
       getVocabRecommendation(recommended[index], combiResult, vocabScores)
     );
-    vocabRecommendation[index].single = recommended[index].homogeneous
+    vocabRecommendation[index].single = recommended[index].single
+      ? recommended[index].single
+      : recommended[index].homogeneous;
   }
   return [instanceRecommendation, vocabRecommendation];
 }
@@ -227,7 +233,7 @@ async function getRecommendations(
     defaultEndpoint
   );
   // Get the recommended results from the recommendation function.
-  const recommended = await recommend(input);
+  const recommended = await singleRecommendation(input);
   // Initialize the returned object
   const resultList: ReturnedResult[] = [];
   // Add the searchTerms to the returned object.
@@ -241,6 +247,7 @@ async function getRecommendations(
       if (returnObj.searchTerm === listItem.searchTerm) {
         // Add the class and property results
         listItem.homogeneous.push(...returnObj.results);
+        listItem.single?.push(returnObj.addInfo);
         for (const result of returnObj.results) {
           if (!listItem.vocabs.includes(result.vocabulary)) {
             // Make a list of distinct vocabularies that are contained in the search results.
@@ -252,8 +259,8 @@ async function getRecommendations(
   }
   /**
    * [
-   *   {searchTerm: "loves", vocabs: ["sor"], results: [{iri:,...}]},
-   *   {searchTerm: "human", vocabs: ["foaf", "sdo"], results: [{iri:,...}, {iri:..}]},
+   *   {searchTerm: "loves", vocabs: ["sor"], results: [{iri:,...}], addInfo: {...}},
+   *   {searchTerm: "human", vocabs: ["foaf", "sdo"], results: [{iri:,...}, {iri:..}], addInfo: {...}},
    * ]
    */
   return resultList;
@@ -275,12 +282,12 @@ function getVocabScores(recommended: ReturnedResult[]): {
       if (Object.keys(vocabScores).includes(result.vocabulary)) {
         // Add the scores up
         vocabScores[result.vocabulary] =
-          +vocabScores[result.vocabulary] + +result.score;
+          +vocabScores[result.vocabulary] + +(result.score || 0.01);
         // Raise the count by one
         vocabCounts[result.vocabulary] = +vocabCounts[result.vocabulary] + +1;
       } else {
         // initialize the score and the count for this vocab
-        vocabScores[result.vocabulary] = result.score;
+        vocabScores[result.vocabulary] = result.score || 0.01;
         vocabCounts[result.vocabulary] = 1;
       }
     }

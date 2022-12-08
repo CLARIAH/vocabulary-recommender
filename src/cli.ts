@@ -4,7 +4,11 @@ import fs, { mkdir } from "fs";
 import path from "path";
 import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
-import { recommend, createBundleList, replaceAll } from "./recommend";
+import {
+  singleRecommendation,
+  createBundleList,
+  replaceAll,
+} from "./singleRecommend";
 import { getVocabName, getPrefixes } from "./vocabNames";
 import yargs from "yargs/yargs";
 import _ from "lodash";
@@ -336,31 +340,31 @@ async function run() {
   const recommended = await homogeneousRecommendation(input);
 
   // Jana: Find a better way to retrieve the information and pass es für hr an
-  const bundles = await recommend(input);
+  const bundles = await singleRecommendation(input);
   // Log the search inputs
-  // for (const bundle of bundles.bundled) {
-  //   // Log query if verbose level 2
-  //   if (argv.verbose >= 2) {
-  //     if (bundle.endpointType === "search") {
-  //       console.error(
-  //         JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
-  //       );
-  //     } else {
-  //       console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
-  //     }
-  //   }
+  for (const bundle of bundles.bundled) {
+    //   // Log query if verbose level 2
+    if (argv.verbose >= 2) {
+      if (bundle.endpointType === "search") {
+        console.error(
+          JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
+        );
+      } else {
+        console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
+      }
+    }
 
-  //   if (argv.format === "text") {
-  //     if (argv.verbose >= 1) {
-  //       console.log(
-  //         "--------------------------------------------------------------"
-  //       );
-  //       console.log(
-  //         `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-  //       );
-  //     }
-  //   }
-  // }
+    if (argv.format === "text") {
+      if (argv.verbose >= 1) {
+        console.log(
+          "--------------------------------------------------------------"
+        );
+        console.log(
+          `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\n`
+        );
+      }
+    }
+  }
 
   let outputString: string = ``;
   // Log all the results
@@ -374,11 +378,13 @@ async function run() {
         outputString += `\nThe following homogeneous recommendation prefers high vocabulary scores:\n`;
       }
       for (const searchObj of recommended[index]) {
+        // Log searchTerm
         outputString += `\nsearchTerm: ${JSON.stringify(
           searchObj.searchTerm,
           null,
           "\t"
         )}\n\n`;
+        // Log homogeneous recommendations
         const homogeneous = searchObj.homogeneous[0];
         outputString += `  iri: ${JSON.stringify(
           homogeneous.iri,
@@ -414,16 +420,27 @@ async function run() {
       outputString += `\n--------------------------------------------------------------\n`;
     }
 
-      outputString += `\n--------------------------------------------------------------\n`;
-      outputString += `\nSingle recommendations:\n`;
-      for (const searchObj of recommended[0]) {
-        outputString += `\nsearchTerm: ${JSON.stringify(
-          searchObj.searchTerm,
-          null,
-          "\t"
-        )}\n\n`;
-        const singles = searchObj.single ? searchObj.single : [];
-        for (const single of singles) {
+    outputString += `\n--------------------------------------------------------------\n`;
+    outputString += `\nSingle recommendations:\n`;
+    for (const searchObj of recommended[0]) {
+      outputString += `\nsearchTerm: ${JSON.stringify(
+        searchObj.searchTerm,
+        null,
+        "\t"
+      )}\n\n`;
+      if (typeof searchObj.single === "object") {
+        // Log the results for SPARQL queries
+        for (const single of searchObj.single) {
+          for (const key of Object.keys(single)) {
+            if (single[key] != null) {
+              outputString += `${key}: ${single[key]}\n`;
+            }
+          }
+          outputString += `\n`
+        }
+      } else {
+        // Log the results for Elasticsearch queries
+        for (const single of searchObj.single) {
           outputString += `  iri: ${JSON.stringify(single.iri, null, "\t")}\n`;
           outputString += `  label: ${JSON.stringify(
             single.label,
@@ -451,27 +468,11 @@ async function run() {
             "\t"
           )}\n\n`;
         }
-      
+      }
     }
     console.log(outputString);
   }
 
-  // Log results for the homogeneous recommendation
-  // if (argv.format === "text") {
-  //   for (const searchObj of recommended) {
-  //     let outputString: string = `\n${result.iri}\n`;
-  //     for (const result of searchObj.homogeneous) {
-  //       outputString += `\n${result.iri}\n`;
-  //       if (!result.vocabulary) {
-  //         outputString += `Vocabulary: ${result.iri}\n`;
-  //       } else {
-  //         outputString += `Vocabulary: ${result.vocabulary}\n`;
-  //       }
-  //       if (returnObj.endpoint.type === "search") {
-  //         if (result.description) {
-  //           outputString += `Description: ${result.description}\n`;
-  //         }
-  //       } else {
   // for (const row of returnObj.addInfo) {
   //   if (row["iri"] === result.iri) {
   //     for (const key of Object.keys(row)) {
@@ -481,11 +482,7 @@ async function run() {
   //     }
   //   }
   // }
-  // }
 
-  //     }
-  //   }
-  // }
   // if (argv.format == "json") {
   //   console.log(JSON.stringify(recommended.resultObj, null, "\t"));
   // }

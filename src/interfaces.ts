@@ -1,108 +1,96 @@
 // Interface for the arguments of the recommend function in recommend.ts
 export interface Arguments {
-    searchTerms: string[]
-    categories: string[]
-    endpoints: Endpoint[] 
-    defaultEndpoint: Endpoint
+  searchTerms: string[];
+  categories: string[];
+  endpoints: Endpoint[];
+  defaultEndpoint: Endpoint;
 }
 
 // Bundle interface used for corresponding searchTerm and category
 export interface Bundle {
-    searchTerm: string 
-    category: string 
-    endpointType: "sparql" | "search" 
-    endpointUrl: string 
-    query: string
+  searchTerm: string;
+  category: string;
+  endpointType: "sparql" | "search";
+  endpointUrl: string;
+  query: string;
 }
 
 // Combines the corresponding searchTerm, category and endpoint to one list of results.
 export interface ReturnObject {
-    searchTerm: string 
-    category: string 
-    endpoint: Endpoint 
-    results: Result[] 
+  searchTerm: string;
+  category: string;
+  endpoint: Endpoint;
+  results: Result[];
+  addInfo: any
 }
 
 // Defines the shape of the Elasticsearch recommendations.
 export interface Result {
-    iri: string;
-    description?: string
-    label?: string
-    vocabulary: string
-    score?: any
-    category?: string
+  iri: string;
+  description?: string;
+  label?: string;
+  vocabulary: string;
+  score?: number;
+  category?: string;
 }
 
 // Defines the endpoints that should be used for the search
 export interface UsedEndpoints {
-    types: string[]
-    urls: string[]
-    queries: QueryFiles[]
+  types: string[];
+  urls: string[];
+  queries: QueryFiles[];
 }
 
 // Defines the shape of an endpoint
 export interface Endpoint {
-    name?: string
-    type: string
-    url: string
-    queryClass?: string
-    queryProperty?: string
+  name?: string;
+  type: string;
+  url: string;
+  queryClass?: string;
+  queryProperty?: string;
 }
 
 // Defines the shape of a configured object
 export interface Conf {
-    file: string
-    defaultEndpoint: Endpoint
-    endpointNames: string[]
-    endpointTypes: string[]
-    endpointUrls: string[]
-    queries: QueryFiles[]
+  file: string;
+  defaultEndpoint: Endpoint;
+  endpointNames: string[];
+  endpointTypes: string[];
+  endpointUrls: string[];
+  queries: QueryFiles[];
 }
 
 // Defines the output of the recommender function
 export interface Recommended {
-    resultObj: ReturnObject[]
-    bundled: Bundle[]
+  resultObj: ReturnObject[];
+  bundled: Bundle[];
 }
 
 export interface QueryFiles {
-    class: string;
-    property: string;
+  class: string;
+  property: string;
 }
 
 // Defines the shape of a hit.
 export interface ShardHit {
   _id: string;
   _source: {
-    "http://www w3 org/2000/01/rdf-schema#comment"?: string[]
-    "http://www w3 org/2004/02/skos/core#definition"?: string[]
+    "http://www w3 org/2000/01/rdf-schema#comment"?: string[];
+    "http://www w3 org/2004/02/skos/core#definition"?: string[];
   };
 }
 
 // Defines the shape of the fetched object in elasticSuggestions().
 export interface ShardResponse {
-  timed_out: boolean
+  timed_out: boolean;
   hits: {
-    hits: ShardHit[]
+    hits: ShardHit[];
   };
 }
 
 export interface ReturnedResult {
-    searchTerm: string;
-    vocabs: string[];
-    homogeneous: Result[];
-    single?: Result[];
-  }
-interface NewReturnedResult{
-    category: 'class' | 'property'
-    results: HomoResult[]
-    vocabularies: { [key: string]: number}
+  searchTerm: string;
+  vocabs: string[];
+  homogeneous: Result[];
+  single?: Result[] | any;
 }
-
-interface HomoResult {
-    vocabulary: string,
-    iri: string,
-    score: number
-    description: string
-} 
-

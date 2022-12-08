@@ -1,5 +1,6 @@
-import { ShardHit, ShardResponse, Result } from "./interfaces"
-import fetch from 'cross-fetch'
+import { Result, ShardHit, ShardResponse } from "./interfaces";
+import fetch from "cross-fetch";
+import { getVocabName } from "./vocabNames";
 
 /**
  * Assigns the Elasticsearch query according to the given category.
@@ -11,7 +12,7 @@ import fetch from 'cross-fetch'
  *
  */
 export function assignElasticQuery(category: string, term: string) {
-  if (category === 'class') {
+  if (category === "class") {
     return {
       query: {
         bool: {
@@ -41,7 +42,7 @@ export function assignElasticQuery(category: string, term: string) {
         },
       },
     };
-  } else if (category === 'property') {
+  } else if (category === "property") {
     return {
       query: {
         bool: {
@@ -76,31 +77,32 @@ export function assignElasticQuery(category: string, term: string) {
   }
 }
 
-
 /**
  * Converts the fetched object in the form of an Elasticsearch recommendation.
  *
  * @param responseBody fetched JSON object
  * @returns JSON object converted into the desired format
  */
-export function getSuggestionFromBody(
-  responseBody: ShardResponse
-): Result[] {
-  return responseBody.hits.hits.map(suggestion => {
-    const rdfs_comment = "http://www w3 org/2000/01/rdf-schema#comment"
-    const skos_definition = "http://www w3 org/2004/02/skos/core#definition"
-    let description
+export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
+  return responseBody.hits.hits.map((suggestion) => {
+    const rdfs_comment = "http://www w3 org/2000/01/rdf-schema#comment";
+    const skos_definition = "http://www w3 org/2004/02/skos/core#definition";
+    let description;
     if (suggestion._source.hasOwnProperty(rdfs_comment)) {
-      description = suggestion._source[rdfs_comment]?.[0]
+      description = suggestion._source[rdfs_comment]?.[0];
     } else if (suggestion._source.hasOwnProperty(skos_definition)) {
-      description = suggestion._source[skos_definition]?.[0]
+      description = suggestion._source[skos_definition]?.[0];
     }
     return {
       iri: suggestion._id,
-      description:
-Object.prototype.hasOwnProperty.call(suggestion._source, rdfs_comment)
+      score: 1,
+      vocabulary: "",
+      description: Object.prototype.hasOwnProperty.call(
+        suggestion._source,
+        rdfs_comment
+      )
         ? suggestion._source[rdfs_comment]?.[0]
-        : suggestion._source[skos_definition]?.[0]
+        : suggestion._source[skos_definition]?.[0],
     };
   });
 }

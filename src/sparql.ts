@@ -4,14 +4,17 @@ import { Result } from "./interfaces";
 /**
  * Retrieves the SPARQL results.
  *
- * @param query search/query string
+ * @param category category type (class or property)
+ * @param term search/query string
  * @param endpoint service used
  * @returns a list of JSON objects containing IRI's
  */
 export async function sparqlSuggestions(
+  category: string,
+  term: string,
   endpoint: string,
   query: string
-):Promise<Result[]> {
+) {
   const request = new URL(endpoint);
   request.search = `query=${encodeURI(query)}`;
 
@@ -37,7 +40,7 @@ export async function sparqlSuggestions(
     // Return the result in a nice format (sparqlResults)
     // and the json object itself. 
     //The json object will be used to return information from the configured queries. 
-    return sparqlResults;
+    return [sparqlResults, json];
   } else {
     throw Error("Fetching the URL returned bad results.");
   }

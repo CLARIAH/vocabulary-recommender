@@ -1,6 +1,6 @@
 // import execAll  from 'execall'
 import { Arguments, ReturnObject } from './interfaces'
-import { recommend } from './recommend'
+import { singleRecommendation } from './singleRecommend'
 import { fetch } from 'cross-fetch'
 
 // Fetches the lov endpoint and returns the vocabulary prefixes and their corresponding IRIs.
