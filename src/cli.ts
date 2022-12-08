@@ -15,9 +15,10 @@ import {
   UsedEndpoints,
   Bundle,
   Conf,
-  QueryFiles, Result
+  QueryFiles,
+  Result,
 } from "./interfaces";
-import {homogeneousRecommendation} from "./homogeneous"
+import { homogeneousRecommendation } from "./homogeneous";
 
 // Creates a configuration object if no configuration file is provided
 function createDefaultConfiguration() {
@@ -94,28 +95,34 @@ function getConfiguration(): Conf {
   // List containing the names of the files where the configured and default queries are stored.
   const sparqlFiles: QueryFiles[] = [];
   for (const end of endpointNamesFromConfig) {
-    sparqlFiles.push(assignQueryFile(endpoints[end], defaultQueryClass, defaultQueryProp))
+    sparqlFiles.push(
+      assignQueryFile(endpoints[end], defaultQueryClass, defaultQueryProp)
+    );
   }
 
-  const sparqlQueries: QueryFiles[] = []
+  const sparqlQueries: QueryFiles[] = [];
   for (const queryFile of sparqlFiles) {
     sparqlQueries.push({
       class: fs.readFileSync(path.resolve(queryFile.class), "utf8"),
-      property: fs.readFileSync(path.resolve(queryFile.property), "utf8")
-    })
+      property: fs.readFileSync(path.resolve(queryFile.property), "utf8"),
+    });
   }
 
-  const defaultQueryFiles = assignQueryFile(endpoints[defaultEndpointName], defaultQueryClass, defaultQueryProp)
+  const defaultQueryFiles = assignQueryFile(
+    endpoints[defaultEndpointName],
+    defaultQueryClass,
+    defaultQueryProp
+  );
 
   if (defaultEndpointName === "") {
     throw new Error(
       `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
     );
-  } else if (defaultQueryClass === ( undefined || "" )) {
+  } else if (defaultQueryClass === (undefined || "")) {
     throw new Error(
       `ERROR\n\nNo query for defaultQueryClass provided in config file. Please add a defaultQueryClass from: ${endpointNamesFromConfig}`
     );
-  } else if (defaultQueryProp === ( undefined || "" )) {
+  } else if (defaultQueryProp === (undefined || "")) {
     throw new Error(
       `ERROR\n\nNo query for defaultQueryProp provided in config file. Please add a defaultQueryProp from: ${endpointNamesFromConfig}`
     );
@@ -127,13 +134,19 @@ function getConfiguration(): Conf {
       name: defaultEndpointName,
       type: endpoints[defaultEndpointName].type,
       url: endpoints[defaultEndpointName].url,
-      queryClass: fs.readFileSync(path.resolve(defaultQueryFiles.class), "utf8"),
-      queryProperty: fs.readFileSync(path.resolve(defaultQueryFiles.property), "utf8")
+      queryClass: fs.readFileSync(
+        path.resolve(defaultQueryFiles.class),
+        "utf8"
+      ),
+      queryProperty: fs.readFileSync(
+        path.resolve(defaultQueryFiles.property),
+        "utf8"
+      ),
     },
     endpointNames: endpointNamesFromConfig,
     endpointTypes: endpointTypes,
     endpointUrls: endpointUrls,
-    queries: sparqlQueries
+    queries: sparqlQueries,
   };
 }
 
@@ -144,51 +157,51 @@ function assignQueryFile(
 ): QueryFiles {
   let queryFile: QueryFiles = {
     class: "",
-    property: ""
+    property: "",
+  };
+  // Elasticsearch endpoint -> Do not assign SPARQL queries.
+  if (endpoint.type === "search") {
+    queryFile = { class: "", property: "" };
+  } else {
+    // SPARQL endpoint + class query and property query are defined
+    if (
+      endpoint.queryClass != undefined &&
+      endpoint.queryProperty != undefined
+    ) {
+      queryFile = {
+        class: endpoint.queryClass,
+        property: endpoint.queryProperty,
+      };
+      // SPARQL endpoint + class query is defined
+    } else if (
+      endpoint.queryClass != undefined &&
+      endpoint.queryProperty === undefined
+    ) {
+      queryFile = {
+        class: endpoint.queryClass,
+        property: defaultQueryProp,
+      };
+      // SPARQL endpoint + property query is defined
+    } else if (
+      endpoint.queryClass === undefined &&
+      endpoint.queryProperty != undefined
+    ) {
+      queryFile = {
+        class: defaultQueryClass,
+        property: endpoint.queryProperty,
+      };
+      // SPARQL endpoint + neither class query or property query are defined
+    } else if (
+      endpoint.queryClass === undefined &&
+      endpoint.queryProperty === undefined
+    ) {
+      queryFile = {
+        class: defaultQueryClass,
+        property: defaultQueryProp,
+      };
+    }
   }
-    // Elasticsearch endpoint -> Do not assign SPARQL queries.
-    if (endpoint.type === "search") {
-      queryFile = { class: "", property: "" };
-    } else {
-      // SPARQL endpoint + class query and property query are defined
-      if (
-        endpoint.queryClass != undefined &&
-        endpoint.queryProperty != undefined
-      ) {
-        queryFile = {
-          class: endpoint.queryClass,
-          property: endpoint.queryProperty,
-        };
-        // SPARQL endpoint + class query is defined
-      } else if (
-        endpoint.queryClass != undefined &&
-        endpoint.queryProperty === undefined
-      ) {
-        queryFile = {
-          class: endpoint.queryClass,
-          property: defaultQueryProp,
-        };
-        // SPARQL endpoint + property query is defined
-      } else if (
-        endpoint.queryClass === undefined &&
-        endpoint.queryProperty != undefined
-      ) {
-        queryFile = {
-          class: defaultQueryClass,
-          property: endpoint.queryProperty,
-        };
-        // SPARQL endpoint + neither class query or property query are defined
-      } else if (
-        endpoint.queryClass === undefined &&
-        endpoint.queryProperty === undefined
-      ) {
-        queryFile = {
-          class: defaultQueryClass,
-          property: defaultQueryProp,
-        };
-      }
-  }
-  return queryFile
+  return queryFile;
 }
 
 // Returns the cli arguments
@@ -244,17 +257,27 @@ async function configureInput() {
   const input: Arguments = {
     searchTerms: [],
     categories: [],
-    endpoints: [], 
-    defaultEndpoint: { name: "", type: "", url: "", queryClass: "", queryProperty: "" },
+    endpoints: [],
+    defaultEndpoint: {
+      name: "",
+      type: "",
+      url: "",
+      queryClass: "",
+      queryProperty: "",
+    },
   };
   const argv = await cli();
 
   if (argv.searchTerm) {
     //  Ensure all elements of array are strings
-    input.searchTerms = argv.searchTerm.map((term: { toString: () => any; }) => term.toString());
+    input.searchTerms = argv.searchTerm.map((term: { toString: () => any }) =>
+      term.toString()
+    );
     if (argv.category) {
       //  Ensure all elements of array are strings
-      input.categories = argv.category.map((term: { toString: () => any; }) => term.toString());
+      input.categories = argv.category.map((term: { toString: () => any }) =>
+        term.toString()
+      );
 
       const conf: Conf = getConfiguration();
       if (argv.endpoint) {
@@ -262,14 +285,14 @@ async function configureInput() {
         for (const i in argv.endpoint) {
           let included: Boolean = false;
           for (const confIX in conf.endpointNames) {
-            if (conf.endpointNames[confIX] === argv.endpoint[i]) {              
+            if (conf.endpointNames[confIX] === argv.endpoint[i]) {
               // Add the endpoint to the input
               input.endpoints.push({
                 name: conf.endpointNames[confIX],
                 type: conf.endpointTypes[confIX],
                 url: conf.endpointUrls[confIX],
                 queryClass: conf.queries[confIX].class,
-                queryProperty: conf.queries[confIX].property
+                queryProperty: conf.queries[confIX].property,
               });
               included = true;
             }
@@ -303,73 +326,169 @@ async function run() {
     }
   }
 
+  // configures the Input for the homogeneous recommendations.
   const input = await configureInput();
-  const homo = await homogeneousRecommendation(input)
 
   /** recommend contains
    * the resultObj with the recommendations
    * the bundled search inputs
    */
-  const recommended = await recommend(input);
+  const recommended = await homogeneousRecommendation(input);
+
+  // Jana: Find a better way to retrieve the information and pass es für hr an
+  const bundles = await recommend(input);
   // Log the search inputs
-  for (const bundle of recommended.bundled) {
-    // Log query if verbose level 2
-    if (argv.verbose >= 2) {
-      if (bundle.endpointType === "search") {
-        console.error(
-          JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
-        );
-      } else {
-        console.error(
-          replaceAll(bundle.query, "\\${term}", bundle.searchTerm)
-        );
-      }
-    }
+  // for (const bundle of bundles.bundled) {
+  //   // Log query if verbose level 2
+  //   if (argv.verbose >= 2) {
+  //     if (bundle.endpointType === "search") {
+  //       console.error(
+  //         JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
+  //       );
+  //     } else {
+  //       console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
+  //     }
+  //   }
 
-    if (argv.format === "text") {
-      if (argv.verbose >= 1) {
-        console.log(
-          "--------------------------------------------------------------"
-        );
-        console.log(
-          `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
-        );
-      }
-    }
-  }
+  //   if (argv.format === "text") {
+  //     if (argv.verbose >= 1) {
+  //       console.log(
+  //         "--------------------------------------------------------------"
+  //       );
+  //       console.log(
+  //         `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\nResults:\n`
+  //       );
+  //     }
+  //   }
+  // }
 
-  // Log results
+  let outputString: string = ``;
+  // Log all the results
   if (argv.format === "text") {
-    for (const returnObj of recommended.resultObj) {
-      for (const result of returnObj.results) {
-        let outputString: string = `\n${result.iri}\n`;
-        if (!result.vocabulary) {
-          outputString += `Vocabulary: ${result.iri}\n`
-        } else {
-          outputString += `Vocabulary: ${result.vocabulary}\n`
-        }
-        if ( returnObj.endpoint.type === "search" ) {
-          if (result.description) {
-            outputString += `Description: ${result.description}\n`
-          } 
-        } else {
-          // for (const row of returnObj.addInfo) {
-          //   if (row["iri"] === result.iri) {
-          //     for (const key of Object.keys(row)) {
-          //       if (key != "iri" && row[key] != null) {
-          //         outputString += `${key}: ${row[key]}\n`;
-          //       }
-          //     }
-          //   }
-          // }
-        }
-        console.log(outputString)
+    for (const index in recommended) {
+      if (index === "0") {
+        // Log results for the instance recommendations
+        outputString += `\nThe following homogeneous recommendation prefers high individual scores:\n`;
+      } else {
+        // Log results for the vocabulary recommendations
+        outputString += `\nThe following homogeneous recommendation prefers high vocabulary scores:\n`;
       }
+      for (const searchObj of recommended[index]) {
+        outputString += `\nsearchTerm: ${JSON.stringify(
+          searchObj.searchTerm,
+          null,
+          "\t"
+        )}\n\n`;
+        const homogeneous = searchObj.homogeneous[0];
+        outputString += `  iri: ${JSON.stringify(
+          homogeneous.iri,
+          null,
+          "\t"
+        )}\n`;
+        outputString += `  label: ${JSON.stringify(
+          homogeneous.label,
+          null,
+          "\t"
+        )}\n`;
+        outputString += `  description: ${JSON.stringify(
+          homogeneous.description,
+          null,
+          "\t"
+        )}\n`;
+        outputString += `  score: ${JSON.stringify(
+          homogeneous.score,
+          null,
+          "\t"
+        )}\n`;
+        outputString += `  vocabulary: ${JSON.stringify(
+          homogeneous.vocabulary,
+          null,
+          "\t"
+        )}\n`;
+        outputString += `  category: ${JSON.stringify(
+          homogeneous.category,
+          null,
+          "\t"
+        )}\n`;
+      }
+      outputString += `\n--------------------------------------------------------------\n`;
     }
+
+      outputString += `\n--------------------------------------------------------------\n`;
+      outputString += `\nSingle recommendations:\n`;
+      for (const searchObj of recommended[0]) {
+        outputString += `\nsearchTerm: ${JSON.stringify(
+          searchObj.searchTerm,
+          null,
+          "\t"
+        )}\n\n`;
+        const singles = searchObj.single ? searchObj.single : [];
+        for (const single of singles) {
+          outputString += `  iri: ${JSON.stringify(single.iri, null, "\t")}\n`;
+          outputString += `  label: ${JSON.stringify(
+            single.label,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  description: ${JSON.stringify(
+            single.description,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  score: ${JSON.stringify(
+            single.score,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  vocabulary: ${JSON.stringify(
+            single.vocabulary,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  category: ${JSON.stringify(
+            single.category,
+            null,
+            "\t"
+          )}\n\n`;
+        }
+      
+    }
+    console.log(outputString);
   }
-  if (argv.format == "json") {
-    console.log(JSON.stringify(recommended.resultObj, null, "\t"));
-  }
+
+  // Log results for the homogeneous recommendation
+  // if (argv.format === "text") {
+  //   for (const searchObj of recommended) {
+  //     let outputString: string = `\n${result.iri}\n`;
+  //     for (const result of searchObj.homogeneous) {
+  //       outputString += `\n${result.iri}\n`;
+  //       if (!result.vocabulary) {
+  //         outputString += `Vocabulary: ${result.iri}\n`;
+  //       } else {
+  //         outputString += `Vocabulary: ${result.vocabulary}\n`;
+  //       }
+  //       if (returnObj.endpoint.type === "search") {
+  //         if (result.description) {
+  //           outputString += `Description: ${result.description}\n`;
+  //         }
+  //       } else {
+  // for (const row of returnObj.addInfo) {
+  //   if (row["iri"] === result.iri) {
+  //     for (const key of Object.keys(row)) {
+  //       if (key != "iri" && row[key] != null) {
+  //         outputString += `${key}: ${row[key]}\n`;
+  //       }
+  //     }
+  //   }
+  // }
+  // }
+
+  //     }
+  //   }
+  // }
+  // if (argv.format == "json") {
+  //   console.log(JSON.stringify(recommended.resultObj, null, "\t"));
+  // }
 }
 
 // Start recommender
