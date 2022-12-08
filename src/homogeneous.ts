@@ -48,25 +48,22 @@ export async function homogeneousRecommendation(
 
   // combiSQORE result
   const combiResult: string[] = combiSQORE(vocabSequence, recommended, 0, []);
-  console.log(`hr combi test: ${JSON.stringify(recommended, null, "\t")}`)
-  console.log(`hr combi test: ${JSON.stringify(combiResult, null, "\t")}`)
-
-
 
   // Homogeneous recommendations that focus on the individual scores of the search results.
   const instanceRecommendation: ReturnedResult[] = [];
   // Homogeneous recommendations that focus on the vocabulary scores.
   const vocabRecommendation: ReturnedResult[] = [];
   // Get the homogeneous recommendations for each searchTerm
-  for (const searchObj of recommended) {
+  for (const index in recommended) {
     instanceRecommendation.push(
-      getInstanceRecommendation(searchObj, combiResult)
+      getInstanceRecommendation(recommended[index], combiResult)
     );
+    instanceRecommendation[index].single = recommended[index].homogeneous
     vocabRecommendation.push(
-      getVocabRecommendation(searchObj, combiResult, vocabScores)
+      getVocabRecommendation(recommended[index], combiResult, vocabScores)
     );
+    vocabRecommendation[index].single = recommended[index].homogeneous
   }
-
   return [instanceRecommendation, vocabRecommendation];
 }
 
@@ -76,19 +73,19 @@ function getInstanceRecommendation(
   vocabResult: string[]
 ): ReturnedResult {
   // Sort the results by score
-  searchObj.results.sort(
+  searchObj.homogeneous.sort(
     (first, second) => (second.score || -1) - (first.score || -1)
   );
   // Add the searchTerm to the result object
   const instResult: ReturnedResult = {
     searchTerm: searchObj.searchTerm,
     vocabs: [],
-    results: [],
+    homogeneous: [],
   };
   // Search for the result with the highest score that is part of one of the combiSQORE vocabularies.
-  for (const result of searchObj.results) {
+  for (const result of searchObj.homogeneous) {
     if (vocabResult.includes(result.vocabulary)) {
-      instResult.results.push(result);
+      instResult.homogeneous.push(result);
       instResult.vocabs.push(result.vocabulary);
       return instResult;
     }
@@ -104,20 +101,20 @@ function getVocabRecommendation(
   }
 ): ReturnedResult {
   // Sort the results by score
-  searchObj.results.sort(
+  searchObj.homogeneous.sort(
     (first, second) => (second.score || -1) - (first.score || -1)
   );
   // Initialize the resulting object
   const vocResult: ReturnedResult = {
     searchTerm: searchObj.searchTerm,
     vocabs: [],
-    results: [],
+    homogeneous: [],
   };
   combiResult.sort((first, second) => vocabScores[second] - vocabScores[first]);
   for (const vocab of combiResult) {
-    for (const result of searchObj.results) {
+    for (const result of searchObj.homogeneous) {
       if (result.vocabulary === vocab) {
-        vocResult.results.push(result);
+        vocResult.homogeneous.push(result);
         vocResult.vocabs.push(vocab);
         return vocResult;
       }
@@ -142,14 +139,16 @@ function combiSQORE(
     woVocab.push({
       searchTerm: listItem.searchTerm,
       vocabs: listItem.vocabs.filter((item) => item != vocabSequence[index]),
-      results: listItem.results,
+      homogeneous: listItem.homogeneous,
     });
   }
   for (const woListItem of woVocab) {
     // Check if one of the lists gets empty without the current vocabulary
     if (woListItem.vocabs.length === 0) {
       // Add the needed vocab to the vocabResult
-      currentResult.push(vocabSequence[index]);
+      if (!currentResult.includes(vocabSequence[index])) {
+        currentResult.push(vocabSequence[index]);
+      }
       // Go to the next vocabulary
       if (index < vocabSequence.length - 1) {
         combiSQORE(vocabSequence, recommended, index + 1, currentResult);
@@ -187,17 +186,19 @@ export function getInput(
     endpoints: endpoints,
     defaultEndpoint: defaultEndpoint,
   };
-  if (categories === []) {
-    for (const term of searchTerms) {
-      input.categories.push("class");
-      input.categories.push("property");
-      input.searchTerms.push(term);
-      input.searchTerms.push(term);
-    }
-  } else {
-    input.categories = categories;
-    input.searchTerms = searchTerms;
-  }
+  // if (categories === []) {
+  //   for (const term of searchTerms) {
+  //     input.categories.push("class");
+  //     input.categories.push("property");
+  //     input.searchTerms.push(term);
+  //     input.searchTerms.push(term);
+  //   }
+  // } else {
+  //   input.categories = categories;
+  //   input.searchTerms = searchTerms;
+  // }
+  input.categories = categories;
+  input.searchTerms = searchTerms;
   return input;
 }
 
@@ -231,7 +232,7 @@ async function getRecommendations(
   const resultList: ReturnedResult[] = [];
   // Add the searchTerms to the returned object.
   for (const term of searchTerms) {
-    resultList.push({ searchTerm: term, vocabs: [], results: [] });
+    resultList.push({ searchTerm: term, vocabs: [], homogeneous: [] });
   }
   // Loop through the returned objects.
   // There is one listItem per result with the corresponding results and vocabularies.
@@ -239,7 +240,7 @@ async function getRecommendations(
     for (const returnObj of recommended.resultObj) {
       if (returnObj.searchTerm === listItem.searchTerm) {
         // Add the class and property results
-        listItem.results.push(...returnObj.results);
+        listItem.homogeneous.push(...returnObj.results);
         for (const result of returnObj.results) {
           if (!listItem.vocabs.includes(result.vocabulary)) {
             // Make a list of distinct vocabularies that are contained in the search results.
@@ -269,7 +270,7 @@ function getVocabScores(recommended: ReturnedResult[]): {
   // Loop through every search object
   for (const listItem of recommended) {
     // Get the result for the current searchTerm
-    for (const result of listItem.results) {
+    for (const result of listItem.homogeneous) {
       // If the vocabulary is contained in the vocabScore dictionary
       if (Object.keys(vocabScores).includes(result.vocabulary)) {
         // Add the scores up

@@ -304,8 +304,7 @@ async function run() {
   }
 
   const input = await configureInput();
-
-  console.log(`testibesti: ${JSON.stringify(homogeneousRecommendation(input), null, "\t")}`)
+  const homo = await homogeneousRecommendation(input)
 
   /** recommend contains
    * the resultObj with the recommendations

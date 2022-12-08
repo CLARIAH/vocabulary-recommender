@@ -90,7 +90,8 @@ export interface ShardResponse {
 export interface ReturnedResult {
     searchTerm: string;
     vocabs: string[];
-    results: Result[]
+    homogeneous: Result[];
+    single?: Result[];
   }
 interface NewReturnedResult{
     category: 'class' | 'property'
