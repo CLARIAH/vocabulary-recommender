@@ -33,7 +33,7 @@ export async function homogeneousRecommendation(
   argv: Arguments
 ): Promise<ReturnedResult[][]> {
   // Get the recommendation results.
-  const recommended = await getRecommendations(
+  const recommended = await getSingles(
     argv.searchTerms,
     argv.categories,
     argv.endpoints,
@@ -219,7 +219,7 @@ export function getInput(
  * Output:
  *    resultList: ReturnedResult[]
  */
-async function getRecommendations(
+async function getSingles(
   searchTerms: string[],
   categories: string[],
   endpoints: Endpoint[],
@@ -232,6 +232,7 @@ async function getRecommendations(
     endpoints,
     defaultEndpoint
   );
+  console.log(JSON.stringify(input, null, "\t"))
   // Get the recommended results from the recommendation function.
   const recommended = await singleRecommendation(input);
   // Initialize the returned object

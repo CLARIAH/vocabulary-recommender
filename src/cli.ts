@@ -2,7 +2,7 @@
 import fs, { mkdir } from "fs";
 
 import path from "path";
-import { assignElasticQuery, elasticSuggestions } from "./elasticsearch";
+import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import {
   singleRecommendation,
@@ -30,6 +30,8 @@ function createDefaultConfiguration() {
     defaultEndpoint: "druid-recommend",
     defaultQueryClass: "./queries/defaultClass.rq",
     defaultQueryProperty: "./queries/defaultProperty.rq",
+    defaultQueryESClass: "./queries/defaultESClass.json",
+    defaultQueryESProperty: "./queries/defaultESProp.json",
     endpoints: {
       "druid-recommend": {
         type: "elasticsearch",
@@ -89,6 +91,8 @@ function getConfiguration(): Conf {
   const defaultEndpointName = jsonConfFile.defaultEndpoint;
   const defaultQueryClass = jsonConfFile.defaultQueryClass;
   const defaultQueryProp = jsonConfFile.defaultQueryProperty;
+  const defaultQueryESClass = jsonConfFile.defaultQueryESClass;
+  const defaultQueryESProp = jsonConfFile.defaultQueryESProperty;
   const endpoints = jsonConfFile.endpoints;
   const endpointNamesFromConfig = Object.keys(endpoints);
   const endpointUrls: string[] = [];
@@ -97,16 +101,22 @@ function getConfiguration(): Conf {
   endpointNamesFromConfig.forEach((i) => endpointTypes.push(endpoints[i].type));
 
   // List containing the names of the files where the configured and default queries are stored.
-  const sparqlFiles: QueryFiles[] = [];
+  const queryFiles: QueryFiles[] = [];
   for (const end of endpointNamesFromConfig) {
-    sparqlFiles.push(
-      assignQueryFile(endpoints[end], defaultQueryClass, defaultQueryProp)
+    queryFiles.push(
+      assignQueryFile(
+        endpoints[end],
+        defaultQueryClass,
+        defaultQueryProp,
+        defaultQueryESClass,
+        defaultQueryESProp
+      )
     );
   }
 
-  const sparqlQueries: QueryFiles[] = [];
-  for (const queryFile of sparqlFiles) {
-    sparqlQueries.push({
+  const queryStrings: QueryFiles[] = [];
+  for (const queryFile of queryFiles) {
+    queryStrings.push({
       class: fs.readFileSync(path.resolve(queryFile.class), "utf8"),
       property: fs.readFileSync(path.resolve(queryFile.property), "utf8"),
     });
@@ -115,7 +125,9 @@ function getConfiguration(): Conf {
   const defaultQueryFiles = assignQueryFile(
     endpoints[defaultEndpointName],
     defaultQueryClass,
-    defaultQueryProp
+    defaultQueryProp,
+    defaultQueryESClass,
+    defaultQueryESProp
   );
 
   if (defaultEndpointName === "") {
@@ -129,6 +141,14 @@ function getConfiguration(): Conf {
   } else if (defaultQueryProp === (undefined || "")) {
     throw new Error(
       `ERROR\n\nNo query for defaultQueryProp provided in config file. Please add a defaultQueryProp from: ${endpointNamesFromConfig}`
+    );
+  } else if (defaultQueryESClass === (undefined || "")) {
+    throw new Error(
+      `ERROR\n\nNo query for defaultQueryESClass provided in config file. Please add a defaultQueryESClass from: ${endpointNamesFromConfig}`
+    );
+  } else if (defaultQueryESProp === (undefined || "")) {
+    throw new Error(
+      `ERROR\n\nNo query for defaultQueryESProp provided in config file. Please add a defaultQueryESProp from: ${endpointNamesFromConfig}`
     );
   }
 
@@ -150,55 +170,62 @@ function getConfiguration(): Conf {
     endpointNames: endpointNamesFromConfig,
     endpointTypes: endpointTypes,
     endpointUrls: endpointUrls,
-    queries: sparqlQueries,
+    queries: queryStrings,
   };
 }
 
+// Function that assigns the query files according to the endpoint type and the configured queries.
 function assignQueryFile(
   endpoint: Endpoint,
   defaultQueryClass: string,
-  defaultQueryProp: string
+  defaultQueryProp: string,
+  defaultQueryESClass: string,
+  defaultQueryESProp: string
 ): QueryFiles {
   let queryFile: QueryFiles = {
     class: "",
     property: "",
   };
-  // Elasticsearch endpoint -> Do not assign SPARQL queries.
-  if (endpoint.type === "search") {
-    queryFile = { class: "", property: "" };
-  } else {
-    // SPARQL endpoint + class query and property query are defined
-    if (
-      endpoint.queryClass != undefined &&
-      endpoint.queryProperty != undefined
-    ) {
+  // class query and property query are defined
+  if (endpoint.queryClass != undefined && endpoint.queryProperty != undefined) {
+    queryFile = {
+      class: endpoint.queryClass,
+      property: endpoint.queryProperty,
+    };
+    // class query is defined
+  } else if (
+    endpoint.queryClass != undefined &&
+    endpoint.queryProperty === undefined
+  ) {
+    if (endpoint.type === "search") {
+      queryFile = { class: endpoint.queryClass, property: defaultQueryESProp };
+    } else {
+      queryFile = { class: endpoint.queryClass, property: defaultQueryProp };
+    }
+    // property query is defined
+  } else if (
+    endpoint.queryClass === undefined &&
+    endpoint.queryProperty != undefined
+  ) {
+    if (endpoint.type === "search") {
       queryFile = {
-        class: endpoint.queryClass,
+        class: defaultQueryESClass,
         property: endpoint.queryProperty,
       };
-      // SPARQL endpoint + class query is defined
-    } else if (
-      endpoint.queryClass != undefined &&
-      endpoint.queryProperty === undefined
-    ) {
-      queryFile = {
-        class: endpoint.queryClass,
-        property: defaultQueryProp,
-      };
-      // SPARQL endpoint + property query is defined
-    } else if (
-      endpoint.queryClass === undefined &&
-      endpoint.queryProperty != undefined
-    ) {
+    } else {
       queryFile = {
         class: defaultQueryClass,
         property: endpoint.queryProperty,
       };
-      // SPARQL endpoint + neither class query or property query are defined
-    } else if (
-      endpoint.queryClass === undefined &&
-      endpoint.queryProperty === undefined
-    ) {
+    }
+    // neither class query or property query are defined
+  } else if (
+    endpoint.queryClass === undefined &&
+    endpoint.queryProperty === undefined
+  ) {
+    if (endpoint.type === "search") {
+      queryFile = { class: defaultQueryESClass, property: defaultQueryESProp };
+    } else {
       queryFile = {
         class: defaultQueryClass,
         property: defaultQueryProp,
@@ -345,13 +372,7 @@ async function run() {
   for (const bundle of bundles.bundled) {
     //   // Log query if verbose level 2
     if (argv.verbose >= 2) {
-      if (bundle.endpointType === "search") {
-        console.error(
-          JSON.stringify(assignElasticQuery(bundle.category, bundle.searchTerm))
-        );
-      } else {
-        console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
-      }
+      console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
     }
 
     if (argv.format === "text") {
@@ -436,7 +457,7 @@ async function run() {
               outputString += `${key}: ${single[key]}\n`;
             }
           }
-          outputString += `\n`
+          outputString += `\n`;
         }
       } else {
         // Log the results for Elasticsearch queries
@@ -473,19 +494,9 @@ async function run() {
     console.log(outputString);
   }
 
-  // for (const row of returnObj.addInfo) {
-  //   if (row["iri"] === result.iri) {
-  //     for (const key of Object.keys(row)) {
-  //       if (key != "iri" && row[key] != null) {
-  //         outputString += `${key}: ${row[key]}\n`;
-  //       }
-  //     }
-  //   }
-  // }
-
-  // if (argv.format == "json") {
-  //   console.log(JSON.stringify(recommended.resultObj, null, "\t"));
-  // }
+  if (argv.format == "json") {
+    console.log(JSON.stringify(recommended[0], null, "\t"));
+  }
 }
 
 // Start recommender

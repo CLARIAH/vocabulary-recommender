@@ -3,81 +3,6 @@ import fetch from "cross-fetch";
 import { getVocabName } from "./vocabNames";
 
 /**
- * Assigns the Elasticsearch query according to the given category.
- * @remarks Multiple search methods are made optional - see 'should:'
- *
- * @param category category type (class or property)
- * @param term search/query string
- * @returns JSON search object used for the ES search query
- *
- */
-export function assignElasticQuery(category: string, term: string) {
-  if (category === "class") {
-    return {
-      query: {
-        bool: {
-          must: {
-            simple_query_string: {
-              query:
-                "http://www.w3.org/2002/07/owl#Class | http://www.w3.org/2000/01/rdf-schema#Class",
-              fields: ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"],
-            },
-          },
-          should: [
-            {
-              simple_query_string: {
-                query: term,
-                fields: ["http://www w3 org/2000/01/rdf-schema#comment"],
-              },
-            },
-            {
-              wildcard: {
-                "http://www.w3.org/2000/01/rdf-schema#label": term + "*",
-              },
-            },
-            { fuzzy: { "http://www w3 org/2000/01/rdf-schema#label": term } },
-            { match: { "@id": term } },
-          ],
-          minimum_should_match: 1,
-        },
-      },
-    };
-  } else if (category === "property") {
-    return {
-      query: {
-        bool: {
-          must: {
-            simple_query_string: {
-              query:
-                "http://www.w3.org/2002/07/owl#DatatypeProperty | http://www.w3.org/2002/07/owl#ObjectProperty | http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
-              fields: ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"],
-            },
-          },
-          should: [
-            {
-              simple_query_string: {
-                query: term,
-                fields: ["http://www w3 org/2000/01/rdf-schema#comment"],
-              },
-            },
-            {
-              wildcard: {
-                "http://www.w3.org/2000/01/rdf-schema#label": term + "*",
-              },
-            },
-            { fuzzy: { "http://www w3 org/2000/01/rdf-schema#label": term } },
-            { match: { "@id": term } },
-          ],
-          minimum_should_match: 1,
-        },
-      },
-    };
-  } else {
-    throw Error("Category does not exist! Please provide existing category.");
-  }
-}
-
-/**
  * Converts the fetched object in the form of an Elasticsearch recommendation.
  *
  * @param responseBody fetched JSON object
@@ -87,6 +12,7 @@ export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
   return responseBody.hits.hits.map((suggestion) => {
     const rdfs_comment = "http://www w3 org/2000/01/rdf-schema#comment";
     const skos_definition = "http://www w3 org/2004/02/skos/core#definition";
+    const rdfs_prefLabel = "http://www w3 org/2000/01/rdf-schema#label"
     let description;
     if (suggestion._source.hasOwnProperty(rdfs_comment)) {
       description = suggestion._source[rdfs_comment]?.[0];
@@ -95,7 +21,7 @@ export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
     }
     return {
       iri: suggestion._id,
-      score: 1,
+      score: suggestion._score,
       vocabulary: "",
       description: Object.prototype.hasOwnProperty.call(
         suggestion._source,
@@ -119,18 +45,18 @@ export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
 export async function elasticSuggestions(
   category: string,
   term: string,
-  endpoint: string
+  endpoint: string,
+  query: string
 ) {
-  const searchObject = assignElasticQuery(category, term);
-
   // Due to version conflict since v3 isn't compatible with current version of ES
   const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(searchObject),
+    body: query,
   });
-  const json: ShardResponse = await response.json();
-  return getSuggestionFromBody(json);
+  const json = await response.json();
+  const shard: ShardResponse = json
+  return [getSuggestionFromBody(shard), json];
 }
