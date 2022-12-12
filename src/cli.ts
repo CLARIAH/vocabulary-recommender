@@ -2,13 +2,10 @@
 import fs, { mkdir } from "fs";
 
 import path from "path";
-import { elasticSuggestions } from "./elasticsearch";
-import { sparqlSuggestions } from "./sparql";
-import { singleRecommendation, replaceAll } from "./singleRecommend";
-import { getVocabName, getPrefixes } from "./vocabNames";
+import { replaceAll } from "./singleRecommend";
 import yargs from "yargs/yargs";
 import _ from "lodash";
-import { Arguments, Endpoint, Conf, QueryFiles, Input } from "./interfaces";
+import { Endpoint, Conf, QueryFiles, Input } from "./interfaces";
 import { homogeneousRecommendation } from "./homogeneous";
 
 // Creates a configuration object if no configuration file is provided
@@ -34,19 +31,14 @@ function createDefaultConfiguration() {
 }
 
 /** Gets the information from the configuration file (or creates a new file with the configuration object)
-Output: 
-  file: string,
-  defaultEndpoint: Endpoint,
-  endpointNames: string[],
-  endpointTypes: string[],
-  endpointUrls: string[]
+ * @returns a configuration object
 */
 function getConfiguration(): Conf {
-  // const vocaDir = path.resolve("conf");
+  // Load the configuration file.
   const endpointConfigFile = path.resolve(
-    // vocaDir,
     "conf.json"
   );
+  // Get the default if there is no configuration file.
   const endpointConfigurationObject = createDefaultConfiguration();
 
   try {
@@ -66,6 +58,7 @@ function getConfiguration(): Conf {
     console.error(err);
   }
 
+  // Store the information from the configuration file.
   const confFile = fs.readFileSync(endpointConfigFile, "utf8");
   const jsonConfFile = JSON.parse(confFile);
   const defaultEndpointName = jsonConfFile.defaultEndpoint;
@@ -94,6 +87,7 @@ function getConfiguration(): Conf {
     );
   }
 
+  // Extract the query string from the query file.
   const queryStrings: QueryFiles[] = [];
   for (const queryFile of queryFiles) {
     queryStrings.push({
@@ -110,6 +104,7 @@ function getConfiguration(): Conf {
     defaultQueryESProp
   );
 
+  // Throw errors when default declarations are missing.
   if (defaultEndpointName === "") {
     throw new Error(
       `ERROR\n\nNo endpoint for defaultEndpoint provided in config file. Please add a defaultEndpoint from: ${endpointNamesFromConfig}`
@@ -132,6 +127,7 @@ function getConfiguration(): Conf {
     );
   }
 
+  // Return the configuration object.
   return {
     file: endpointConfigFile,
     defaultEndpoint: {
@@ -154,7 +150,16 @@ function getConfiguration(): Conf {
   };
 }
 
-// Function that assigns the query files according to the endpoint type and the configured queries.
+/** Function that assigns the query files according to the endpoint type and the configured queries. 
+ * 
+ * @param endpoint the endpoint for which the query files should be specified.
+ * @param defaultQueryClass default SPARQL query for classes.
+ * @param defaultQueryProp default SPARQL query for properties.
+ * @param defaultQueryESClass default Elasticsearch query for classes.
+ * @param defaultQueryESProp default Elasticsearch query for properties.
+ * 
+ * @returns the query files for the given endpoint
+ * */ 
 function assignQueryFile(
   endpoint: Endpoint,
   defaultQueryClass: string,
@@ -215,7 +220,9 @@ function assignQueryFile(
   return queryFile;
 }
 
-// Returns the cli arguments
+/** CLI function 
+ * @returns the cli arguments
+ * */ 
 async function cli() {
   // Specifies which endpoints can be used for the search
   const endpointNamesFromConfig = getConfiguration().endpointNames;
@@ -264,15 +271,18 @@ async function cli() {
   }).argv;
 }
 
-// Creates the input for the recommend() function
+/** Creates the input for the recommendation() functions.
+ * @results list of the input objects that should be searched
+ */ 
 async function configureInput() {
   // List of inputs that is returned.
   const inputList: Input[] = [];
+  // Get the arguments from the command line.
   const argv = await cli();
 
   if (argv.searchTerm) {
     for (const termIX in argv.searchTerm) {
-      // Create the current input object
+      // Create the current input object.
       const input: Input = {
         searchTerm: argv.searchTerm[termIX].toString(),
       };
@@ -285,7 +295,7 @@ async function configureInput() {
         let included: Boolean = false;
         for (const confIX in conf.endpointNames) {
           if (conf.endpointNames[confIX] === argv.endpoint[termIX]) {
-            // Add the endpoint to the input
+            // Add the endpoint to the input.
             input.endpoint = {
               name: conf.endpointNames[confIX],
               type: conf.endpointTypes[confIX],
@@ -310,10 +320,11 @@ async function configureInput() {
 
 // Logs the results
 async function run() {
-  // Get the arguments from the command line
+  // Get the arguments from the command line.
   const argv = await cli();
   const conf = getConfiguration();
 
+  // Log only the available endpoint names.
   if (argv.endpoints > 0) {
     console.log(`Endpoint configuration file: ${conf.file}\n\nThe default endpoint is: \x1b[33m${conf.defaultEndpoint.name}\x1b[0m. 
     \nThe available endpoints and their types are:\n`);
@@ -322,171 +333,208 @@ async function run() {
         `Key Name: \x1b[36m${conf.endpointNames[index]}\x1b[0m\n  -Type: ${conf.endpointTypes[index]}\n  -URL: ${conf.endpointUrls[index]}\n`
       );
     }
-  }
+  } else {
+    // configures the Input for the recommendations.
+    const input = await configureInput();
 
-  // configures the Input for the homogeneous recommendations.
-  const input = await configureInput();
+    /** recommend contains
+     * [
+     *  [
+     *    searchTerm: string;
+          vocabs: string[];
+          homogeneous: Result[]; -> focus on instance scores
+          single?: Result[] | any;
+     *  ],
+     *  [
+     *    searchTerm: string;
+          vocabs: string[];
+          homogeneous: Result[]; -> focus on vocabulary scores
+          single?: Result[] | any;
+     *  ]
+     * ]
+     */
+    const recommended = await homogeneousRecommendation(
+      input,
+      conf.defaultEndpoint,
+      { foaf: 1 }
+    );
 
-  /** recommend contains
-   * the resultObj with the recommendations
-   * the bundled search inputs
-   */
-  const recommended = await homogeneousRecommendation(
-    input,
-    conf.defaultEndpoint,
-    {"foaf": 1}
-  );
+    // Log the search inputs
+    for (const inputObj of input) {
+      // Log query if verbose level 2
+      if (argv.verbose >= 2) {
+        if (inputObj.category === "class") {
+          console.error(
+            replaceAll(
+              inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass,
+              "\\${term}",
+              inputObj.searchTerm
+            )
+          );
+        } else if (inputObj.category === "property") {
+          console.error(
+            replaceAll(
+              inputObj.endpoint?.queryProperty ||
+                conf.defaultEndpoint.queryProperty,
+              "\\${term}",
+              inputObj.searchTerm
+            )
+          );
+        } else {
+          console.error(
+            replaceAll(
+              inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass,
+              "\\${term}",
+              inputObj.searchTerm
+            )
+          );
+          console.error(
+            replaceAll(
+              inputObj.endpoint?.queryProperty ||
+                conf.defaultEndpoint.queryProperty,
+              "\\${term}",
+              inputObj.searchTerm
+            )
+          );
+        }
+      }
 
-  // Log the search inputs
-  for (const inputObj of input) {
-    // Log query if verbose level 2
-    if (argv.verbose >= 2) {
-      if (inputObj.category === "class") {
-        console.error(
-          inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass
-        );
-      } else if (inputObj.category === "property") {
-        console.error(
-          inputObj.endpoint?.queryProperty || conf.defaultEndpoint.queryProperty
-        );
-      } else {
-        console.error(
-          inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass
-        );
-        console.error(
-          inputObj.endpoint?.queryProperty || conf.defaultEndpoint.queryProperty
-        );
+      // Log the input if verbose level is 1.
+      if (argv.format === "text") {
+        if (argv.verbose >= 1) {
+          console.log(
+            "--------------------------------------------------------------"
+          );
+          console.log(
+            `searchTerm: ${inputObj.searchTerm}\ncategory: ${
+              inputObj.category
+            }\nendpoint: ${
+              inputObj.endpoint?.url || conf.defaultEndpoint.url
+            }\n`
+          );
+        }
       }
     }
 
+    let outputString: string = ``;
+    // Log all the results
     if (argv.format === "text") {
-      if (argv.verbose >= 1) {
-        console.log(
-          "--------------------------------------------------------------"
-        );
-        console.log(
-          `searchTerm: ${inputObj.searchTerm}\ncategory: ${
-            inputObj.category
-          }\nendpoint: ${inputObj.endpoint?.url || conf.defaultEndpoint.url}\n`
-        );
+      for (const index in recommended) {
+        if (index === "0") {
+          // Log results for the instance recommendations
+          outputString += `\nThe following homogeneous recommendation prefers high individual scores:\n`;
+        } else {
+          // Log results for the vocabulary recommendations
+          outputString += `\nThe following homogeneous recommendation prefers high vocabulary scores:\n`;
+        }
+        for (const searchObj of recommended[index]) {
+          // Log searchTerm
+          outputString += `\nsearchTerm: ${JSON.stringify(
+            searchObj.searchTerm,
+            null,
+            "\t"
+          )}\n\n`;
+          // Log homogeneous recommendations
+          const homogeneous = searchObj.homogeneous[0];
+          outputString += `  iri: ${JSON.stringify(
+            homogeneous.iri,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  label: ${JSON.stringify(
+            homogeneous.label,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  description: ${JSON.stringify(
+            homogeneous.description,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  score: ${JSON.stringify(
+            homogeneous.score.toFixed(2),
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  vocabulary: ${JSON.stringify(
+            homogeneous.vocabulary,
+            null,
+            "\t"
+          )}\n`;
+          outputString += `  category: ${JSON.stringify(
+            homogeneous.category,
+            null,
+            "\t"
+          )}\n`;
+        }
+        outputString += `\n--------------------------------------------------------------\n`;
       }
-    }
-  }
 
-  let outputString: string = ``;
-  // Log all the results
-  if (argv.format === "text") {
-    for (const index in recommended) {
-      if (index === "0") {
-        // Log results for the instance recommendations
-        outputString += `\nThe following homogeneous recommendation prefers high individual scores:\n`;
-      } else {
-        // Log results for the vocabulary recommendations
-        outputString += `\nThe following homogeneous recommendation prefers high vocabulary scores:\n`;
-      }
-      for (const searchObj of recommended[index]) {
-        // Log searchTerm
+      outputString += `\n--------------------------------------------------------------\n`;
+      outputString += `\nSingle recommendations:\n`;
+      for (const searchObj of recommended[0]) {
         outputString += `\nsearchTerm: ${JSON.stringify(
           searchObj.searchTerm,
           null,
           "\t"
         )}\n\n`;
-        // Log homogeneous recommendations
-        const homogeneous = searchObj.homogeneous[0];
-        outputString += `  iri: ${JSON.stringify(
-          homogeneous.iri,
-          null,
-          "\t"
-        )}\n`;
-        outputString += `  label: ${JSON.stringify(
-          homogeneous.label,
-          null,
-          "\t"
-        )}\n`;
-        outputString += `  description: ${JSON.stringify(
-          homogeneous.description,
-          null,
-          "\t"
-        )}\n`;
-        outputString += `  score: ${JSON.stringify(
-          homogeneous.score.toFixed(2),
-          null,
-          "\t"
-        )}\n`;
-        outputString += `  vocabulary: ${JSON.stringify(
-          homogeneous.vocabulary,
-          null,
-          "\t"
-        )}\n`;
-        outputString += `  category: ${JSON.stringify(
-          homogeneous.category,
-          null,
-          "\t"
-        )}\n`;
-      }
-      outputString += `\n--------------------------------------------------------------\n`;
-    }
-
-    outputString += `\n--------------------------------------------------------------\n`;
-    outputString += `\nSingle recommendations:\n`;
-    for (const searchObj of recommended[0]) {
-      outputString += `\nsearchTerm: ${JSON.stringify(
-        searchObj.searchTerm,
-        null,
-        "\t"
-      )}\n\n`;
-      if (typeof searchObj.single === "object") {
-        // Log the results for SPARQL queries
-        for (const single of searchObj.single) {
-          for (const key of Object.keys(single)) {
-            if (single[key] != null) {
-              if(key === "score"){
-                outputString += `${key}: ${single[key].toFixed(2)}\n`;
-              } else {
-                outputString += `${key}: ${single[key]}\n`;
+        if (typeof searchObj.single === "object") {
+          // Log the results from the SPARQL queries.
+          for (const single of searchObj.single) {
+            for (const key of Object.keys(single)) {
+              if (single[key] != null) {
+                if (key === "score") {
+                  outputString += `${key}: ${single[key].toFixed(2)}\n`;
+                } else {
+                  outputString += `${key}: ${single[key]}\n`;
+                }
               }
-              
             }
+            outputString += `\n`;
           }
-          outputString += `\n`;
-        }
-      } else {
-        // Log the results for Elasticsearch queries
-        for (const single of searchObj.single) {
-          outputString += `  iri: ${JSON.stringify(single.iri, null, "\t")}\n`;
-          outputString += `  label: ${JSON.stringify(
-            single.label,
-            null,
-            "\t"
-          )}\n`;
-          outputString += `  description: ${JSON.stringify(
-            single.description,
-            null,
-            "\t"
-          )}\n`;
-          outputString += `  score: ${JSON.stringify(
-            single.score.toFixed(2),
-            null,
-            "\t"
-          )}\n`;
-          outputString += `  vocabulary: ${JSON.stringify(
-            single.vocabulary,
-            null,
-            "\t"
-          )}\n`;
-          outputString += `  category: ${JSON.stringify(
-            single.category,
-            null,
-            "\t"
-          )}\n\n`;
+        } else {
+          // Log the results for Elasticsearch queries
+          for (const single of searchObj.single) {
+            outputString += `  iri: ${JSON.stringify(
+              single.iri,
+              null,
+              "\t"
+            )}\n`;
+            outputString += `  label: ${JSON.stringify(
+              single.label,
+              null,
+              "\t"
+            )}\n`;
+            outputString += `  description: ${JSON.stringify(
+              single.description,
+              null,
+              "\t"
+            )}\n`;
+            outputString += `  score: ${JSON.stringify(
+              single.score.toFixed(2),
+              null,
+              "\t"
+            )}\n`;
+            outputString += `  vocabulary: ${JSON.stringify(
+              single.vocabulary,
+              null,
+              "\t"
+            )}\n`;
+            outputString += `  category: ${JSON.stringify(
+              single.category,
+              null,
+              "\t"
+            )}\n\n`;
+          }
         }
       }
+      console.log(outputString);
     }
-    console.log(outputString);
-  }
 
-  if (argv.format == "json") {
-    console.log(JSON.stringify(recommended[0], null, "\t"));
+    // Log the retrieved object.
+    if (argv.format == "json") {
+      console.log(JSON.stringify(recommended, null, "\t"));
+    }
   }
 }
 

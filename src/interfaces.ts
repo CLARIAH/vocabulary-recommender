@@ -1,11 +1,4 @@
-// Interface for the arguments of the recommend function in recommend.ts
-export interface Arguments {
-  searchTerms: string[];
-  categories: string[];
-  endpoints: Endpoint[];
-  defaultEndpoint: Endpoint;
-}
-
+// Input argument for the recommendation functions.
 export interface Input {
   searchTerm: string;
   category?: string;
@@ -30,7 +23,7 @@ export interface ReturnObject {
   addInfo: any
 }
 
-// Defines the shape of the Elasticsearch recommendations.
+// Defines the shape of the single recommendations.
 export interface Result {
   iri: string;
   description?: string;
@@ -38,13 +31,6 @@ export interface Result {
   vocabulary: string;
   score: number;
   category?: string;
-}
-
-// Defines the endpoints that should be used for the search
-export interface UsedEndpoints {
-  types: string[];
-  urls: string[];
-  queries: QueryFiles[];
 }
 
 // Defines the shape of an endpoint
@@ -66,6 +52,7 @@ export interface Conf {
   queries: QueryFiles[];
 }
 
+// Queries that are used for an endpoint
 export interface QueryFiles {
   class: string;
   property: string;
@@ -88,6 +75,8 @@ export interface ShardResponse {
     hits: ShardHit[];
   };
 }
+
+// Shape of the output of the homogeneous recommendations function.
 
 export interface ReturnedResult {
   searchTerm: string;

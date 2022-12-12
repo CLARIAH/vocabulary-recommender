@@ -1,9 +1,8 @@
-// import execAll  from 'execall'
-import { Arguments, ReturnObject } from './interfaces'
-import { singleRecommendation } from './singleRecommend'
 import { fetch } from 'cross-fetch'
 
-// Fetches the lov endpoint and returns the vocabulary prefixes and their corresponding IRIs.
+/** Fetches the lov endpoint and returns the vocabulary prefixes and their corresponding IRIs. 
+ * @returns the query result
+ * */ 
 export async function getPrefixes(){
     const query = `
     PREFIX vann:<http://purl.org/vocab/vann/>
@@ -46,12 +45,13 @@ export async function getPrefixes(){
         throw Error("Fetching the lov-URL to retrieve the vocabulary names returned bad results.");
     }
 }
-/*
-getVocabNames() returns the name of the vocabulary for an iri or an empty string if no vocabulary name could be found .
-Input
-    prefixes: prefixes and their corresponding IRIs, can be fetched with getPrefixes()
-    iri: The IRI for which the vocabulary name is found.
-    slice: Indicates whether the last part of the iri (e.g. 'Person') should be sliced off.
+/** Returns the name of the vocabulary for an IRI or an empty string if no vocabulary name could be found.
+ * 
+ * @param prefixes prefixes and their corresponding IRIs, can be fetched with getPrefixes()
+ * @param iri The IRI for which the vocabulary name is found.
+ * @param slice Indicates whether the last part of the iri (e.g. 'Person') should be sliced off.
+ * 
+ * @return the name of the vocabulary prefix for an iri
 */
 export async function getVocabName(prefixes: any, iri: string, slice: boolean) {
     // vocabName contains the returned vocabulary name.

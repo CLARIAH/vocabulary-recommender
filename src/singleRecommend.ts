@@ -1,46 +1,34 @@
-#!/usr/bin/env node
-import fs, { mkdir } from "fs";
-
-import path from "path";
 import {
-  Arguments,
   Input,
   ReturnObject,
   Endpoint,
-  UsedEndpoints,
   Bundle,
-  QueryFiles,
   Result,
-  ShardHit,
 } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { getPrefixes, getVocabName } from "./vocabNames";
 
-/** Function that can be used for different applications to recommend vocabularies
- * Input
- *  searchTerms: string[]
- *  categories: string[]
- *  endpoints: Endpoint[]
- *  defaultEndpoint: Endpoint
- * Output:
- *  resultObj: ReturnObject[]
- *  bundled: Bundle[]
+/** Function that can be used for different applications to recommend vocabularies.
+ * @param inputList list of the searchTerms and their configurations 
+ * @param defaultEndpoint endpoint that should be used if no endpoint is specified 
+ * 
+ *  @returns List of the results for each searchTerm
  */
-// Jana: Add the returned type
 export async function singleRecommendation(
   inputList: Input[],
   defaultEndpoint: Endpoint
 ): Promise<ReturnObject[]> {
-  // Object that contains the results for every searchTerm
+  // Object that contains the end results for every searchTerm.
   const returnedObjects: ReturnObject[] = [];
 
   // prefixes contains all prefixes from lov with their IRI.
   const prefixes = await getPrefixes();
 
+  // bundled contains the search objects.
   const bundled: Bundle[] = createBundleList(inputList, defaultEndpoint);
 
-  // returnObject contains the current result for a bundle
+  // returnObject contains the current result for a bundle.
   let returnObject: ReturnObject = {
     searchTerm: "",
     category: "",
@@ -73,12 +61,12 @@ export async function singleRecommendation(
     } else {
       throw new Error(`${bundle.endpointType}`);
     }
-
+    // List of the result scores. It is used to normalize the scores.
     const scores: number[] = [];
     // Get the vocabulary name for each iri in results.
     for (const result of results) {
       result.vocabulary = await getVocabName(prefixes, result.iri, true);
-      // Jana: Return the domain instead of the iri.
+      // Returns the domain if no prefix name could be found.
       if (result.vocabulary === "") {
         result.vocabulary = result.iri.match(/(.*[\\/\\#:])(.*)$/)![1];
       }
@@ -86,6 +74,7 @@ export async function singleRecommendation(
       result.category = bundle.category;
     }
     for (const i in results) {
+      // Normalize the scores
       results[i].score = normalizeScore(scores)[i];
       if (bundle.endpointType === "search") {
         addInfo.hits.hits[i]._score = normalizeScore(scores)[i];
@@ -125,10 +114,47 @@ export async function singleRecommendation(
     returnedObjects.push(returnObject);
   }
 
-    return returnedObjects
+  /**
+   * [
+   *  {
+   *    searchTerm: "Person",
+   *    category: "class",
+   *    endpoint: 
+   *    { 
+   *      type: "search",
+   *      url: "https...",
+   *      queryClass: "prefix foaf:..."
+   *      queryProperty: ""
+   *    },
+   *    results: [
+	        {
+		        "iri": "https://schema.org/Person",
+		        "label": "Person",
+		        "score": 0.7,
+		        "vocabulary": "schema",
+		        "category": "class"
+	        },...
+   *    ], 
+        addInfo: [
+          {
+		        "iri": "https://schema.org/Person",
+		        "label": "Person",
+		        "score": 0.7,
+		        "vocabulary": "schema",
+		        "category": "class",
+            "image": "person.jpg",...
+	        },...
+        ]
+   */
+  return returnedObjects;
 }
 
-// Creates a list of the objects that should be queried.
+/** Creates a list of the objects that should be queried.
+ * @param inputList list of the searchTerms and their configurations 
+ * @param defaultEndpoint endpoint that should be used if no endpoint is specified 
+ * 
+ * @retunrs list of search objects
+ *  */ 
 function createBundleList(
   inputList: Input[],
   defaultEndpoint: Endpoint
@@ -178,38 +204,62 @@ function createBundleList(
       bundle.endpointUrl = input.endpoint.url;
 
       if (bundle.category === "class") {
-        // Jana: Throw error whenever queryClass is empty
-        bundle.query = replaceAll(input.endpoint.queryClass, "\\${term}", bundle.searchTerm);
+        // Include the searchTerm in the query and add the query string to the bundle.
+        bundle.query = replaceAll(
+          input.endpoint.queryClass,
+          "\\${term}",
+          bundle.searchTerm
+        );
       } else {
-        bundle.query = replaceAll(input.endpoint.queryProperty, "\\${term}", bundle.searchTerm);
+        bundle.query = replaceAll(
+          input.endpoint.queryProperty,
+          "\\${term}",
+          bundle.searchTerm
+        );
       }
 
       if (allBundle === true) {
         // If the second bundle is needed, add the information about the endpoint.
         secondBundle.endpointType = input.endpoint.type;
         secondBundle.endpointUrl = input.endpoint.url;
-        // secondBundle always has the category property
-        secondBundle.query = replaceAll(input.endpoint.queryProperty, "\\${term}", bundle.searchTerm);
+        // secondBundle always has the category property.
+        secondBundle.query = replaceAll(
+          input.endpoint.queryProperty,
+          "\\${term}",
+          bundle.searchTerm
+        );
       }
     } else {
       // Use the defaultEndpoint when no endpoint is specified.
       bundle.endpointType = defaultEndpoint.type;
       bundle.endpointUrl = defaultEndpoint.url;
       if (bundle.category === "class") {
-        // Jana: Throw error whenever queryClass or queryProperty are empty
-        bundle.query = replaceAll(defaultEndpoint.queryClass, "\\${term}", bundle.searchTerm);
+        bundle.query = replaceAll(
+          defaultEndpoint.queryClass,
+          "\\${term}",
+          bundle.searchTerm
+        );
       } else {
-        bundle.query = replaceAll(defaultEndpoint.queryProperty, "\\${term}", bundle.searchTerm);
+        bundle.query = replaceAll(
+          defaultEndpoint.queryProperty,
+          "\\${term}",
+          bundle.searchTerm
+        );
       }
       if (allBundle === true) {
         secondBundle.endpointType = defaultEndpoint.type;
         secondBundle.endpointUrl = defaultEndpoint.url;
         // secondBundle always has the category property
-        secondBundle.query = replaceAll(defaultEndpoint.queryProperty, "\\${term}", bundle.searchTerm);
+        secondBundle.query = replaceAll(
+          defaultEndpoint.queryProperty,
+          "\\${term}",
+          bundle.searchTerm
+        );
       }
     }
 
     bundleList.push(bundle);
+    // Only add the second bundle if it is needed.
     if (allBundle === true) {
       bundleList.push(secondBundle);
     }
@@ -217,6 +267,10 @@ function createBundleList(
   return bundleList;
 }
 
+/** Normalizes the scores for a list of numbers 
+ * @param scores list of scores
+ * @returns list of normalised scores
+*/
 export function normalizeScore(scores: number[]) {
   const total = scores.reduce((previous, current) => {
     return +previous + +current;
@@ -224,7 +278,13 @@ export function normalizeScore(scores: number[]) {
   return scores.map((score) => score / total);
 }
 
-// Help function to fill in the searchterm in the SPARQL queries.
+/** Help function to fill in the searchTerm in the given query.
+ * @param str queried string
+ * @param find search string
+ * @param replace string that replaces the search string
+ * 
+ * @returns the queried in which the occurences of the search string are replaced with replace
+ */
 export function replaceAll(str: string, find: string, replace: string) {
   return str.replace(new RegExp(find, "g"), replace);
 }
