@@ -4,7 +4,7 @@ import {
   ReturnedResult,
   Input
 } from "./interfaces";
-import { singleRecommendation } from "./singleRecommend";
+import { normalizeScore, singleRecommendation } from "./singleRecommend";
 import fs, { mkdir } from "fs";
 import path from "path";
 
@@ -27,15 +27,25 @@ import path from "path";
  *  ]
  */
 export async function homogeneousRecommendation(
-  argv: Input[], defaultEndpoint: Endpoint
+  argv: Input[], defaultEndpoint: Endpoint, confVocabs: { [key: string]: number }
 ): Promise<ReturnedResult[][]> {
   // Get the recommendation results.
   const recommended = await getSingles(
     argv,
     defaultEndpoint
   );
-  // Get the vocabulary scores.
-  const vocabScores: { [key: string]: number } = getVocabScores(recommended);
+
+
+  // Get the vocabulary scores for the vocabularies that appear in the results.
+  const vocabScores = getVocabScores(recommended);
+
+  // Add the configured score to the score that has been computed by the results.
+  for (const vocab of Object.keys(confVocabs)){
+    if (Object.keys(vocabScores).includes(vocab)){
+      vocabScores[vocab] = +vocabScores[vocab] + +confVocabs[vocab] 
+    }
+  }
+
   // Sort the vocabularies in ascending order.
   const vocabSequence: string[] = Object.keys(vocabScores).sort(
     (second, first) => (vocabScores[second] || -1) - (vocabScores[first] || -1)

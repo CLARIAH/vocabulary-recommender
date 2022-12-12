@@ -333,7 +333,8 @@ async function run() {
    */
   const recommended = await homogeneousRecommendation(
     input,
-    conf.defaultEndpoint
+    conf.defaultEndpoint,
+    {"foaf": 1}
   );
 
   // Log the search inputs
@@ -408,7 +409,7 @@ async function run() {
           "\t"
         )}\n`;
         outputString += `  score: ${JSON.stringify(
-          homogeneous.score,
+          homogeneous.score.toFixed(2),
           null,
           "\t"
         )}\n`;
@@ -439,7 +440,12 @@ async function run() {
         for (const single of searchObj.single) {
           for (const key of Object.keys(single)) {
             if (single[key] != null) {
-              outputString += `${key}: ${single[key]}\n`;
+              if(key === "score"){
+                outputString += `${key}: ${single[key].toFixed(2)}\n`;
+              } else {
+                outputString += `${key}: ${single[key]}\n`;
+              }
+              
             }
           }
           outputString += `\n`;
@@ -459,7 +465,7 @@ async function run() {
             "\t"
           )}\n`;
           outputString += `  score: ${JSON.stringify(
-            single.score,
+            single.score.toFixed(2),
             null,
             "\t"
           )}\n`;

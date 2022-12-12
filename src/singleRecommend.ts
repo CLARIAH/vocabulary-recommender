@@ -217,7 +217,7 @@ function createBundleList(
   return bundleList;
 }
 
-function normalizeScore(scores: number[]) {
+export function normalizeScore(scores: number[]) {
   const total = scores.reduce((previous, current) => {
     return +previous + +current;
   });
