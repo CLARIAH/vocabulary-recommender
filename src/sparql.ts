@@ -10,8 +10,6 @@ import { Result } from "./interfaces";
  * @returns a list of JSON objects containing IRI's
  */
 export async function sparqlSuggestions(
-  category: string,
-  term: string,
   endpoint: string,
   query: string
 ) {

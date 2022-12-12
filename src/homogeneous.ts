@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 import {
-  Arguments,
   Endpoint,
-  Recommended,
-  ReturnObject,
-  Result,
   ReturnedResult,
+  Input
 } from "./interfaces";
 import { singleRecommendation } from "./singleRecommend";
 import fs, { mkdir } from "fs";
@@ -30,14 +27,12 @@ import path from "path";
  *  ]
  */
 export async function homogeneousRecommendation(
-  argv: Arguments
+  argv: Input[], defaultEndpoint: Endpoint
 ): Promise<ReturnedResult[][]> {
   // Get the recommendation results.
   const recommended = await getSingles(
-    argv.searchTerms,
-    argv.categories,
-    argv.endpoints,
-    argv.defaultEndpoint
+    argv,
+    defaultEndpoint
   );
   // Get the vocabulary scores.
   const vocabScores: { [key: string]: number } = getVocabScores(recommended);
@@ -59,7 +54,7 @@ export async function homogeneousRecommendation(
     instanceRecommendation.push(
       getInstanceRecommendation(recommended[index], combiResult)
     );
-    // Add the configured json object as single results if possible, otherwise add the normal results
+    // Add the configured json object as single results if possible, otherwise add the normal results.
     instanceRecommendation[index].single = recommended[index].single
       ? recommended[index].single
       : recommended[index].homogeneous;
@@ -170,45 +165,6 @@ function combiSQORE(
 }
 
 /**
- * Configures the input for the homogeneous recommendation.
- *
- * Input
- *  searchTerms: string[]
- *  categories: string[]
- *  endpoints: Endpoint[]
- *  defaultEndpoint: Endpoint
- * Output:
- *    resultList: ReturnedResult[]
- */
-export function getInput(
-  searchTerms: string[],
-  categories: string[] = [],
-  endpoints: Endpoint[],
-  defaultEndpoint: Endpoint
-) {
-  const input: Arguments = {
-    searchTerms: [],
-    categories: [],
-    endpoints: endpoints,
-    defaultEndpoint: defaultEndpoint,
-  };
-  // if (categories === []) {
-  //   for (const term of searchTerms) {
-  //     input.categories.push("class");
-  //     input.categories.push("property");
-  //     input.searchTerms.push(term);
-  //     input.searchTerms.push(term);
-  //   }
-  // } else {
-  //   input.categories = categories;
-  //   input.searchTerms = searchTerms;
-  // }
-  input.categories = categories;
-  input.searchTerms = searchTerms;
-  return input;
-}
-
-/**
  * Gets the recommended results and prepares them for the combiSQORE function.
  *
  * Input
@@ -220,31 +176,22 @@ export function getInput(
  *    resultList: ReturnedResult[]
  */
 async function getSingles(
-  searchTerms: string[],
-  categories: string[],
-  endpoints: Endpoint[],
+  inputList: Input[],
   defaultEndpoint: Endpoint
 ): Promise<ReturnedResult[]> {
-  // Create the input for the given searchTerms
-  const input: Arguments = getInput(
-    searchTerms,
-    categories,
-    endpoints,
-    defaultEndpoint
-  );
-  console.log(JSON.stringify(input, null, "\t"))
   // Get the recommended results from the recommendation function.
-  const recommended = await singleRecommendation(input);
+  const recommended = await singleRecommendation(inputList, defaultEndpoint);
+
   // Initialize the returned object
   const resultList: ReturnedResult[] = [];
   // Add the searchTerms to the returned object.
-  for (const term of searchTerms) {
-    resultList.push({ searchTerm: term, vocabs: [], homogeneous: [] });
+  for (const input of inputList) {
+    resultList.push({ searchTerm: input.searchTerm, vocabs: [], homogeneous: [] });
   }
   // Loop through the returned objects.
   // There is one listItem per result with the corresponding results and vocabularies.
   for (const listItem of resultList) {
-    for (const returnObj of recommended.resultObj) {
+    for (const returnObj of recommended) {
       if (returnObj.searchTerm === listItem.searchTerm) {
         // Add the class and property results
         listItem.homogeneous.push(...returnObj.results);

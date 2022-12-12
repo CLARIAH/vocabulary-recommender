@@ -4,24 +4,11 @@ import fs, { mkdir } from "fs";
 import path from "path";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
-import {
-  singleRecommendation,
-  createBundleList,
-  replaceAll,
-} from "./singleRecommend";
+import { singleRecommendation, replaceAll } from "./singleRecommend";
 import { getVocabName, getPrefixes } from "./vocabNames";
 import yargs from "yargs/yargs";
 import _ from "lodash";
-import {
-  Arguments,
-  ReturnObject,
-  Endpoint,
-  UsedEndpoints,
-  Bundle,
-  Conf,
-  QueryFiles,
-  Result,
-} from "./interfaces";
+import { Arguments, Endpoint, Conf, QueryFiles, Input } from "./interfaces";
 import { homogeneousRecommendation } from "./homogeneous";
 
 // Creates a configuration object if no configuration file is provided
@@ -63,13 +50,6 @@ function getConfiguration(): Conf {
   const endpointConfigurationObject = createDefaultConfiguration();
 
   try {
-    // if (!fs.existsSync(vocaDir)) {
-    //   console.error(
-    //     "'conf' folder not found in current working directory, creating folder..."
-    //   );
-    //   fs.mkdirSync(path.resolve(vocaDir));
-    //   console.error(`Folder generated in: ${vocaDir}`);
-    // }
     if (!fs.existsSync(endpointConfigFile)) {
       console.error(
         "Endpoint configuration file 'conf.json' is not found in the working directory, creating endpoint configuration file..."
@@ -250,7 +230,8 @@ async function cli() {
       alias: "c",
       type: "array",
       describe: "Category of IRI, returns either classes or properties",
-      choices: ["class", "property"],
+      choices: ["class", "property", "all"],
+      default: ["all"],
     },
     endpoint: {
       alias: "e",
@@ -285,60 +266,46 @@ async function cli() {
 
 // Creates the input for the recommend() function
 async function configureInput() {
-  const input: Arguments = {
-    searchTerms: [],
-    categories: [],
-    endpoints: [],
-    defaultEndpoint: {
-      name: "",
-      type: "",
-      url: "",
-      queryClass: "",
-      queryProperty: "",
-    },
-  };
+  // List of inputs that is returned.
+  const inputList: Input[] = [];
   const argv = await cli();
 
   if (argv.searchTerm) {
-    //  Ensure all elements of array are strings
-    input.searchTerms = argv.searchTerm.map((term: { toString: () => any }) =>
-      term.toString()
-    );
-    if (argv.category) {
-      //  Ensure all elements of array are strings
-      input.categories = argv.category.map((term: { toString: () => any }) =>
-        term.toString()
-      );
-
+    for (const termIX in argv.searchTerm) {
+      // Create the current input object
+      const input: Input = {
+        searchTerm: argv.searchTerm[termIX].toString(),
+      };
+      if (argv.category) {
+        input.category = argv.category[termIX].toString();
+      }
       const conf: Conf = getConfiguration();
-      if (argv.endpoint) {
+      if (argv.endpoint && argv.endpoint[termIX] != undefined) {
         // Check if given endpoint is included in the configuration file
-        for (const i in argv.endpoint) {
-          let included: Boolean = false;
-          for (const confIX in conf.endpointNames) {
-            if (conf.endpointNames[confIX] === argv.endpoint[i]) {
-              // Add the endpoint to the input
-              input.endpoints.push({
-                name: conf.endpointNames[confIX],
-                type: conf.endpointTypes[confIX],
-                url: conf.endpointUrls[confIX],
-                queryClass: conf.queries[confIX].class,
-                queryProperty: conf.queries[confIX].property,
-              });
-              included = true;
-            }
-          }
-          if (included === false) {
-            throw Error(
-              `ERROR\n\nThe given endpoint is not included in the configuration file conf.json! Please run yarn recommend -i to see which endpoints are available.`
-            );
+        let included: Boolean = false;
+        for (const confIX in conf.endpointNames) {
+          if (conf.endpointNames[confIX] === argv.endpoint[termIX]) {
+            // Add the endpoint to the input
+            input.endpoint = {
+              name: conf.endpointNames[confIX],
+              type: conf.endpointTypes[confIX],
+              url: conf.endpointUrls[confIX],
+              queryClass: conf.queries[confIX].class,
+              queryProperty: conf.queries[confIX].property,
+            };
+            included = true;
           }
         }
+        if (included === false) {
+          throw Error(
+            `ERROR\n\nThe given endpoint (${argv.endpoint[termIX]}) is not included in the configuration file conf.json! Please run yarn recommend -i to see which endpoints are available.`
+          );
+        }
       }
-      input.defaultEndpoint = conf.defaultEndpoint;
+      inputList.push(input);
     }
   }
-  return input;
+  return inputList;
 }
 
 // Logs the results
@@ -364,15 +331,31 @@ async function run() {
    * the resultObj with the recommendations
    * the bundled search inputs
    */
-  const recommended = await homogeneousRecommendation(input);
+  const recommended = await homogeneousRecommendation(
+    input,
+    conf.defaultEndpoint
+  );
 
-  // Jana: Find a better way to retrieve the information and pass es für hr an
-  const bundles = await singleRecommendation(input);
   // Log the search inputs
-  for (const bundle of bundles.bundled) {
-    //   // Log query if verbose level 2
+  for (const inputObj of input) {
+    // Log query if verbose level 2
     if (argv.verbose >= 2) {
-      console.error(replaceAll(bundle.query, "\\${term}", bundle.searchTerm));
+      if (inputObj.category === "class") {
+        console.error(
+          inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass
+        );
+      } else if (inputObj.category === "property") {
+        console.error(
+          inputObj.endpoint?.queryProperty || conf.defaultEndpoint.queryProperty
+        );
+      } else {
+        console.error(
+          inputObj.endpoint?.queryClass || conf.defaultEndpoint.queryClass
+        );
+        console.error(
+          inputObj.endpoint?.queryProperty || conf.defaultEndpoint.queryProperty
+        );
+      }
     }
 
     if (argv.format === "text") {
@@ -381,7 +364,9 @@ async function run() {
           "--------------------------------------------------------------"
         );
         console.log(
-          `searchTerm: ${bundle.searchTerm}\ncategory: ${bundle.category}\nendpoint: ${bundle.endpointUrl}\n`
+          `searchTerm: ${inputObj.searchTerm}\ncategory: ${
+            inputObj.category
+          }\nendpoint: ${inputObj.endpoint?.url || conf.defaultEndpoint.url}\n`
         );
       }
     }

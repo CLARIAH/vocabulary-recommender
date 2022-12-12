@@ -6,11 +6,17 @@ export interface Arguments {
   defaultEndpoint: Endpoint;
 }
 
+export interface Input {
+  searchTerm: string;
+  category?: string;
+  endpoint?: Endpoint;
+}
+
 // Bundle interface used for corresponding searchTerm and category
 export interface Bundle {
   searchTerm: string;
   category: string;
-  endpointType: "sparql" | "search";
+  endpointType: string;
   endpointUrl: string;
   query: string;
 }
@@ -46,8 +52,8 @@ export interface Endpoint {
   name?: string;
   type: string;
   url: string;
-  queryClass?: string;
-  queryProperty?: string;
+  queryClass: string | "";
+  queryProperty: string | "";
 }
 
 // Defines the shape of a configured object
@@ -58,12 +64,6 @@ export interface Conf {
   endpointTypes: string[];
   endpointUrls: string[];
   queries: QueryFiles[];
-}
-
-// Defines the output of the recommender function
-export interface Recommended {
-  resultObj: ReturnObject[];
-  bundled: Bundle[];
 }
 
 export interface QueryFiles {

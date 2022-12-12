@@ -43,8 +43,6 @@ export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
  * @returns a list of JSON objects containing IRI's
  */
 export async function elasticSuggestions(
-  category: string,
-  term: string,
   endpoint: string,
   query: string
 ) {
