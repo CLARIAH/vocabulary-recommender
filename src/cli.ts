@@ -31,7 +31,6 @@ function getConfiguration(): Conf {
       nde: {
         type: "sparql",
         url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
-        queryClass: "./queries/uiClass.rq",
       },
     },
   }
