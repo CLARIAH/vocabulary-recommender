@@ -154,7 +154,7 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.52.0"
 
-node-fetch@2, node-fetch@2.6.7, node-fetch@^2.6.7:
+node-fetch@2, node-fetch@2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -192,14 +192,28 @@ typescript@*:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.8.4.tgz"
   integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
-vocabulary-recommender@^1.0.3, vocabulary-recommender@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/vocabulary-recommender/-/vocabulary-recommender-1.0.4.tgz"
-  integrity sha512-35wyP/AHkcJ/TIKAEGcezZ64Ik0Za4XugCb7//hcIwC1PepGDRNoym8CY0PQ3k2OLHTClPmJrqZmX6n5v3cKPg==
+vocabulary-recommender@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vocabulary-recommender/-/vocabulary-recommender-1.0.6.tgz#02304c9afcac70f7ce0e47ac31c270b12a0c8da0"
+  integrity sha512-t1J4ZiXgfNSEAJHl8+HGi9siDCOo96rtQMk6DY69vC8EpJJqVNlMCDLGYJDG7lVSifoBJjilFzSbkpigIw64aw==
   dependencies:
+    cross-fetch "^3.1.5"
+    execall "^3.0.0"
     lodash "^4.17.21"
-    node-fetch "^2.6.7"
-    vocabulary-recommender "^1.0.3"
+    node-fetch "2"
+    vocabulary-recommender "^1.0.6"
+    yargs "^17.5.1"
+
+vocabulary-recommender@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/vocabulary-recommender/-/vocabulary-recommender-1.0.7.tgz#79b1de779dad69c70d45713b1cc05f8897229467"
+  integrity sha512-by1IDd4EwASHYFI17PhJs5gYUiC9/+P3XlAShYFRjQcK3QkG++Y2YKupphi/RWhJ4lb6Lll32Jf+jGEIcay87g==
+  dependencies:
+    cross-fetch "^3.1.5"
+    execall "^3.0.0"
+    lodash "^4.17.21"
+    node-fetch "2"
+    vocabulary-recommender "^1.0.6"
     yargs "^17.5.1"
 
 webidl-conversions@^3.0.0:
