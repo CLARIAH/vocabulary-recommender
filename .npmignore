@@ -4,3 +4,11 @@ src
 tsconfig.json
 test.txt
 .vscode/settings.json
+conf.json
+combiSQORE.*
+old_recommend.*
+pseudo_recommend*
+prefixes.txt
+queries/uiClass*
+queries/uiProp*
+combi*

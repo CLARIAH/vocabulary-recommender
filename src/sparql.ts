@@ -4,14 +4,11 @@ import { Result } from "./interfaces";
 /**
  * Retrieves the SPARQL results.
  *
- * @param category category type (class or property)
- * @param term search/query string
  * @param endpoint service used
- * @returns a list of JSON objects containing IRI's
+ * @param query query used
+ * @returns a list of JSON objects containing IRI's and the json object itself
  */
 export async function sparqlSuggestions(
-  category: string,
-  term: string,
   endpoint: string,
   query: string
 ) {

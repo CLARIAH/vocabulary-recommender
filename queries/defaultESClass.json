@@ -1,0 +1,30 @@
+{
+  "query": {
+    "bool": {
+      "must": {
+        "simple_query_string": {
+          "query": "http://www.w3.org/2002/07/owl#Class | http://www.w3.org/2000/01/rdf-schema#Class",
+          "fields": ["http://www w3 org/1999/02/22-rdf-syntax-ns#type"]
+        }
+      },
+      "should": [
+        {
+          "simple_query_string": {
+            "query": "${term}",
+            "fields": ["http://www w3 org/2000/01/rdf-schema#comment"]
+          }
+        },
+        {
+          "wildcard": {
+            "http://www.w3.org/2000/01/rdf-schema#label": "${term}*"
+          }
+        },
+        {
+          "fuzzy": { "http://www w3 org/2000/01/rdf-schema#label": "${term}" }
+        },
+        { "match": { "@id": "${term}" } }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}

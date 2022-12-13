@@ -1,6 +1,6 @@
 {
   "name": "vocabulary-recommender",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "author": {
     "name": "Triply",
     "email": "info@triply.cc",
@@ -48,7 +48,7 @@
     "execall": "^3.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "2",
-    "vocabulary-recommender": "^1.0.4",
+    "vocabulary-recommender": "^1.0.7",
     "yargs": "^17.5.1"
   },
   "description": "A generic linked data vocabulary recommender library that provides recommendation functions for various backends.",
