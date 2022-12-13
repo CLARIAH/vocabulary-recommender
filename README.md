@@ -44,7 +44,7 @@ The configuration file has the following format:
   defaultQueryESProperty: "./queries/defaultESProp.json",
   endpoints: {
     "defaultkey": {
-      type: "elasticsearch",
+      type: "search",
       url: "https://api.endpoint.nl/",
     },
     "otherkey": {

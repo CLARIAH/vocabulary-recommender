@@ -25,12 +25,16 @@ function getConfiguration(): Conf {
     defaultQueryESProperty: "./queries/defaultESProp.json",
     endpoints: {
       "druid-recommend": {
-        type: "elasticsearch",
+        type: "search",
         url: "https://api.druid.datalegend.net/datasets/VocabularyRecommender/RecommendedVocabularies/services/RecommendedVocabularies/search",
+        queryClass: "queries/defaultESClass.json",
+        queryProperty: "queries/defaultESProp.json"
       },
       nde: {
         type: "sparql",
         url: "https://api.data.netwerkdigitaalerfgoed.nl/datasets/ld-wizard/sdo/services/sparql/sparql",
+        queryClass: "queries/defaultClass.rq",
+        queryProperty: "queries/defaultProperty.rq"
       },
     },
   }
@@ -347,7 +351,7 @@ async function run() {
     const recommended = await homogeneousRecommendation(
       input,
       conf.defaultEndpoint,
-      { }
+      {}
     );
 
     // Log the search inputs

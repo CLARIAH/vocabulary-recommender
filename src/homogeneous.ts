@@ -64,11 +64,11 @@ export async function homogeneousRecommendation(
 
 /**
  * Returns the homogeneous recommendation for the highest instance scores.
- * 
+ *
  * @param searchObj results for the searchTerm
  * @param combiResult combiSQORE result
  * @returns instance with the highest individual score whose vocabulary is also included in the combiResult.
- *  */ 
+ *  */
 function getInstanceRecommendation(
   searchObj: ReturnedResult,
   combiResult: string[]
@@ -96,12 +96,12 @@ function getInstanceRecommendation(
 
 /**
  * Returns the homogeneous recommendation for the highest vocabulary score.
- * 
+ *
  * @param searchObj results for the searchTerm
  * @param combiResult combiSQORE result
  * @param vocabScores vocabulary scores
  * @returns instance with the highest vocabulary score.
- *  */ 
+ *  */
 function getVocabRecommendation(
   searchObj: ReturnedResult,
   combiResult: string[],
@@ -135,13 +135,13 @@ function getVocabRecommendation(
 
 /**
  * Reduces the possible vocabularies to a small list of needed vocabularies.
- * 
+ *
  * @param vocabSequence vocabularies sorted from lowest to highest
  * @param recommended single recommendations
  * @param index current position in the vocabSequence
  * @param currentResult current combiSQORE result
  * @returns vocabularies that are needed to find a result for every searchTerm.
- *  */ 
+ *  */
 function combiSQORE(
   vocabSequence: string[],
   recommended: ReturnedResult[],
@@ -211,14 +211,31 @@ async function getSingles(
   for (const listItem of resultList) {
     for (const returnObj of recommended) {
       if (returnObj.searchTerm === listItem.searchTerm) {
-        // Add the class and property results
-        listItem.homogeneous.push(...returnObj.results);
-        listItem.single?.push(returnObj.addInfo);
-        for (const result of returnObj.results) {
-          if (!listItem.vocabs.includes(result.vocabPrefix)) {
-            // Make a list of distinct vocabularies that are contained in the search results.
-            listItem.vocabs.push(result.vocabPrefix);
+        if (returnObj.results.length > 0) {
+          // There are results returned by the singleRecommendations()
+          // Add the class and property results
+          listItem.homogeneous.push(...returnObj.results);
+          listItem.single?.push(returnObj.addInfo);
+          for (const result of returnObj.results) {
+            if (!listItem.vocabs.includes(result.vocabPrefix)) {
+              // Make a list of distinct vocabularies that are contained in the search results.
+              listItem.vocabs.push(result.vocabPrefix);
+            }
           }
+        } else {
+          // There are no results returned by the singleRecommendations()
+          console.error(
+            `\nThere are no results for the search term ${returnObj.searchTerm} and the category ${returnObj.category} in the chosen endpoint ${returnObj.endpoint.url}.\nPlease consider selecting a new endpoint.`
+          );
+          
+          // We need to add a fictional result, because we get errors otherwise.
+          listItem.homogeneous.push({
+            iri: "no results",
+            vocabDomain: "no results",
+            vocabPrefix: "no results",
+            score: -10,
+          });
+          listItem.single?.push(returnObj.addInfo);
         }
       }
     }
@@ -235,7 +252,7 @@ async function getSingles(
 /** Returns a dictionary of the vocabularies in the results and their vocabulary scores.
  * @param recommended single recommendations for each searchTerm
  * @returns dictionary with the vocabularies and their scores
- *  */ 
+ *  */
 function getVocabScores(recommended: ReturnedResult[]): {
   [key: string]: number;
 } {
