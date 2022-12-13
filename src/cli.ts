@@ -8,9 +8,16 @@ import _ from "lodash";
 import { Endpoint, Conf, QueryFiles, Input } from "./interfaces";
 import { homogeneousRecommendation } from "./homogeneous";
 
-// Creates a configuration object if no configuration file is provided
-function createDefaultConfiguration() {
-  return {
+/** Gets the information from the configuration file (or creates a new file with the configuration object)
+ * @returns a configuration object
+*/
+function getConfiguration(): Conf {
+  // Load the configuration file.
+  const endpointConfigFile = path.resolve(
+    "conf.json"
+  );
+  // Get the default if there is no configuration file.
+  const endpointConfigurationObject = {
     defaultEndpoint: "druid-recommend",
     defaultQueryClass: "./queries/defaultClass.rq",
     defaultQueryProperty: "./queries/defaultProperty.rq",
@@ -27,19 +34,7 @@ function createDefaultConfiguration() {
         queryClass: "./queries/uiClass.rq",
       },
     },
-  };
-}
-
-/** Gets the information from the configuration file (or creates a new file with the configuration object)
- * @returns a configuration object
-*/
-function getConfiguration(): Conf {
-  // Load the configuration file.
-  const endpointConfigFile = path.resolve(
-    "conf.json"
-  );
-  // Get the default if there is no configuration file.
-  const endpointConfigurationObject = createDefaultConfiguration();
+  }
 
   try {
     if (!fs.existsSync(endpointConfigFile)) {

@@ -61,7 +61,8 @@ export async function getVocabName(prefixes: any, iri: string, slice: boolean) {
     if (slice){
         // Extracts the vocabulary iri from the given iri
         // https://schema.org/Person -> https://schema.org/
-        vocabIri = iri.match(/(.*[\\/\\#:])(.*)$/)![1]
+        // [ ] grab this and return iri name
+       vocabIri = iri.match(/(.*[\\/\\#:])(.*)$/)![1]
     }
     for ( const prefix of prefixes["results"]["bindings"] ){
         if ( prefix['vocabURI']['value'] === vocabIri ) {
