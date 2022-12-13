@@ -85,9 +85,9 @@ function getInstanceRecommendation(
   };
   // Search for the result with the highest score that is part of one of the combiSQORE vocabularies.
   for (const result of searchObj.homogeneous) {
-    if (combiResult.includes(result.vocabulary)) {
+    if (combiResult.includes(result.vocabPrefix)) {
       instResult.homogeneous.push(result);
-      instResult.vocabs.push(result.vocabulary);
+      instResult.vocabs.push(result.vocabPrefix);
       return instResult;
     }
   }
@@ -123,7 +123,7 @@ function getVocabRecommendation(
   combiResult.sort((first, second) => vocabScores[second] - vocabScores[first]);
   for (const vocab of combiResult) {
     for (const result of searchObj.homogeneous) {
-      if (result.vocabulary === vocab) {
+      if (result.vocabPrefix === vocab) {
         vocResult.homogeneous.push(result);
         vocResult.vocabs.push(vocab);
         return vocResult;
@@ -215,9 +215,9 @@ async function getSingles(
         listItem.homogeneous.push(...returnObj.results);
         listItem.single?.push(returnObj.addInfo);
         for (const result of returnObj.results) {
-          if (!listItem.vocabs.includes(result.vocabulary)) {
+          if (!listItem.vocabs.includes(result.vocabPrefix)) {
             // Make a list of distinct vocabularies that are contained in the search results.
-            listItem.vocabs.push(result.vocabulary);
+            listItem.vocabs.push(result.vocabPrefix);
           }
         }
       }
@@ -248,16 +248,16 @@ function getVocabScores(recommended: ReturnedResult[]): {
     // Get the result for the current searchTerm
     for (const result of listItem.homogeneous) {
       // If the vocabulary is contained in the vocabScore dictionary
-      if (Object.keys(vocabScores).includes(result.vocabulary)) {
+      if (Object.keys(vocabScores).includes(result.vocabPrefix)) {
         // Add the scores up
-        vocabScores[result.vocabulary] =
-          +vocabScores[result.vocabulary] + +(result.score || 0.01);
+        vocabScores[result.vocabPrefix] =
+          +vocabScores[result.vocabPrefix] + +(result.score || 0.01);
         // Raise the count by one
-        vocabCounts[result.vocabulary] = +vocabCounts[result.vocabulary] + +1;
+        vocabCounts[result.vocabPrefix] = +vocabCounts[result.vocabPrefix] + +1;
       } else {
         // initialize the score and the count for this vocab
-        vocabScores[result.vocabulary] = result.score || 0.01;
-        vocabCounts[result.vocabulary] = 1;
+        vocabScores[result.vocabPrefix] = result.score || 0.01;
+        vocabCounts[result.vocabPrefix] = 1;
       }
     }
   }

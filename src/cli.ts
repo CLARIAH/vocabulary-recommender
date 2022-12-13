@@ -286,9 +286,6 @@ async function configureInput() {
       const input: Input = {
         searchTerm: argv.searchTerm[termIX].toString(),
       };
-      if (argv.category) {
-        input.category = argv.category[termIX].toString();
-      }
       const conf: Conf = getConfiguration();
       if (argv.endpoint && argv.endpoint[termIX] != undefined) {
         // Check if given endpoint is included in the configuration file
@@ -356,7 +353,7 @@ async function run() {
     const recommended = await homogeneousRecommendation(
       input,
       conf.defaultEndpoint,
-      { foaf: 1 }
+      { }
     );
 
     // Log the search inputs
@@ -457,7 +454,7 @@ async function run() {
             "\t"
           )}\n`;
           outputString += `  vocabulary: ${JSON.stringify(
-            homogeneous.vocabulary,
+            homogeneous.vocabPrefix,
             null,
             "\t"
           )}\n`;

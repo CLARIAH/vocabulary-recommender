@@ -28,7 +28,8 @@ export interface Result {
   iri: string;
   description?: string;
   label?: string;
-  vocabulary: string;
+  vocabPrefix: string;
+  vocabDomain: string;
   score: number;
   category?: string;
 }

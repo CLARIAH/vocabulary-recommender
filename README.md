@@ -32,7 +32,7 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 -----------------------
 ## Configuration files
 
-**Endpoint Configuration:** The endpoint configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory. 
+**Endpoint Configuration:** The endpoint configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory.
 
 The configuration file has the following format:
 ```json
@@ -56,7 +56,6 @@ The configuration file has the following format:
   },
 } 
 ```
-
 
 In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
 
@@ -82,6 +81,16 @@ select ?iri ?desc ?score where {
 SPARQL queries must always return the variable **iri** and **score** and should be stored in a file with the RQ format. Elasticsearch queries must always return the **_id** and the **_score** which are retrieved by using `bool` queries. They should be stored in a json file.
 
 The results always return the same information that the query returns. That means that our previous example would not only return the iri and the score but also the description.
+
+**Vocabulary Configuration**
+You can also configure your preferred vocabularies. When calling the `homogeneousRecommendation()` function, you can input a dictionary with your preferred vocabularies. The key is the prefix of the vocabulary. The value is a number which indicates how important the vocabulary is.
+
+```ts
+{
+  "prefix1": 10,
+  "prefix2": 15
+}
+```
 
 -------------------
 ## Output as JSON

@@ -65,10 +65,11 @@ export async function singleRecommendation(
     const scores: number[] = [];
     // Get the vocabulary name for each iri in results.
     for (const result of results) {
-      result.vocabulary = await getVocabName(prefixes, result.iri, true);
+      result.vocabPrefix = await getVocabName(prefixes, result.iri, true);
+      result.vocabDomain = result.iri.match(/(.*[\\/\\#:])(.*)$/)![1];
       // Returns the domain if no prefix name could be found.
-      if (result.vocabulary === "") {
-        result.vocabulary = result.iri.match(/(.*[\\/\\#:])(.*)$/)![1];
+      if (result.vocabPrefix === "") {
+        result.vocabPrefix = result.vocabDomain
       }
       scores.push(result.score);
       result.category = bundle.category;
