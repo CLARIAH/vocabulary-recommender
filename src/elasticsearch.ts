@@ -22,7 +22,8 @@ export function getSuggestionFromBody(responseBody: ShardResponse): Result[] {
     return {
       iri: suggestion._id,
       score: suggestion._score,
-      vocabulary: "",
+      vocabPrefix: "",
+      vocabDomain: "",
       description: Object.prototype.hasOwnProperty.call(
         suggestion._source,
         rdfs_comment
