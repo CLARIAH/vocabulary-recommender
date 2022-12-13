@@ -31,8 +31,9 @@ The command `vocabulary-recommender <input arguments>` only works from any direc
 
 -----------------------
 ## Configuration files
+The configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory. 
 
-**Endpoint Configuration:** The endpoint configuration file `conf.json` is created during the first run of the vocabulary recommender and saved in the project directory.
+**Endpoint Configuration:** 
 
 The configuration file has the following format:
 ```json
@@ -68,6 +69,7 @@ When no endpoint is specified the default endpoint is used automatically. When t
 `yarn recommend -t person -c class` -> `defaultkey` is queried.
 `yarn recommend -t person knows -c class property -e otherkey` -> `otherkey` is queried for the search term 'person'. `defaultkey` is used for the search term 'knows'.
 
+
 **Query Configuration:**  
 Four default queries must be specified: **defaultQueryClass**, **defaultQueryProperty**, **defaultQueryESClass** and **defaultQueryESProperty**. It is also possible to specify specific configured queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
 
@@ -80,9 +82,11 @@ select ?iri ?desc ?score where {
 
 SPARQL queries must always return the variable **iri** and **score** and should be stored in a file with the RQ format. Elasticsearch queries must always return the **_id** and the **_score** which are retrieved by using `bool` queries. They should be stored in a json file.
 
-The results always return the same information that the query returns. That means that our previous example would not only return the iri and the score but also the description.
+The results always return the same information that the query returns. That means that our previous example would not only return the iri and the score but also the description. 
 
-**Vocabulary Configuration**
+------------------
+### **Vocabulary Configuration** 
+
 You can also configure your preferred vocabularies. When calling the `homogeneousRecommendation()` function, you can input a dictionary with your preferred vocabularies. The key is the prefix of the vocabulary. The value is a number which indicates how important the vocabulary is.
 
 ```ts

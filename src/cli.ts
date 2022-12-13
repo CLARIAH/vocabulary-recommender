@@ -13,11 +13,11 @@ import { homogeneousRecommendation } from "./homogeneous";
 */
 function getConfiguration(): Conf {
   // Load the configuration file.
-  const endpointConfigFile = path.resolve(
+  const configFile = path.resolve(
     "conf.json"
   );
   // Get the default if there is no configuration file.
-  const endpointConfigurationObject = {
+  const defaultConfigurationObject = {
     defaultEndpoint: "druid-recommend",
     defaultQueryClass: "./queries/defaultClass.rq",
     defaultQueryProperty: "./queries/defaultProperty.rq",
@@ -40,24 +40,24 @@ function getConfiguration(): Conf {
   }
 
   try {
-    if (!fs.existsSync(endpointConfigFile)) {
+    if (!fs.existsSync(configFile)) {
       console.error(
         "Endpoint configuration file 'conf.json' is not found in the working directory, creating endpoint configuration file..."
       );
       const configObject = JSON.stringify(
-        endpointConfigurationObject,
+        defaultConfigurationObject,
         null,
         "\t"
       );
-      fs.writeFileSync(endpointConfigFile, configObject);
-      console.error(`File generated in: ${endpointConfigFile}\n`);
+      fs.writeFileSync(configFile, configObject);
+      console.error(`File generated in: ${configFile}\n`);
     }
   } catch (err) {
     console.error(err);
   }
 
   // Store the information from the configuration file.
-  const confFile = fs.readFileSync(endpointConfigFile, "utf8");
+  const confFile = fs.readFileSync(configFile, "utf8");
   const jsonConfFile = JSON.parse(confFile);
   const defaultEndpointName = jsonConfFile.defaultEndpoint;
   const defaultQueryClass = jsonConfFile.defaultQueryClass;
@@ -127,7 +127,7 @@ function getConfiguration(): Conf {
 
   // Return the configuration object.
   return {
-    file: endpointConfigFile,
+    file: configFile,
     defaultEndpoint: {
       name: defaultEndpointName,
       type: endpoints[defaultEndpointName].type,
@@ -257,7 +257,7 @@ async function cli() {
       describe:
         'Show additional information about search query, increasing the number of v\'s will increase the talkativeness.\nLevel 1 ("-v"): input arguments \nLevel 2 ("-vv"): Elasticsearch/Sparql object search query',
     },
-    endpoints: {
+    showEndpoints: {
       alias: "i",
       count: true,
       describe:
@@ -319,8 +319,8 @@ async function run() {
   const argv = await cli();
   const conf = getConfiguration();
 
-  // Log only the available endpoint names.
-  if (argv.endpoints > 0) {
+  // Log only the available endpoint names if verbosity is given.
+  if (argv.showEndpoints > 0) {
     console.log(`Endpoint configuration file: ${conf.file}\n\nThe default endpoint is: \x1b[33m${conf.defaultEndpoint.name}\x1b[0m. 
     \nThe available endpoints and their types are:\n`);
     for (let index in conf.endpointNames) {
