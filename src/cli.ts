@@ -332,6 +332,53 @@ async function run() {
     // configures the Input for the recommendations.
     const input = await configureInput();
 
+    // To prefer the awesome humanity vocabularies 
+    const preferredVocabs = {
+      "crm": 100,
+      "http://www.cidoc-crm.org/cidoc-crm/CRMinf/": 100,
+      "foaf": 100,
+      "frbr": 100,
+      "gn": 100,
+      "gsp": 100,
+      "prov": 100,
+      "nie": 100,
+      "lio": 100,
+      "te": 100,
+      "perio.do": 100,
+      "sem": 100,
+      "skos": 100,
+      "schema": 100,
+      "http://viaf.org/viaf/": 100,
+      "http://viaf.org/ontology/1.1/#": 100,
+      "http://viaf.org/viaf/data/": 100,
+      "https://linked.art/": 100,
+      "https://www.ics.forth.gr/isl/index_main.php?l=e&c=711": 100, // Could not find something helpful
+      "edm": 100,
+      "gvp": 100,
+      "https://www.getty.edu/research/tools/vocabularies/aat/": 100,
+      "http://vocab.getty.edu/aat/": 100,
+      "mrel": 100,
+      "juso": 100,
+      "https://www.lodewijkpetram.nl/vocab/pnv/doc/": 100,
+      "https://w3id.org/pnv#": 100,
+      "https://leonvanwissen.nl/vocab/roar/docs/": 100,
+      "https://w3id.org/roar#": 100,
+      "https://w3id.org/roar/": 100,
+      "http://iconclass.org/help/lod": 100,
+      "ecpo": 100,
+      "mus": 100,
+      "https://purl.org/midi-ld/midi": 100, 
+      "http://linkeddata.uni-muenster.de/ontology/musicscore/": 100,
+      "mo": 100,
+      "https://dl-acm-org.vu-nl.idm.oclc.org/citation.cfm?id=3243913": 100,
+      "lemon": 100,
+      "http://www.lexvo.org/": 100,
+      "http://lexvo.org/ontology#": 100,
+      "drama": 100,
+      "https://github.com/theme-ontology/theming": 100,
+      "http://lari-datasets.ilc.cnr.it/": 100
+    }
+
     /** recommend contains
      * [
      *  [
@@ -351,7 +398,7 @@ async function run() {
     const recommended = await homogeneousRecommendation(
       input,
       conf.defaultEndpoint,
-      {}
+      preferredVocabs
     );
 
     // Log the search inputs
