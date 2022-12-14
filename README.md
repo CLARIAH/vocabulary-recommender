@@ -58,29 +58,29 @@ The configuration file has the following format:
 } 
 ```
 
-In the configuration file, a default endpoint can be set using the key name of the endpoint, and endpoints can be specified, providing the endpoints key **name**, with the key **url** and the key **type** of the endpoint.
+In the configuration file, endpoints can be specified by providing the endpoints key **name**, together with the key **url** and the key **type** of the endpoint. A default endpoint can be set using the key **name** of the endpoint.
 
-To specify the endpoint(s) that is used, add the -e flag and the endpoint name to the input command:
+To specify the endpoint(s) that is/are used, add the -e flag and the endpoint name to the input command:
 
 `yarn recommend -t person -c class -e otherkey`
 
-When no endpoint is specified the default endpoint is used automatically. When the amount of endpoint is less than the amount of search terms the default endpoint is used for the rest of the search terms.
+When no endpoint is specified the default endpoint is used automatically. When the number of endpoints is less than the number of search terms, the default endpoint is used for the rest of the search terms.
 
 `yarn recommend -t person -c class` -> `defaultkey` is queried.
 `yarn recommend -t person knows -c class property -e otherkey` -> `otherkey` is queried for the search term 'person'. `defaultkey` is used for the search term 'knows'.
 
 
 **Query Configuration:**  
-Four default queries must be specified: **defaultQueryClass**, **defaultQueryProperty**, **defaultQueryESClass** and **defaultQueryESProperty**. It is also possible to specify specific configured queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a rq-file and should contain the searchterm `${term}` in the following format:
+Four default queries must be specified: **defaultQueryClass**, **defaultQueryProperty**, **defaultQueryESClass** and **defaultQueryESProperty**. It is also possible to specify specific configured queries under the **queryClass** and **queryProperty** keys. The query corresponding to the set category (**class** / **property**) is selected automatically according to the configuration. The SPARQL queries should be stored in a file with the extension `.rq` and should contain the searchterm `${term}` in the following format:
 
 ```sql
 select ?iri ?desc ?score where {
-    filter(regex(str(?iri),'${term}','i'))
-    ?iri dct:description ?desc .
+  filter(regex(str(?iri),'${term}','i'))
+  ?iri dct:description ?desc .
 }   
 ```
 
-SPARQL queries must always return the variable **iri** and **score** and should be stored in a file with the RQ format. Elasticsearch queries must always return the **_id** and the **_score** which are retrieved by using `bool` queries. They should be stored in a json file.
+SPARQL queries must always return the variables **iri** and **score**. Elasticsearch queries must always return the **_id** and the **_score** which are retrieved by using `bool` queries. They should be stored in a `.json` file.
 
 The results always return the same information that the query returns. That means that our previous example would not only return the iri and the score but also the description. 
 
@@ -98,6 +98,6 @@ You can also configure your preferred vocabularies. When calling the `homogeneou
 
 -------------------
 ## Output as JSON
-Because of the use of yarn, using `yarn recommend <searchTerm> <category> <endpoint> -f json > example.json` will create a json file that does not have the right syntax due to the added yarn information.
+Because of the use of yarn, using `yarn recommend <searchTerm> <category> <endpoint> -f json > example.json` will create a json file that does not have the correct syntax due to the added yarn information.
 
 To avoid this behavior, run the script directly with node: `node --no-warnings ./dist/recommend <searchTerm> <category> <endpoint> -f json > example.json`
