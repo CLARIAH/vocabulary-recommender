@@ -284,6 +284,9 @@ async function configureInput() {
       const input: Input = {
         searchTerm: argv.searchTerm[termIX].toString(),
       };
+      if (argv.category[termIX]){
+        input.category = argv.category[termIX].toString()
+      }
       const conf: Conf = getConfiguration();
       if (argv.endpoint && argv.endpoint[termIX] != undefined) {
         // Check if given endpoint is included in the configuration file
@@ -317,6 +320,7 @@ async function configureInput() {
 async function run() {
   // Get the arguments from the command line.
   const argv = await cli();
+
   const conf = getConfiguration();
 
   // Log only the available endpoint names if verbosity is given.
@@ -336,7 +340,7 @@ async function run() {
     const preferredVocabs = {
       "crm": 100,
       "http://www.cidoc-crm.org/cidoc-crm/CRMinf/": 100,
-      "foaf": 100,
+      "foaf": 2000,
       "frbr": 100,
       "gn": 100,
       "gsp": 100,
@@ -483,11 +487,15 @@ async function run() {
             null,
             "\t"
           )}\n`;
-          outputString += `  label: ${JSON.stringify(
-            homogeneous.label,
-            null,
-            "\t"
-          )}\n`;
+          // Jana: Fix that?
+          if (homogeneous.label != undefined){
+            outputString += `  label: ${JSON.stringify(
+              homogeneous.label,
+              null,
+              "\t"
+            )}\n`;
+          }
+          
           outputString += `  description: ${JSON.stringify(
             homogeneous.description,
             null,
