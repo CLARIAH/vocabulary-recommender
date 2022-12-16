@@ -269,14 +269,19 @@ function createBundleList(
 }
 
 /** Normalizes the scores for a list of numbers 
+ * normScore[i] = (scores[i] - min(scores)) / (max(scores) - min(scores))
+ * 
  * @param scores list of scores
  * @returns list of normalised scores
 */
 export function normalizeScore(scores: number[]) {
-  const total = scores.reduce((previous, current) => {
-    return +previous + +current;
-  });
-  return scores.map((score) => score / total);
+  const normScores: number[] = [] 
+  const min = Math.min(...scores)
+  const max = Math.max(...scores)
+  for (const score of scores){
+    normScores.push((score-min) / (max-min))
+  }
+  return normScores
 }
 
 /** Help function to fill in the searchTerm in the given query.

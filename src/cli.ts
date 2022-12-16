@@ -340,7 +340,7 @@ async function run() {
     const preferredVocabs = {
       "crm": 100,
       "http://www.cidoc-crm.org/cidoc-crm/CRMinf/": 100,
-      "foaf": 2000,
+      "foaf": 100,
       "frbr": 100,
       "gn": 100,
       "gsp": 100,
