@@ -2,7 +2,7 @@
 The vocabulary recommender CLI provides a recommendation interface which returns relevant Internationalized Resource Identifiers (IRIs) based on the search input. It works with SPARQL or Elasticsearch endpoints which contain relevant vocabulary datasets.
 
 # Homogeneous recommendations
-The vocabulary recommender supports multiple search terms. The algorighm minimizes the number of vocabularies required for a set of recommendations. For example, the result `sdo:Person` `sdo:knows` would be preferred above `sdo:Person` `foaf:knows`, because the former only requires one vocabulary, whereas the latter requires two. A comprehensive [literature study](docs/homogeneousRecommendation.md) has been conducted to find a suitable algorithm, which resulted in using [combiSQORE](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=combiSQORE%3A+An+Ontology+Combination+Algorithm&btnG=). 
+The vocabulary recommender supports multiple search terms. The algorighm minimizes the number of vocabularies required for a set of recommendations. For example, the result `sdo:Person` `sdo:knows` would be preferred above `sdo:Person` `foaf:knows`, because the former only requires one vocabulary, whereas the latter requires two. A comprehensive [literature study](docs/homogeneousRecommendation.md) has been conducted to find a suitable algorithm, which resulted in using [combiSQORE](https://link.springer.com/content/pdf/10.1007/978-3-540-76298-0_41.pdf). 
 
 # Installation
 ## A. When pulling this repository from GitHub:
@@ -99,4 +99,4 @@ You also configure a preference ordering of vocabularies by passing a dictionary
 # Output as JSON
 Because of the use of yarn, using `yarn recommend <searchTerm> <category> <endpoint> -f json > example.json` will create a json file that does not have the correct syntax due to the added yarn information.
 
-To avoid this behavior, run the script directly with node: `node --no-warnings ./dist/recommend <searchTerm> <category> <endpoint> -f json > example.json`
+To avoid this behaviour, run the script directly with node: `node --no-warnings ./dist/recommend <searchTerm> <category> <endpoint> -f json > example.json`

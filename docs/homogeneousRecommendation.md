@@ -13,7 +13,7 @@ sdo:Person, sdo:knows, sdo:Person
 
 ## Algorithm
 
-We drew the conclusion to use the state of the art [combiSQORE](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=combiSQORE%3A+An+Ontology+Combination+Algorithm&btnG=) algorithm to perform the homogeneous recommendation. It is based on [SQORE](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=A+Framework+for+Semantic+Query+based+Ontology+Retrieval&btnG=) which can be used for single ontology retrieval. 
+We drew the conclusion to use the state of the art [combiSQORE](https://link.springer.com/content/pdf/10.1007/978-3-540-76298-0_41.pdf) algorithm to perform the homogeneous recommendation. It is based on [SQORE](http://igm.univ-mlv.fr/~dr/RI/2010/SQORE-%20A%20Framework%20for%20Semantic%20Query%20Based%20%20Ontology%20Retrieval%20%20.pdf) which can be used for single ontology retrieval. 
 
 ### SQORE
 
