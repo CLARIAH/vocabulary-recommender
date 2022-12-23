@@ -1,18 +1,12 @@
-import {
-  Input,
-  ReturnObject,
-  Endpoint,
-  Bundle,
-  Result,
-} from "./interfaces";
+import { Input, ReturnObject, Endpoint, Bundle, Result } from "./interfaces";
 import { elasticSuggestions } from "./elasticsearch";
 import { sparqlSuggestions } from "./sparql";
 import { getPrefixes, getVocabName } from "./vocabNames";
 
 /** Function that can be used for different applications to recommend vocabularies.
- * @param inputList list of the searchTerms and their configurations 
- * @param defaultEndpoint endpoint that should be used if no endpoint is specified 
- * 
+ * @param inputList list of the searchTerms and their configurations
+ * @param defaultEndpoint endpoint that should be used if no endpoint is specified
+ *
  *  @returns List of the results for each searchTerm
  */
 export async function singleRecommendation(
@@ -69,18 +63,18 @@ export async function singleRecommendation(
       result.vocabDomain = result.iri.match(/(.*[\\/\\#:])(.*)$/)![1];
       // Returns the domain if no prefix name could be found.
       if (result.vocabPrefix === "") {
-        result.vocabPrefix = result.vocabDomain
+        result.vocabPrefix = result.vocabDomain;
       }
       scores.push(result.score);
       result.category = bundle.category;
     }
-    for (const i in results) {
+    for (let i=0; i<  results.length; i++) {
       // Normalize the scores
-      results[i].score = normalizeScore(scores)[i];
+      results[i].score = normalizeScore(scores, i);
       if (bundle.endpointType === "search") {
-        addInfo.hits.hits[i]._score = normalizeScore(scores)[i];
+        addInfo.hits.hits[i]._score = normalizeScore(scores, i);
       } else {
-        addInfo[i].score = normalizeScore(scores)[i];
+        addInfo[i].score = normalizeScore(scores, i);
       }
     }
     if (bundle.category === "class") {
@@ -151,11 +145,11 @@ export async function singleRecommendation(
 }
 
 /** Creates a list of the objects that should be queried.
- * @param inputList list of the searchTerms and their configurations 
- * @param defaultEndpoint endpoint that should be used if no endpoint is specified 
- * 
+ * @param inputList list of the searchTerms and their configurations
+ * @param defaultEndpoint endpoint that should be used if no endpoint is specified
+ *
  * @retunrs list of search objects
- *  */ 
+ *  */
 function createBundleList(
   inputList: Input[],
   defaultEndpoint: Endpoint
@@ -268,27 +262,31 @@ function createBundleList(
   return bundleList;
 }
 
-/** Normalizes the scores for a list of numbers 
+/** Normalizes the scores for a list of numbers
  * normScore[i] = (scores[i] - min(scores)) / (max(scores) - min(scores))
- * 
+ *
  * @param scores list of scores
- * @returns list of normalised scores
-*/
-export function normalizeScore(scores: number[]) {
-  const normScores: number[] = [] 
-  const min = Math.min(...scores)
-  const max = Math.max(...scores)
-  for (const score of scores){
-    normScores.push((score-min) / (max-min))
+ * @param index position of the score that is normalized
+ * @returns normalized score
+ */
+export function normalizeScore(scores: number[], index: number) {
+  const min = Math.min(...scores);
+  let max = Math.max(...scores);
+  let score: number = scores[index]
+  // Prevents the normalized score from becoming zero or NaN.
+  if(min === max){
+    max = +max + +0.01
+    score = +score + +0.01
   }
-  return normScores
+  // Normalization
+  return (score - min) / (max - min);
 }
 
 /** Help function to fill in the searchTerm in the given query.
  * @param str queried string
  * @param find search string
  * @param replace string that replaces the search string
- * 
+ *
  * @returns the queried in which the occurences of the search string are replaced with replace
  */
 export function replaceAll(str: string, find: string, replace: string) {
