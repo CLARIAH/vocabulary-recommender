@@ -15,7 +15,6 @@ export async function singleRecommendation(
 ): Promise<ReturnObject[]> {
   // Object that contains the end results for every searchTerm.
   const returnedObjects: ReturnObject[] = [];
-
   // prefixes contains all prefixes from lov with their IRI.
   const prefixes = await getPrefixes();
 
@@ -148,7 +147,7 @@ export async function singleRecommendation(
  * @param inputList list of the searchTerms and their configurations
  * @param defaultEndpoint endpoint that should be used if no endpoint is specified
  *
- * @retunrs list of search objects
+ * @returns list of search objects
  *  */
 function createBundleList(
   inputList: Input[],
